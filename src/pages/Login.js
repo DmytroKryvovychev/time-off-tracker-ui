@@ -56,7 +56,7 @@ function Login() {
       .post(url, { username: email, password: password })
       .then((response) => {
         const { data } = response;
-        const user = users.find((user) => user.id === data.userId);
+        const user = users ? users.find((user) => user.id === data.userId) : null;
         localStorage.setItem('userId', data.userId);
         localStorage.setItem('role', data.role);
         localStorage.setItem('token', data.token);

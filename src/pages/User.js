@@ -54,6 +54,12 @@ function User() {
   useEffect(() => {
     getUsers('', '').then(({ data }) => {
       setUsers(data);
+      if (context.userId !== null) {
+        localStorage.setItem(
+          'user',
+          JSON.stringify(data.find((user) => user.id === context.userId)),
+        );
+      }
     });
   }, [context.userId]);
 
