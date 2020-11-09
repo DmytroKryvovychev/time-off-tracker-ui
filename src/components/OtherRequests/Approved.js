@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -12,11 +11,11 @@ import {
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import ReviewsTable from './ReviewsTable';
 import ReviewsFilter from './ReviewsFilter';
 import { loadData } from './LoadReviewsData';
 import { getMyReviewsByFilter } from '../Axios';
 import { convertDate } from '../../config';
+import { Users } from '../../Context';
 import { types, states } from '../../constants';
 
 const headCellsNew = [
@@ -76,12 +75,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Approved() {
   const [data, setData] = useState(null);
-  const [users, setUsers] = useState(null);
   const [isSendingRequest, setRequestSending] = useState(false);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isLoading, setLoading] = useState(true);
+
+  const [users, setUsers] = React.useContext(Users);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -138,11 +138,7 @@ function Approved() {
         return `${sum} ${item.reviewer.firstName.concat(' ', item.reviewer.lastName)},`;
       }
     }, '');
-    return approved ? `Already approved by: ${approved}` : '';
-  };
-
-  const getAllUsers = (data) => {
-    setUsers(data);
+    return approved ? `Already approved by: ${approved.slice(0, -1)}` : '';
   };
 
   const getData = (data) => {
@@ -156,7 +152,7 @@ function Approved() {
   useEffect(() => {
     setLoading(true);
 
-    loadData(getAllUsers, getData, uploaded, true);
+    loadData(getData, uploaded, true);
   }, []);
 
   return (

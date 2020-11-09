@@ -1,12 +1,32 @@
 @import 'fonts';
 @import 'variables';
 @import 'libs/normalize';
-
+@import 'react-big-calendar/lib/sass/styles.scss';
 @import 'components/all';
 
 body {
   background-color: $background;
   padding: 0px;
+}
+
+.example {
+  font-size: 14px;
+  padding: 0 40px;
+  height: 300px;
+  width: 45%;
+  margin: auto;
+  margin-top: 20px;
+
+  &,
+  & > * {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rbc-calendar {
+    flex: 1;
+    min-height: 420px;
+  }
 }
 
 .button {

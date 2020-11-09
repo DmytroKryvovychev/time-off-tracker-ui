@@ -5,9 +5,11 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import Home from './Home';
 import MyRequests from './MyRequests';
 import OtherRequests from './OtherRequests';
+import RequestActions from '../components/OtherRequests/RequestActions';
 
-import { Context } from '../Context';
+import { Context, Users } from '../Context';
 import NewRequest from './NewRequest';
+import { getUsers } from '../components/Axios';
 
 const routes = [
   {
@@ -36,6 +38,7 @@ const routes = [
 function User() {
   const [selectedRoute, setSelectedRoute] = useState(0);
   const [context, setContext] = useContext(Context);
+  const [users, setUsers] = useContext(Users);
 
   let history = useHistory();
 
@@ -47,6 +50,12 @@ function User() {
 
     setSelectedRoute(routes.findIndex((item) => item.path === history.location.pathname));
   }, [context, history.location.pathname]);
+
+  useEffect(() => {
+    getUsers('', '').then(({ data }) => {
+      setUsers(data);
+    });
+  }, [context.userId]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', height: 'calc(100vh - 65px)' }}>
@@ -102,6 +111,20 @@ function User() {
             render={({ location }) =>
               context.token ? (
                 <NewRequest isOpen={true}></NewRequest>
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: '/login',
+                    state: { from: location },
+                  }}
+                />
+              )
+            }></Route>
+          <Route
+            path="/other_requests/actions"
+            render={({ location }) =>
+              context.token ? (
+                <RequestActions />
               ) : (
                 <Redirect
                   to={{

@@ -41,7 +41,7 @@ let prManagers = [
   'John Kirov',
 ];
 
-function NewRequest({ isOpen, onClose }) {
+function NewRequest({ isOpen, onClose, calendar }) {
   const [context, setContext] = useContext(Context);
   const [leaveType, setLeaveType] = useState(6);
   const [isSendingRequest, setRequestSending] = useState(false);
@@ -80,7 +80,7 @@ function NewRequest({ isOpen, onClose }) {
     await postNewRequest({
       leaveType,
       fromDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
-      toDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
+      toDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
       pmanager: [1, ...reviewerIds],
       comment,
       duration,
@@ -110,6 +110,13 @@ function NewRequest({ isOpen, onClose }) {
     }
     getAllData();
   }, []);
+
+  useEffect(() => {
+    if (calendar !== null) {
+      setFromDate(calendar[0]);
+      setToDate(calendar[1]);
+    }
+  }, [calendar]);
 
   const typeProps = {
     prManagers: prManagers,

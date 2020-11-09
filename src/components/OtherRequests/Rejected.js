@@ -12,12 +12,12 @@ import {
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import ReviewsTable from './ReviewsTable';
 import ReviewsFilter from './ReviewsFilter';
 import { loadData } from './LoadReviewsData';
 import { getMyReviewsByFilter } from '../Axios';
 import { convertDate } from '../../config';
 import { types } from '../../constants';
+import { Users } from '../../Context';
 
 const headCellsNew = [
   { id: 'From', label: 'From' },
@@ -75,12 +75,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Rejected() {
   const [data, setData] = useState(null);
-  const [users, setUsers] = useState(null);
   const [isSendingRequest, setRequestSending] = useState(false);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isLoading, setLoading] = useState(true);
+
+  const [users, setUsers] = React.useContext(Users);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -127,10 +128,6 @@ function Rejected() {
     });
   };
 
-  const getAllUsers = (data) => {
-    setUsers(data);
-  };
-
   const getData = (data) => {
     setData(data);
   };
@@ -142,7 +139,7 @@ function Rejected() {
   useEffect(() => {
     setLoading(true);
 
-    loadData(getAllUsers, getData, uploaded, false);
+    loadData(getData, uploaded, false);
   }, []);
 
   return (

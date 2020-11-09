@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TextField, Typography, Button, InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import axios from 'axios';
 
 import { axiosApi } from '../config';
-import { Context } from '../Context';
+import { Users, Context } from '../Context';
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
@@ -14,6 +14,7 @@ function Login() {
   let location = useLocation();
 
   const [context, setContext] = useContext(Context);
+  const [users, setUsers] = useContext(Users);
 
   const [email, setEmail] = useState('mainadmin@mail.ru'); //'mainadmin@mail.ru'
   const [password, setPassword] = useState('mainadmin89M#'); //'mainadmin89M#'
@@ -55,14 +56,15 @@ function Login() {
       .post(url, { username: email, password: password })
       .then((response) => {
         const { data } = response;
-        console.log(response);
+        const user = users ? users.find((user) => user.id === data.userId) : null;
         localStorage.setItem('userId', data.userId);
         localStorage.setItem('role', data.role);
         localStorage.setItem('token', data.token);
-        setContext({ userId: data.userId, role: data.role, token: data.token });
+        localStorage.setItem('user', JSON.stringify(user));
+        setContext({ userId: data.userId, user: user, role: data.role, token: data.token });
         history.replace(
           location.state
-            ? location.state.from.pathname
+            ? location.state.from.pathname + location.state.from.search
             : data.role === 'Admin'
             ? '/admin'
             : '/home',
@@ -74,8 +76,6 @@ function Login() {
   const handleClickShowPassword = () => {
     setPasswordVisibility(!showPassword);
   };
-
-  if (context.role) history.push('/');
 
   return (
     <div>

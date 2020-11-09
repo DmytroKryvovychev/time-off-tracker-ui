@@ -28,6 +28,12 @@ export const getMyRequests = () => {
   return axiosApi.get('user/requests');
 };
 
+export const getMyRequestsByFilter = (startDate, endDate, stateId, typeId) => {
+  return axiosApi.get(
+    `user/requests?startDate=${startDate}&endDate=${endDate}&stateId=${stateId}&typeId=${typeId}`,
+  );
+};
+
 export const getMyReviews = () => {
   return axiosApi.get(`user/reviews`);
 };
@@ -49,4 +55,11 @@ export const postNewRequest = (newRequest) => {
     durationId: duration,
     userId: userId,
   });
+};
+
+export const actionReview = (reviewId, isApproved, comment = '') => {
+  const body = isApproved
+    ? { isApproved: isApproved }
+    : { isApproved: isApproved, comment: comment };
+  return axiosApi.put(`user/reviews/${reviewId}`, body);
 };

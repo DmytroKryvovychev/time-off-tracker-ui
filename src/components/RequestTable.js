@@ -12,23 +12,23 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-import { convertDate } from '../../config';
-import { types } from '../../constants';
+import { convertDate } from '../config';
+import { types, states } from '../constants';
 
 const headCells = [
-  { id: 'From', label: 'From' },
-  { id: 'Role', label: 'Role' },
+  { id: 'State', label: 'State' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
+  { id: 'MyComment', label: 'My Comment' },
   { id: 'Details', label: 'State Details' },
+  { id: 'View', label: 'View' },
 ];
 
 const headCellsShort = [
-  { id: 'From', label: 'From' },
+  { id: 'State', label: 'State' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
+  { id: 'Details', label: 'State Details' },
 ];
 
 function EnhancedTableHead({ headCells }) {
@@ -44,10 +44,6 @@ function EnhancedTableHead({ headCells }) {
             {headCell.label}
           </TableCell>
         ))}
-
-        <TableCell className="reviews__table-cell" align="center" padding="default">
-          Actions
-        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -75,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ReviewsTable({ data, short, users }) {
+export default function RequestTable({ data, short, users }) {
   const classes = useStyles();
   let history = useHistory();
   const [page, setPage] = React.useState(0);
@@ -94,10 +90,10 @@ export default function ReviewsTable({ data, short, users }) {
     if (data) {
       let array = [];
       const opt = short ? 3 : 5;
-      const count = Math.floor(data.length / opt);
+      const count = Math.floor(data.length / 5);
 
       for (let index = 1; index < count + 1; index++) {
-        array.push(opt * index);
+        array.push(5 * index);
       }
       array.push(data.length);
       return array;
@@ -106,17 +102,17 @@ export default function ReviewsTable({ data, short, users }) {
 
   const joinData = () => {
     const joinedData = data.map((item) => {
-      item.request.reviews.map(
+      item.reviews.map(
         (item) => (item.reviewer = users.find((user) => user.id === item.reviewerId)),
       );
-      item.request.user = users.find((user) => user.id === item.request.userId);
+      item.user = users.find((user) => user.id === item.userId);
       return item;
     });
     return joinedData;
   };
 
   const isApprovedBy = (obj) => {
-    const { reviews } = obj.request;
+    const { reviews } = obj;
     const approved = reviews.reduce((sum, item) => {
       if (item.isApproved) {
         return `${sum} ${item.reviewer.firstName.concat(' ', item.reviewer.lastName)},`;
@@ -126,11 +122,9 @@ export default function ReviewsTable({ data, short, users }) {
     return approved ? `Already approved by: ${approved.slice(0, -1)}` : '';
   };
 
-  const emptyRows = data && rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
-  useEffect(() => {
-    if (short) setRowsPerPage(3);
-  }, []);
+  //   useEffect(() => {
+  //     if (short) setRowsPerPage(3);
+  //   }, []);
 
   return (
     <div className={classes.root}>
@@ -160,57 +154,45 @@ export default function ReviewsTable({ data, short, users }) {
                         id={labelId}
                         scope="row"
                         padding="none">
-                        {item.request.user.firstName.concat(' ', item.request.user.lastName)}
+                        {states[item.stateId]}
+                      </TableCell>
+                      <TableCell align="center">{types[item.typeId].title}</TableCell>
+                      <TableCell align="center">
+                        {convertDate(item.startDate)} - {convertDate(item.endDate)}
+                      </TableCell>
+                      {short ? null : <TableCell align="center">{item.comment}</TableCell>}
+                      <TableCell align="center">
+                        {item.stateId === 4
+                          ? item.reviews.find((rev) => rev.isApproved === false).comment
+                          : isApprovedBy(item)}
                       </TableCell>
                       {short ? null : (
-                        <TableCell align="center">{item.request.user.role}</TableCell>
+                        <TableCell align="center">
+                          <Button
+                            className="reviews-table__ok-btn"
+                            variant="contained"
+                            style={{ marginRight: 10 }}
+                            onClick={() => {}}>
+                            View
+                          </Button>
+                        </TableCell>
                       )}
-                      <TableCell align="center">{types[item.request.typeId].title}</TableCell>
-                      <TableCell align="center">
-                        {convertDate(item.request.startDate)} - {convertDate(item.request.endDate)}
-                      </TableCell>
-                      <TableCell align="center">{item.request.comment}</TableCell>
-                      {short ? null : <TableCell align="center">{isApprovedBy(item)}</TableCell>}
-                      <TableCell align="center">
-                        <Button
-                          className="reviews-table__ok-btn"
-                          variant="contained"
-                          style={{ marginRight: 10 }}
-                          onClick={() => {
-                            history.push(
-                              `/other_requests/actions?review=${item.id}&action=approve`,
-                            );
-                          }}>
-                          Accept
-                        </Button>
-                        <Button
-                          className="reviews-table__cancel-btn"
-                          variant="contained"
-                          onClick={() => {
-                            history.push(`/other_requests/actions?review=${item.id}&action=reject`);
-                          }}>
-                          Reject
-                        </Button>
-                      </TableCell>
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 33 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
-          <TablePagination
-            rowsPerPageOptions={short ? 3 : setRange()}
-            component="div"
-            count={data.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+          {short ? null : (
+            <TablePagination
+              rowsPerPageOptions={setRange()}
+              component="div"
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          )}
         </TableContainer>
       ) : (
         <p>No data</p>
