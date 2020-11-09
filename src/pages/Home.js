@@ -33,10 +33,10 @@ function Home() {
   };
 
   useEffect(() => {
-    // context.userId &&
-    //   getUserById(context.userId).then(({ data }) => {
-    //     localStorage.setItem('user', JSON.stringify(data));
-    //   });
+    context.userId &&
+      getUserById(context.userId).then(({ data }) => {
+        localStorage.setItem('user', JSON.stringify(data));
+      });
 
     function getRequests() {
       getMyRequests().then(({ data }) => {
