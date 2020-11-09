@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment';
 
-import { getMyRequests, getMyReviews } from '../components/Axios';
+import { getMyRequests, getMyReviews, getUserById } from '../components/Axios';
 import { Context, Users } from '../Context';
 import { types } from '../constants';
 import NewRequest from './NewRequest';
@@ -33,8 +33,13 @@ function Home() {
   };
 
   useEffect(() => {
-    async function getRequests() {
-      await getMyRequests().then(({ data }) => {
+    // context.userId &&
+    //   getUserById(context.userId).then(({ data }) => {
+    //     localStorage.setItem('user', JSON.stringify(data));
+    //   });
+
+    function getRequests() {
+      getMyRequests().then(({ data }) => {
         setRequests(data);
         if (context.role === 'Employee') {
           setLoading(false);
@@ -44,8 +49,8 @@ function Home() {
     getRequests();
 
     if (context.role !== 'Employee') {
-      async function getReviews() {
-        await getMyReviews().then(({ data }) => {
+      function getReviews() {
+        getMyReviews().then(({ data }) => {
           const subData = data.filter((item) => item.isApproved === null);
           setReviews(subData);
         });

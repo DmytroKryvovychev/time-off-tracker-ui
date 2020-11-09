@@ -12,7 +12,7 @@ import { Context, Users } from './Context';
 const role = localStorage.getItem('role');
 const token = localStorage.getItem('token');
 const userId = localStorage.getItem('userId');
-const user = localStorage.getItem('name');
+const user = localStorage.getItem('user');
 
 function App() {
   const [context, setContext] = useState({ userId, user, role, token });
