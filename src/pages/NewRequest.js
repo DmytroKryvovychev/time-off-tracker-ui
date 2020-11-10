@@ -27,19 +27,7 @@ import {
 // StudyLeave = 6,
 // PaidLeave = 7
 
-let prManagers = [
-  'Anney Kirillova',
-  'Bill Ivanov',
-  'Reygar Smith',
-  'Kirill Retushev',
-  'Yevheniy Enderov',
-  'Bill Ivanova',
-  'John Reygar',
-  'John Killian',
-  'John Lothbrok',
-  'John Kirev',
-  'John Kirov',
-];
+let prManagers = [];
 
 function NewRequest({ isOpen, onClose, calendar }) {
   const [context, setContext] = useContext(Context);
@@ -112,7 +100,7 @@ function NewRequest({ isOpen, onClose, calendar }) {
   }, []);
 
   useEffect(() => {
-    if (calendar !== null) {
+    if (calendar) {
       setFromDate(calendar[0]);
       setToDate(calendar[1]);
     }

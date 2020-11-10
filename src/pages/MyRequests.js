@@ -4,12 +4,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import RequestTable from '../components/RequestTable';
 import RequestFilter from '../components/RequestFilter';
+import NewRequest from './NewRequest';
 import { getMyRequests, getMyRequestsByFilter } from '../components/Axios';
 import { Users } from '../Context';
 
 function MyRequests() {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [isNewRequestOpen, setNewRequestState] = useState(false);
 
   const [users, setUsers] = useContext(Users);
 
@@ -46,7 +48,13 @@ function MyRequests() {
           <p>Sick leave (with documents): 0 days used</p>
         </div>
 
-        <Button variant="contained" color="secondary" style={{ height: '40px' }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ height: '40px' }}
+          onClick={() => {
+            setNewRequestState(true);
+          }}>
           New Request
         </Button>
       </div>
@@ -61,6 +69,12 @@ function MyRequests() {
       ) : (
         <h3>No requests</h3>
       )}
+      <NewRequest
+        isOpen={isNewRequestOpen}
+        onClose={() => {
+          setNewRequestState(false);
+        }}
+      />
     </div>
   );
 }

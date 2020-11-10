@@ -172,7 +172,9 @@ export default function RequestTable({ data, short, users }) {
                             className="reviews-table__ok-btn"
                             variant="contained"
                             style={{ marginRight: 10 }}
-                            onClick={() => {}}>
+                            onClick={() => {
+                              history.push('/my_requests/' + item.id);
+                            }}>
                             View
                           </Button>
                         </TableCell>

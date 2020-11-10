@@ -15,7 +15,12 @@ function Study({
   changeToDate,
   managers,
   changeManagers,
+  isEditable,
 }) {
+  React.useEffect(() => {
+    console.log('here');
+  }, []);
+
   return (
     <div>
       <VacationPeriod
@@ -23,10 +28,14 @@ function Study({
         changeFromDate={changeFromDate}
         toDate={toDate}
         changeToDate={changeToDate}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={isEditable !== undefined ? isEditable : isSendingRequest}
       />
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={isEditable !== undefined ? isEditable : isSendingRequest}
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers
         managers={managers}

@@ -10,6 +10,7 @@ import RequestActions from '../components/OtherRequests/RequestActions';
 import { Context, Users } from '../Context';
 import NewRequest from './NewRequest';
 import { getUsers } from '../components/Axios';
+import PersonalRequest from './PersonalRequest';
 
 const routes = [
   {
@@ -108,9 +109,10 @@ function User() {
           })}
           <Route
             path="/my_requests/:id"
+            exect
             render={({ location }) =>
               context.token ? (
-                <NewRequest isOpen={true}></NewRequest>
+                <PersonalRequest isOpen={true}></PersonalRequest>
               ) : (
                 <Redirect
                   to={{
@@ -134,7 +136,7 @@ function User() {
                 />
               )
             }></Route>
-          <Route path="*" children={<h2>Wrong way!</h2>}></Route>
+          <Route path="*" exect children={<Redirect to="/home" />}></Route>
         </Switch>
       </div>
     </div>
