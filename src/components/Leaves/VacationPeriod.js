@@ -27,7 +27,7 @@ function VacationPeriod({
         alignItems: 'center',
       }}>
       <SingleDatePicker
-        id="dateFrom"
+        id={`dateFrom`}
         disabled={isSendingRequest}
         showClearDate
         placeholder="From"
@@ -41,7 +41,7 @@ function VacationPeriod({
       />
 
       <SingleDatePicker
-        id="dateTo"
+        id={`dateTo`}
         disabled={isSendingRequest}
         showClearDate
         placeholder="To"

@@ -53,7 +53,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'firstName', numeric: true, disablePadding: true, label: 'Name' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Username' },
+  { id: 'userName', numeric: false, disablePadding: false, label: 'Username' },
   { id: 'role', numeric: false, disablePadding: false, label: 'Role' },
   { id: 'button', numeric: false, disablePadding: false, label: '' },
 ];
@@ -61,6 +61,7 @@ const headCells = [
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
+    console.log(property);
     onRequestSort(event, property);
   };
 

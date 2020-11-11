@@ -80,7 +80,7 @@ function SickNoDoc({
       </div>
 
       <LeaveComment
-        disabled={(request && (request.stateId !== 1 ? true : isEditable)) || isSendingRequest}
+        disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
         comment={comment}
         changeComment={changeComment}
       />

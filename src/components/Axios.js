@@ -38,6 +38,10 @@ export const getMyRequestsByFilter = (startDate, endDate, stateId, typeId) => {
   );
 };
 
+export const changeRequest = (id, payload) => {
+  return axiosApi.put(`requests/${id}`, payload);
+};
+
 export const getMyReviews = () => {
   return axiosApi.get(`user/reviews`);
 };

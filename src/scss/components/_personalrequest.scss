@@ -1,0 +1,53 @@
+.MuiButton-contained.personal-request__edit-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #1568ed;
+    .MuiButton-label {
+      color: #fff;
+    }
+  }
+}
+
+.MuiButton-contained.personal-request__save-btn {
+  margin-right: 15px;
+  &:hover {
+    &:hover {
+      background-color: #c21000;
+      .MuiButton-label {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.MuiButton-contained.personal-request__ce-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #094cb8;
+    .MuiButton-label {
+      color: #fff;
+    }
+  }
+}
+.MuiButton-contained.personal-request__duplicate-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #00c903;
+  }
+}
+
+.MuiButton-contained.personal-request__decline-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #c21000;
+    .MuiButton-label {
+      color: #fff;
+    }
+  }
+}
+
+.MuiButton-contained.personal-request__close-btn {
+  margin-right: 15px;
+  &:hover {
+  }
+}

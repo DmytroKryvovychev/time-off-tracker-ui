@@ -29,7 +29,7 @@ import {
 
 let prManagers = [];
 
-function NewRequest({ isOpen, onClose, calendar }) {
+function NewRequest({ isOpen, onClose, calendar, request }) {
   const [context, setContext] = useContext(Context);
   const [leaveType, setLeaveType] = useState(6);
   const [isSendingRequest, setRequestSending] = useState(false);
@@ -95,6 +95,20 @@ function NewRequest({ isOpen, onClose, calendar }) {
       });
     }
     getAllData();
+  }, []);
+
+  useEffect(() => {
+    if (request) {
+      const managers = request.reviews
+        .filter((item) => item.reviewerId !== 1)
+        .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
+      setPManager(managers);
+      setFromDate(moment(request.startDate));
+      setToDate(moment(request.endDate));
+      setDuration(request.durationId);
+      setComment(request.comment);
+      setLeaveType(request.typeId);
+    }
   }, []);
 
   useEffect(() => {

@@ -31,16 +31,14 @@ function Paid({
       />
 
       <LeaveComment
-        disabled={(request && (request.stateId !== 1 ? true : isEditable)) || isSendingRequest}
+        disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
         comment={comment}
         changeComment={changeComment}
       />
 
       <Approvers
         managers={managers}
-        isSendingRequest={
-          (request && (request.stateId === 3 ? true : isEditable)) || isSendingRequest
-        }
+        isSendingRequest={isEditable || isSendingRequest}
         prManagers={prManagers}
         changeManagers={changeManagers}
         request={request}

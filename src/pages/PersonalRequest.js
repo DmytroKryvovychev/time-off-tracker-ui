@@ -12,9 +12,11 @@ import {
   Social,
   Study,
 } from '../components/Leaves/index';
-import { getRequestById } from '../components/Axios';
+import { getRequestById, changeRequest } from '../components/Axios';
 import { types, states } from '../constants';
 import { Users } from '../Context';
+import ConfirmationDialog from '../components/Leaves/ConfirmationDialog';
+import NewRequest from './NewRequest';
 
 let prManagers = [];
 
@@ -30,6 +32,8 @@ function PersonalRequest() {
   const [pmanager, setPManager] = useState(['']);
   const [duration, setDuration] = useState(2);
   const [isEditable, setEditable] = useState(true);
+  const [isDialogOpen, openDialog] = useState(false);
+  const [isNewRequestOpened, openNewRequest] = useState(false);
 
   const handleComment = (e) => {
     setComment(e.target.value);
@@ -82,6 +86,17 @@ function PersonalRequest() {
     { id: 7, title: 'Paid leave', comp: <Paid {...typeProps} /> },
   ];
 
+  const cancelEditing = () => {
+    const managers = request.reviews
+      .filter((item) => item.reviewerId !== 1)
+      .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
+    setPManager(managers);
+    setFromDate(moment(request.startDate));
+    setToDate(moment(request.endDate));
+    setDuration(request.durationId);
+    setComment(request.comment);
+  };
+
   useEffect(() => {
     if (users) {
       getRequestById(id)
@@ -90,13 +105,13 @@ function PersonalRequest() {
             (item) => (item.reviewer = users.find((user) => user.id === item.reviewerId)),
           );
           data.user = users.find((user) => user.id === data.userId);
-
           const managers = data.reviews
             .filter((item) => item.reviewerId !== 1)
             .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
           setPManager(managers);
           setFromDate(moment(data.startDate));
           setToDate(moment(data.endDate));
+          setDuration(data.durationId);
           setComment(data.comment);
           setRequest(data);
         })
@@ -112,6 +127,42 @@ function PersonalRequest() {
     }
   }, [id, users]);
 
+  const onDialogClose = () => {
+    openDialog(false);
+  };
+
+  const onDialogConfirm = () => {
+    setEditable(false);
+
+    const modifiedRequest = request;
+    modifiedRequest.reviews = request.reviews.map((item) => {
+      item.isApproved = null;
+      return item;
+    });
+    setRequest(modifiedRequest);
+    openDialog(false);
+  };
+
+  const handleChangeRequest = () => {
+    setRequestSending(true);
+    const reviewerIds = pmanager.map((item) => {
+      return users
+        .filter((us) => us.role === 'Manager')
+        .find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
+    });
+
+    changeRequest(id, {
+      id: id,
+      startDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
+      endDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
+      reviewsIds: [1, ...reviewerIds],
+      comment: comment,
+      durationId: duration,
+    }).catch((err) => console.log(err));
+
+    setRequestSending(false);
+  };
+
   return (
     <div style={{ padding: 5 }}>
       {request ? (
@@ -121,35 +172,68 @@ function PersonalRequest() {
           </h2>
           {renderLeaveBody[request.typeId - 1].comp}
           <div style={{ marginTop: 20 }}>
-            {request.stateId !== 4 && (
+            {request.stateId !== 4 && isEditable ? (
               <Button
-                className="new-request__ok-btn"
+                className="personal-request__edit-btn"
                 variant="contained"
                 disabled={isSendingRequest}
                 onClick={() => {
-                  setEditable(false);
+                  if (request.stateId === 3) {
+                    openDialog(true);
+                  } else {
+                    setEditable(false);
+                  }
                 }}>
                 Edit
               </Button>
+            ) : (
+              <>
+                <Button
+                  className="personal-request__save-btn"
+                  variant="contained"
+                  disabled={isSendingRequest}
+                  onClick={() => {
+                    handleChangeRequest();
+                    setEditable(true);
+                  }}>
+                  Save Changes
+                </Button>
+                <Button
+                  className="personal-request__ce-btn"
+                  variant="contained"
+                  disabled={isSendingRequest}
+                  onClick={() => {
+                    cancelEditing();
+                    setEditable(true);
+                  }}>
+                  Cancel Editing
+                </Button>
+              </>
+            )}
+            {isEditable && (
+              <>
+                <Button
+                  className="personal-request__duplicate-btn"
+                  variant="contained"
+                  disabled={isSendingRequest}
+                  onClick={() => {
+                    openNewRequest(true);
+                  }}
+                  autoFocus>
+                  Duplicate
+                </Button>
+                <Button
+                  className="personal-request__decline-btn"
+                  variant="contained"
+                  disabled={isSendingRequest}
+                  onClick={() => {}} //Отмена пользователем
+                  autoFocus>
+                  Decline
+                </Button>{' '}
+              </>
             )}
             <Button
-              className="new-request__cancel-btn"
-              variant="contained"
-              disabled={isSendingRequest}
-              onClick={() => {}}
-              autoFocus>
-              Duplicate
-            </Button>
-            <Button
-              className="new-request__cancel-btn"
-              variant="contained"
-              disabled={isSendingRequest}
-              onClick={() => {}}
-              autoFocus>
-              Decline
-            </Button>
-            <Button
-              className="new-request__cancel-btn"
+              className="personal-request__close-btn"
               variant="contained"
               disabled={isSendingRequest}
               onClick={() => {
@@ -159,10 +243,18 @@ function PersonalRequest() {
               Close
             </Button>
           </div>
+          <NewRequest
+            isOpen={isNewRequestOpened}
+            onClose={() => {
+              openNewRequest(false);
+            }}
+            request={request}
+          />
         </div>
       ) : (
         <p>No Request by id: {id}</p>
       )}
+      <ConfirmationDialog isOpen={isDialogOpen} onClose={onDialogClose} onOk={onDialogConfirm} />
     </div>
   );
 }

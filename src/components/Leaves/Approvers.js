@@ -53,7 +53,7 @@ function Approvers({
                   managers={managers}
                   onChange={changeManagers}
                   isDisabled={isSendingRequest}
-                  isApproved={request && request.stateId !== 1 && isApproved(manager)}
+                  isApproved={request && request.stateId === 2 && isApproved(manager)}
                   isEditable={isEditable}
                 />
               </div>
