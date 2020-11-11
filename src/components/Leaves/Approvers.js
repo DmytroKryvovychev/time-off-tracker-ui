@@ -3,7 +3,24 @@ import DoneIcon from '@material-ui/icons/Done';
 
 import Signers from './Signers';
 
-function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
+function Approvers({
+  managers,
+  isSendingRequest,
+  prManagers,
+  changeManagers,
+  request,
+  isEditable,
+}) {
+  const isApproved = (manager) => {
+    const sign = request.reviews.find(
+      (req) => req.reviewer.firstName.concat(' ', req.reviewer.lastName) === manager,
+    );
+    if (sign !== undefined) {
+      return sign.isApproved;
+    }
+    return null;
+  };
+
   const mapping = React.useCallback(
     (managers) => {
       return (
@@ -18,7 +35,13 @@ function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
                 }}>
                 <DoneIcon
                   key={`done-icon-${idx}`}
-                  className="done-icon"
+                  className={`done-icon${
+                    request && isApproved(manager) !== null
+                      ? isApproved(manager)
+                        ? ' accepted'
+                        : ' rejected'
+                      : ''
+                  }`}
                   style={{
                     marginTop: '5px',
                   }}
@@ -30,6 +53,8 @@ function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
                   managers={managers}
                   onChange={changeManagers}
                   isDisabled={isSendingRequest}
+                  isApproved={request && request.stateId !== 1 && isApproved(manager)}
+                  isEditable={isEditable}
                 />
               </div>
             );
@@ -45,7 +70,13 @@ function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
       <h3>Approvers</h3>
       <ol className="approvers__list">
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <DoneIcon className="done-icon" />
+          <DoneIcon
+            className={
+              'done-icon' +
+              (request && request.reviews[0].isApproved === true ? ' accepted' : '') +
+              (request && request.reviews[0].isApproved === false ? ' rejected' : '')
+            }
+          />
           <li>Accounting</li>
         </div>
         {managers && mapping(managers)}

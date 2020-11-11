@@ -59,11 +59,9 @@ function NewRequest({ isOpen, onClose, calendar }) {
   const handleSendRequest = async () => {
     setRequestSending(true);
 
-    const reviewerIds = data
-      .filter((item) => pmanager.includes(item.firstName.concat(' ', item.lastName)))
-      .map((item) => {
-        return item.id;
-      });
+    const reviewerIds = pmanager.map((item) => {
+      return data.find((dat) => dat.firstName.concat(' ', dat.lastName) == item).id;
+    });
 
     await postNewRequest({
       leaveType,

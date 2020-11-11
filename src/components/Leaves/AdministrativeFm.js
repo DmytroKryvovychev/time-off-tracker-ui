@@ -12,6 +12,8 @@ function AdministrativeFm({
   changeFromDate,
   toDate,
   changeToDate,
+  request,
+  isEditable,
 }) {
   return (
     <div>
@@ -20,10 +22,16 @@ function AdministrativeFm({
         changeFromDate={changeFromDate}
         toDate={toDate}
         changeToDate={changeToDate}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={
+          (request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest
+        }
       />
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={(request && (request.stateId !== 1 ? true : isEditable)) || isSendingRequest}
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers />
     </div>

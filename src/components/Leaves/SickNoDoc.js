@@ -22,6 +22,8 @@ function SickNoDoc({
   changeToDate,
   duration,
   changeDuration,
+  request,
+  isEditable,
 }) {
   const [focusedFrom, setFocusFrom] = useState(false);
   const [focusedTo, setFocusTo] = useState(false);
@@ -37,7 +39,7 @@ function SickNoDoc({
         }}>
         <SingleDatePicker
           id="dateFrom"
-          disabled={isSendingRequest}
+          disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
           showClearDate
           placeholder="From"
           numberOfMonths={1}
@@ -52,7 +54,7 @@ function SickNoDoc({
 
         <SingleDatePicker
           id="dateTo"
-          disabled={isSendingRequest}
+          disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
           showClearDate
           placeholder="To"
           numberOfMonths={1}
@@ -77,7 +79,11 @@ function SickNoDoc({
         </FormControl>
       </div>
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={(request && (request.stateId !== 1 ? true : isEditable)) || isSendingRequest}
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers />
     </div>

@@ -53,6 +53,11 @@ function User() {
   }, [context, history.location.pathname]);
 
   useEffect(() => {
+    if (!context.token) {
+      history.replace('/login');
+      return;
+    }
+    console.log('users loading');
     getUsers('', '').then(({ data }) => {
       setUsers(data);
     });
