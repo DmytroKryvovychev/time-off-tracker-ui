@@ -39,12 +39,19 @@ function Home() {
       });
 
     function getRequests() {
-      getMyRequests().then(({ data }) => {
-        setRequests(data);
-        if (context.role === 'Employee') {
-          setLoading(false);
-        }
-      });
+      getMyRequests()
+        .then(({ data }) => {
+          setRequests(data);
+          if (context.role === 'Employee') {
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            localStorage.clear();
+            setContext({ userId: null, user: null, role: null, token: null });
+          }
+        });
     }
     getRequests();
 

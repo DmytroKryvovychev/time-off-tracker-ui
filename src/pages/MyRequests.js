@@ -6,7 +6,7 @@ import RequestTable from '../components/RequestTable';
 import RequestFilter from '../components/RequestFilter';
 import NewRequest from './NewRequest';
 import { getMyRequests, getMyRequestsByFilter } from '../components/Axios';
-import { Users } from '../Context';
+import { Users, Context } from '../Context';
 
 function MyRequests() {
   const [data, setData] = useState(null);
@@ -14,6 +14,7 @@ function MyRequests() {
   const [isNewRequestOpen, setNewRequestState] = useState(false);
 
   const [users, setUsers] = useContext(Users);
+  const [context, setContext] = useContext(Context);
 
   const handleFilter = (fromDate, toDate, stateId, typeId) => {
     setLoading(true);
@@ -25,10 +26,17 @@ function MyRequests() {
 
   useEffect(() => {
     async function getRequests() {
-      await getMyRequests().then(({ data }) => {
-        setData(data);
-        setLoading(false);
-      });
+      await getMyRequests()
+        .then(({ data }) => {
+          setData(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            localStorage.clear();
+            setContext({ userId: null, user: null, role: null, token: null });
+          }
+        });
     }
 
     getRequests();

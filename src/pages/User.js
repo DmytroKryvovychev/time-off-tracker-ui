@@ -57,10 +57,17 @@ function User() {
       history.replace('/login');
       return;
     }
-    console.log('users loading');
-    getUsers('', '').then(({ data }) => {
-      setUsers(data);
-    });
+
+    getUsers('', '')
+      .then(({ data }) => {
+        setUsers(data);
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          localStorage.clear();
+          setContext({ userId: null, user: null, role: null, token: null });
+        }
+      });
   }, [context.userId]);
 
   return (
