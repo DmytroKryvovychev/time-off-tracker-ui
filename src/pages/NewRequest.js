@@ -29,6 +29,8 @@ import {
 
 let prManagers = [];
 
+const accountantId = 1;
+
 function NewRequest({ isOpen, onClose, calendar, request }) {
   const [context, setContext] = useContext(Context);
   const [leaveType, setLeaveType] = useState(6);
@@ -99,8 +101,9 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
 
   useEffect(() => {
     if (request) {
+      console.log(request);
       const managers = request.reviews
-        .filter((item) => item.reviewerId !== 1)
+        .filter((item) => item.reviewerId !== accountantId)
         .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
       setPManager(managers);
       setFromDate(moment(request.startDate));
