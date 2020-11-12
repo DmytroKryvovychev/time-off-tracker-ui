@@ -172,13 +172,13 @@ function PersonalRequest() {
           </h2>
           {renderLeaveBody[request.typeId - 1].comp}
           <div style={{ marginTop: 20 }}>
-            {request.stateId !== 4 && isEditable ? (
+            {request.stateId !== states.indexOf('Rejected') && isEditable ? (
               <Button
                 className="personal-request__edit-btn"
                 variant="contained"
                 disabled={isSendingRequest}
                 onClick={() => {
-                  if (request.stateId === 3) {
+                  if (request.stateId === states.indexOf('Approved')) {
                     openDialog(true);
                   } else {
                     setEditable(false);
