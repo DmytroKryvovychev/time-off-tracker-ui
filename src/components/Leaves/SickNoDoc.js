@@ -7,6 +7,8 @@ import { SingleDatePicker } from 'react-dates';
 import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
 
+import { states } from '../../constants';
+
 const useTypes = [
   { id: 1, text: 'Half day' },
   { id: 2, text: 'Full day' },
@@ -39,7 +41,10 @@ function SickNoDoc({
         }}>
         <SingleDatePicker
           id="dateFrom"
-          disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
+          disabled={
+            (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+            isSendingRequest
+          }
           showClearDate
           placeholder="From"
           numberOfMonths={1}
@@ -54,7 +59,10 @@ function SickNoDoc({
 
         <SingleDatePicker
           id="dateTo"
-          disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
+          disabled={
+            (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+            isSendingRequest
+          }
           showClearDate
           placeholder="To"
           numberOfMonths={1}
@@ -80,7 +88,10 @@ function SickNoDoc({
       </div>
 
       <LeaveComment
-        disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
+        disabled={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
         comment={comment}
         changeComment={changeComment}
       />

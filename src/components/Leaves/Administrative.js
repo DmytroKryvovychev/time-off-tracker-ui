@@ -4,6 +4,8 @@ import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
 import VacationPeriod from './VacationPeriod';
 
+import { states } from '../../constants';
+
 function Administrative({
   prManagers,
   isSendingRequest,
@@ -26,12 +28,16 @@ function Administrative({
         toDate={toDate}
         changeToDate={changeToDate}
         isSendingRequest={
-          (request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
         }
       />
 
       <LeaveComment
-        disabled={(request && (request.stateId === 2 ? true : isEditable)) || isSendingRequest}
+        disabled={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
         comment={comment}
         changeComment={changeComment}
       />

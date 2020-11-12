@@ -2,6 +2,7 @@ import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
 
 import Signers from './Signers';
+import { states } from '../../constants';
 
 function Approvers({
   managers,
@@ -53,7 +54,11 @@ function Approvers({
                   managers={managers}
                   onChange={changeManagers}
                   isDisabled={isSendingRequest}
-                  isApproved={request && request.stateId === 2 && isApproved(manager)}
+                  isApproved={
+                    request &&
+                    request.stateId === states.indexOf('In progress') &&
+                    isApproved(manager)
+                  }
                   isEditable={isEditable}
                 />
               </div>
