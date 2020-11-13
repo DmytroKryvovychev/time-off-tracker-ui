@@ -3,12 +3,14 @@ import { Button, Select, MenuItem, FormControl, InputLabel, TextField } from '@m
 
 import VacationPeriod from '../Leaves/VacationPeriod';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
   const [type, setType] = useState(0);
   const [name, setName] = useState('');
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+  const { t } = useTranslation(['translation', 'reviews']);
 
   const handleFromDate = (date) => {
     setFromDate(date);
@@ -35,17 +37,17 @@ function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
       />
       <TextField
         value={name}
-        label="Filter by Name"
+        label={t('reviews:Filter by Name')}
         variant="standard"
         onChange={(e) => setName(e.target.value)}
         style={{ width: 200, marginRight: 30 }}
       />
       <FormControl style={{ marginRight: 50, width: 350 }}>
-        <InputLabel>Type</InputLabel>
+        <InputLabel>{t('reviews:Type')}</InputLabel>
         <Select value={type} onChange={(e) => handleTypeChange(e)}>
           {types.map((type, idx) => (
             <MenuItem key={`type-${type.title}-idx-${idx}`} value={type.id}>
-              {type.title}
+              {t(type.title)}
             </MenuItem>
           ))}
         </Select>
@@ -62,7 +64,7 @@ function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
           handleFilter(startDate, endDate, name, typeId);
         }}
         style={{ verticalAlign: 'bottom', height: '40px' }}>
-        Filter
+        {t('reviews:Filter')}
       </Button>
     </div>
   );

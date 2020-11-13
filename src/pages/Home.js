@@ -110,7 +110,7 @@ function Home() {
               variant="contained"
               color="primary"
               onClick={() => history.push('/my_requests')}
-              style={{ marginRight: '150px', height: '30px', width: '100px', minWidth: '100px' }}>
+              style={{ marginRight: '50px', height: '30px' }}>
               {t('View All')}
             </Button>
             <Button

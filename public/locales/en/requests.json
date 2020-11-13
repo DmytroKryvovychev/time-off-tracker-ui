@@ -12,6 +12,19 @@
     "Already approved by" : "Already approved by",
     "My Requests": "My Requests",
     "New Request": "New Request",
-    "Statistics": "Statistics {{year}}"
+    "Statistics": "Statistics {{year}}",
+    "No requests": "No requests",
+    "Leave Type": "Leave type",
+    "Send Request": "Send Request",
+    "Cancel": "Cancel",
+    "UsedDays": "{{days}} days used",
+    "Edit": "Edit",
+    "Save Changes":"Save Changes",
+    "Cancel Editing":"Cancel Editing",
+    "Duplicate":"Duplicate",
+    "Decline": "Decline",
+    "Close":"Close",
+    "No Request by id":"No Request by id: {{id}}"
+
 
 }

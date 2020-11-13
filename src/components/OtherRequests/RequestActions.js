@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Button } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import LeaveComment from '../Leaves/LeaveComment';
 import { actionReview } from '../Axios';
@@ -15,6 +16,7 @@ function RequestActions() {
   let query = useQuery();
   const [isSendingRequest, setSending] = useState(true);
   const [comment, setComment] = useState('');
+  const { t } = useTranslation('reviews');
 
   useEffect(() => {
     if (query.get('action') === 'approve') {
@@ -47,7 +49,7 @@ function RequestActions() {
   const renderRejectFields = () => {
     return (
       <>
-        <h3>Enter Reject Reason</h3>
+        <h3>{t('Enter Reject Reason')}</h3>
         <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
         <Button
           disabled={isSendingRequest}
@@ -58,7 +60,7 @@ function RequestActions() {
             setSending(true);
             handleApprove(query.get('review'), false);
           }}>
-          Send
+          {t('Send')}
         </Button>
       </>
     );
@@ -70,7 +72,7 @@ function RequestActions() {
         isSendingRequest ? (
           <CircularProgress />
         ) : (
-          <p>The Request is approved!</p>
+          <p>{t('The Request is approved!')}</p>
         )
       ) : (
         <div style={{ width: 500 }}>{renderRejectFields()}</div>

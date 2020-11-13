@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import 'moment/locale/ru';
+//import 'moment/locale/ru';
 import store from './redux/store';
 import './i18n';
 

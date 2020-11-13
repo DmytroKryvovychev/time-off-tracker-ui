@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 const localize = momentLocalizer(moment);
 
@@ -45,7 +46,7 @@ class Selectable extends React.Component {
   };
 
   render() {
-    const { func } = this.props;
+    const { func, t } = this.props;
     return (
       <div className="example">
         <Calendar
@@ -57,10 +58,11 @@ class Selectable extends React.Component {
           onSelectEvent={(event) => alert(event.title)}
           onSelectSlot={({ start, end }) => func(start, end)}
           eventPropGetter={this.eventStyleGetter}
+          messages={{ today: t('Today'), previous: t('Back'), next: t('Next') }}
         />
       </div>
     );
   }
 }
 
-export default Selectable;
+export default withTranslation('home')(Selectable);
