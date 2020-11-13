@@ -81,7 +81,7 @@ export default function ReviewsTable({ data, short, users }) {
   let history = useHistory();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { t } = useTranslation(['reviews', 'translation', 'roles']);
+  const { t, i18n } = useTranslation(['reviews', 'translation', 'roles']);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -170,7 +170,8 @@ export default function ReviewsTable({ data, short, users }) {
                         {t('translation:' + types[item.request.typeId].title)}
                       </TableCell>
                       <TableCell align="center">
-                        {convertDate(item.request.startDate)} - {convertDate(item.request.endDate)}
+                        {convertDate(item.request.startDate, i18n.language)} -{' '}
+                        {convertDate(item.request.endDate, i18n.language)}
                       </TableCell>
                       <TableCell align="center">{item.request.comment}</TableCell>
                       {short ? null : <TableCell align="center">{isApprovedBy(item)}</TableCell>}

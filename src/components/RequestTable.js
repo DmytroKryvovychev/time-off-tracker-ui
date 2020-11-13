@@ -77,7 +77,7 @@ export default function RequestTable({ data, short, users }) {
   let history = useHistory();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { t } = useTranslation(['translation', 'requests']);
+  const { t, i18n } = useTranslation(['translation', 'requests']);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -160,7 +160,8 @@ export default function RequestTable({ data, short, users }) {
                       </TableCell>
                       <TableCell align="center">{t(types[item.typeId].title)}</TableCell>
                       <TableCell align="center">
-                        {convertDate(item.startDate)} - {convertDate(item.endDate)}
+                        {convertDate(item.startDate, i18n.language)} -{' '}
+                        {convertDate(item.endDate, i18n.language)}
                       </TableCell>
                       {short ? null : <TableCell align="center">{item.comment}</TableCell>}
                       <TableCell align="center">
