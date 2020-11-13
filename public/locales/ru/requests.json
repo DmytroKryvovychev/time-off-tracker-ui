@@ -1,0 +1,16 @@
+{
+    "State": "Состояние",
+    "Type": "Тип",
+    "Filter": "Фильтровать",
+    "Dates": "Даты",
+    "My Comment": "Мой комментарий",
+    "State Details": "Сведения о состоянии",
+    "View": "Показать",
+    "No data": "Нет данных",
+    "Rows per page": "Записей на странице",
+    "labelDisplayedRows": "{{from}}-{{to}} из {{count}}",
+    "Already approved by" : "Утвердили",
+    "My Requests": "Мои Заявки",
+    "New Request": "Новая заявка",
+    "Statistics": "Статистика за {{year}} год"
+}

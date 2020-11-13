@@ -1,0 +1,17 @@
+{
+    "State": "State",
+    "Type": "Type",
+    "Filter": "Filter",
+    "Dates": "Dates",
+    "My Comment": "My Comment",
+    "State Details": "State Details",
+    "View":"View",
+    "No data": "No data",
+    "Rows per page": "Rows per page",
+    "labelDisplayedRows": "{{from}}-{{to}} of {{count}}",
+    "Already approved by" : "Already approved by",
+    "My Requests": "My Requests",
+    "New Request": "New Request",
+    "Statistics": "Statistics {{year}}"
+
+}

@@ -1,8 +1,11 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useTranslation } from 'react-i18next';
 
 function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isApproved }) {
+  const { t } = useTranslation('leaves');
+
   return (
     <div className="approvers__item">
       <li>
@@ -30,7 +33,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
               array.splice(idx + 1, 0, '');
               onChange(array);
             }}>
-            Add manager
+            {t('Add manager')}
           </button>
           <button
             className="approvers__delete-btn"
@@ -41,7 +44,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
               array.splice(idx, 1);
               onChange(array);
             }}>
-            Delete manager
+            {t('Delete manager')}
           </button>
         </>
       )}

@@ -4,6 +4,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { newUser } from '../Axios';
 
@@ -19,14 +20,15 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
     email: '',
     password: '',
   });
+  const { t } = useTranslation(['admin', 'roles']);
 
   const handleAddNewUser = async () => {
     let error = { ...errors };
 
-    error.firstName = firstName !== '' ? '' : 'no empty First Name';
-    error.lastName = lastName !== '' ? '' : 'no empty Last Name';
-    error.email = email !== '' ? '' : 'no empty Email';
-    error.password = password !== '' ? '' : 'no empty Password';
+    error.firstName = firstName !== '' ? '' : `${t('No empty')} ${t('First Name')}`;
+    error.lastName = lastName !== '' ? '' : `${t('No empty')} ${t('Last Name')}`;
+    error.email = email !== '' ? '' : `${t('No empty')} ${t('Email')}`;
+    error.password = password !== '' ? '' : `${t('No empty')} ${t('Password')}`;
 
     setErrors(error);
 
@@ -59,7 +61,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
         onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">Register new user</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('Register new user')}</DialogTitle>
         <DialogContent>
           <form
             style={{
@@ -68,7 +70,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               alignItems: 'center',
             }}>
             <TextField
-              label="First Name"
+              label={t('First Name')}
               error={errors.firstName.length > 0}
               helperText={errors.firstName}
               variant="standard"
@@ -79,7 +81,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
-              label="Last Name"
+              label={t('Last Name')}
               error={errors.lastName.length > 0}
               helperText={errors.lastName}
               variant="standard"
@@ -90,7 +92,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
-              label="Email"
+              label={t('Email')}
               error={errors.email.length > 0}
               helperText={errors.email}
               variant="standard"
@@ -101,7 +103,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
-              label="Password"
+              label={t('Password')}
               error={errors.password.length > 0}
               helperText={errors.password}
               variant="standard"
@@ -113,7 +115,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               style={{ marginBottom: 20, width: 300 }}
             />
             <FormControl style={{ width: '100%' }}>
-              <InputLabel>Role</InputLabel>
+              <InputLabel>{t('roles:Role')}</InputLabel>
               <Select
                 value={role}
                 onChange={(event) => {
@@ -121,7 +123,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
                 }}>
                 {roles.map((obj, idx) => (
                   <MenuItem key={`key-${idx}-name${obj}`} value={idx}>
-                    {obj}
+                    {t('roles:' + obj)}
                   </MenuItem>
                 ))}
               </Select>
@@ -130,10 +132,10 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAddNewUser} color="primary">
-            Add
+            {t('Add')}
           </Button>
           <Button onClick={onClose} color="primary" autoFocus>
-            Cancel
+            {t('Cancel')}
           </Button>
         </DialogActions>
       </Dialog>

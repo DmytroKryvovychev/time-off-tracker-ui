@@ -11,6 +11,7 @@ import {
   TablePagination,
   TableRow,
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { convertDate } from '../config';
 import { types, states } from '../constants';
@@ -31,7 +32,7 @@ const headCellsShort = [
   { id: 'Details', label: 'State Details' },
 ];
 
-function EnhancedTableHead({ headCells }) {
+function EnhancedTableHead({ headCells, t }) {
   return (
     <TableHead>
       <TableRow>
@@ -41,7 +42,7 @@ function EnhancedTableHead({ headCells }) {
             className="reviews__table-cell"
             align="center"
             padding="default">
-            {headCell.label}
+            {t('requests:' + headCell.label)}
           </TableCell>
         ))}
       </TableRow>
@@ -76,6 +77,7 @@ export default function RequestTable({ data, short, users }) {
   let history = useHistory();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { t } = useTranslation(['translation', 'requests']);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -119,7 +121,7 @@ export default function RequestTable({ data, short, users }) {
       }
       return sum;
     }, '');
-    return approved ? `Already approved by: ${approved.slice(0, -1)}` : '';
+    return approved ? `${t('requests:Already approved by')}: ${approved.slice(0, -1)}` : '';
   };
 
   //   useEffect(() => {
@@ -135,7 +137,7 @@ export default function RequestTable({ data, short, users }) {
             aria-labelledby="tableTitle"
             size={'medium'}
             aria-label="enhanced table">
-            <EnhancedTableHead headCells={short ? headCellsShort : headCells} />
+            <EnhancedTableHead headCells={short ? headCellsShort : headCells} t={t} />
             <TableBody>
               {joinData()
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -154,9 +156,9 @@ export default function RequestTable({ data, short, users }) {
                         id={labelId}
                         scope="row"
                         padding="none">
-                        {states[item.stateId]}
+                        {t(states[item.stateId])}
                       </TableCell>
-                      <TableCell align="center">{types[item.typeId].title}</TableCell>
+                      <TableCell align="center">{t(types[item.typeId].title)}</TableCell>
                       <TableCell align="center">
                         {convertDate(item.startDate)} - {convertDate(item.endDate)}
                       </TableCell>
@@ -175,7 +177,7 @@ export default function RequestTable({ data, short, users }) {
                             onClick={() => {
                               history.push('/my_requests/' + item.id);
                             }}>
-                            View
+                            {t('requests:View')}
                           </Button>
                         </TableCell>
                       )}
@@ -191,13 +193,17 @@ export default function RequestTable({ data, short, users }) {
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
+              labelRowsPerPage={t('requests:Rows per page')}
+              labelDisplayedRows={({ from, to, count }) =>
+                t('requests:labelDisplayedRows', { from: from, to: to, count: count })
+              }
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           )}
         </TableContainer>
       ) : (
-        <p>No data</p>
+        <p>{t('requests:No data')}</p>
       )}
     </div>
   );

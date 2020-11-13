@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Avatar, Menu, MenuItem } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { Context } from '../Context';
 
 function Header() {
   const [anchor, setAnchor] = useState(null);
-
+  const { t } = useTranslation('header');
   const [context, setContext] = useContext(Context);
 
   let history = useHistory();
@@ -61,13 +62,13 @@ function Header() {
                 keepMounted
                 open={Boolean(anchor)}
                 onClose={handleCloseMenu}>
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleCloseMenu}>{t('Profile')}</MenuItem>
+                <MenuItem onClick={handleLogout}>{t('Logout')}</MenuItem>
               </Menu>
             </>
           ) : (
             <Button style={{ backgroundColor: 'white' }} onClick={() => history.push('/login')}>
-              Log in
+              {t('Log in')}
             </Button>
           )}
         </Toolbar>

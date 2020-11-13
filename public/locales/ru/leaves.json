@@ -1,0 +1,19 @@
+{
+    "Comment": "Комментарий",
+    "From": "От",
+    "To": "До",
+    "Use": "Использовать",
+    "Half day": "Пол дня",
+    "Full day": "Полный день",
+    "Add manager": "Добавить менеджера",
+    "Delete manager": "Удалить менеджера",
+    "New Request": "Новая заявка",
+    "Leave Type": "Тип отпуска",
+    "Send Request": "Создать заявку",
+    "Cancel": "Отмена",
+    "VacationDays": "Дней отпуска: {{days}}",
+    "Approvers": "Список утверждающих",
+    "Edit approved request": "Редактирование утвержденной заявки",
+    "Do you really want to edit the approved request?": "Вы действительно хотите редактировать утвержденную заявку?",
+    "OK": "Да"
+} 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Link, useHistory, Redirect } from 'react-router-dom';
 import { Button, ButtonGroup } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import Home from './Home';
 import MyRequests from './MyRequests';
@@ -21,7 +22,7 @@ const routes = [
     main: () => <Home />,
   },
   {
-    name: `My Requests`,
+    name: 'My Requests',
     path: '/my_requests',
     exact: true,
     access: ['Accountant', 'Manager', 'Employee'],
@@ -40,7 +41,7 @@ function User() {
   const [selectedRoute, setSelectedRoute] = useState(0);
   const [context, setContext] = useContext(Context);
   const [users, setUsers] = useContext(Users);
-
+  const { t } = useTranslation('user');
   let history = useHistory();
 
   useEffect(() => {
@@ -87,7 +88,7 @@ function User() {
                     onClick={() => {
                       setSelectedRoute(idx);
                     }}>
-                    {route.name}
+                    {t(route.name)}
                   </Button>
                 </Link>
               );
