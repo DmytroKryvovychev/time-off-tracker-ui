@@ -114,7 +114,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               onChange={(e) => setPassword(e.target.value)}
               style={{ marginBottom: 20, width: 300 }}
             />
-            <FormControl style={{ width: '100%' }}>
+            <FormControl style={{ marginBottom: 20, width: 300 }}>
               <InputLabel>{t('roles:Role')}</InputLabel>
               <Select
                 value={role}
