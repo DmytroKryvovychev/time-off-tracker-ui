@@ -12,11 +12,9 @@ export default function ConfirmationDialog({ isOpen, onClose, onOk }) {
   return (
     <div>
       <Dialog open={isOpen} onClose={onClose} aria-labelledby="alert-dialog-title">
-        <DialogTitle id="alert-dialog-title">{t('Edit approved request')}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('EditApprovedRequest')}</DialogTitle>
         <DialogContent>
-          <span className="alert-dialog-description">
-            {t('Do you really want to edit the approved request?')}
-          </span>
+          <span className="alert-dialog-description">{t('EditRequestConfirmation')}</span>
         </DialogContent>
         <DialogActions>
           <Button onClick={onOk} color="primary">

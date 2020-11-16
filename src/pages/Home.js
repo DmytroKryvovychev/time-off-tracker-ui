@@ -104,14 +104,14 @@ function Home() {
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 0.8, margin: 5 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('My Recent Requests')}</h2>
+            <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('MyRecentRequests')}</h2>
 
             <Button
               variant="contained"
               color="primary"
               onClick={() => history.push('/my_requests')}
               style={{ marginRight: '50px', height: '30px' }}>
-              {t('View All')}
+              {t('ViewAll')}
             </Button>
             <Button
               className="home__new-request"
@@ -120,7 +120,7 @@ function Home() {
               onClick={() => {
                 setNewRequestState(true);
               }}>
-              {t('New request')}
+              {t('NewRequest')}
             </Button>
           </div>
 
@@ -129,21 +129,21 @@ function Home() {
           ) : users && requests && requests.length > 0 ? (
             <RequestTable data={requests.slice(0, 3)} users={users} short />
           ) : (
-            <h3>{t('No requests')}</h3>
+            <h3>{t('NoRequests')}</h3>
           )}
         </div>
 
         {context.role !== 'Employee' ? (
           <div style={{ flex: 1, margin: 5, marginRight: 15 }}>
             <h2 style={{ marginBottom: 20 }}>
-              {t('New Requests For Approval')} ({reviews && reviews.length})
+              {t('NewRequestsForApproval')} ({reviews && reviews.length})
             </h2>
             {!users || !reviews ? (
               <CircularProgress />
             ) : users && reviews && reviews.length > 0 ? (
               <ReviewsTable data={reviews} users={users} short />
             ) : (
-              <h3>{t('No reviews')}</h3>
+              <h3>{t('NoReviews')}</h3>
             )}
           </div>
         ) : null}

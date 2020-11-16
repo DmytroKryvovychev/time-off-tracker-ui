@@ -12,10 +12,10 @@ export default function ConfirmationDialog({ isOpen, onClose, onDelete, user }) 
   return (
     <div>
       <Dialog open={isOpen} onClose={onClose} aria-labelledby="alert-dialog-title">
-        <DialogTitle id="alert-dialog-title">{t('Delete user')}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('DeleteUser')}</DialogTitle>
         <DialogContent>
           <span className="alert-dialog-description">
-            {t('Are you sure want to delete')} <b>{user && user[1]}</b>?
+            {t('DeleteUserConfirmation')} <b>{user && user[1]}</b>?
           </span>
         </DialogContent>
         <DialogActions>

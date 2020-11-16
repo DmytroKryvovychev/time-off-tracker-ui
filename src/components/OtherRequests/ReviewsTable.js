@@ -21,15 +21,15 @@ const headCells = [
   { id: 'Role', label: 'Role' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'Comments', label: 'RequestComments' },
+  { id: 'Details', label: 'StateDetails' },
 ];
 
 const headCellsShort = [
   { id: 'From', label: 'From' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
+  { id: 'Comments', label: 'RequestComments' },
 ];
 
 function EnhancedTableHead({ headCells, t }) {
@@ -124,7 +124,7 @@ export default function ReviewsTable({ data, short, users }) {
       }
       return sum;
     }, '');
-    return approved ? `${t('Already approved by')}: ${approved.slice(0, -1)}` : '';
+    return approved ? `${t('AlreadyApproved')}: ${approved.slice(0, -1)}` : '';
   };
 
   const emptyRows = data && rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -212,16 +212,16 @@ export default function ReviewsTable({ data, short, users }) {
             count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
-            labelRowsPerPage={t('Rows per page')}
+            labelRowsPerPage={t('LabelRowsPerPage')}
             labelDisplayedRows={({ from, to, count }) =>
-              t('labelDisplayedRows', { from: from, to: to, count: count })
+              t('LabelDisplayedRows', { from: from, to: to, count: count })
             }
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </TableContainer>
       ) : (
-        <p>{t('No data')}</p>
+        <p>{t('NoData')}</p>
       )}
     </div>
   );

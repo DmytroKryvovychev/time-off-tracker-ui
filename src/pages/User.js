@@ -22,14 +22,14 @@ const routes = [
     main: () => <Home />,
   },
   {
-    name: 'My Requests',
+    name: 'MyRequests',
     path: '/my_requests',
     exact: true,
     access: ['Accountant', 'Manager', 'Employee'],
     main: () => <MyRequests />,
   },
   {
-    name: 'Other Requests',
+    name: 'OtherRequests',
     path: '/other_requests',
     exact: true,
     access: ['Accountant', 'Manager'],

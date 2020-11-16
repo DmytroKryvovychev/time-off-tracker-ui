@@ -25,10 +25,10 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
   const handleAddNewUser = async () => {
     let error = { ...errors };
 
-    error.firstName = firstName !== '' ? '' : `${t('No empty')} ${t('First Name')}`;
-    error.lastName = lastName !== '' ? '' : `${t('No empty')} ${t('Last Name')}`;
-    error.email = email !== '' ? '' : `${t('No empty')} ${t('Email')}`;
-    error.password = password !== '' ? '' : `${t('No empty')} ${t('Password')}`;
+    error.firstName = firstName !== '' ? '' : `${t('NoEmpty')} ${t('FirstName')}`;
+    error.lastName = lastName !== '' ? '' : `${t('NoEmpty')} ${t('LastName')}`;
+    error.email = email !== '' ? '' : `${t('NoEmpty')} ${t('Email')}`;
+    error.password = password !== '' ? '' : `${t('NoEmpty')} ${t('Password')}`;
 
     setErrors(error);
 
@@ -61,7 +61,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
         onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">{t('Register new user')}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('RegisterNewUser')}</DialogTitle>
         <DialogContent>
           <form
             style={{
@@ -70,7 +70,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               alignItems: 'center',
             }}>
             <TextField
-              label={t('First Name')}
+              label={t('FirstName')}
               error={errors.firstName.length > 0}
               helperText={errors.firstName}
               variant="standard"
@@ -81,7 +81,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
-              label={t('Last Name')}
+              label={t('LastName')}
               error={errors.lastName.length > 0}
               helperText={errors.lastName}
               variant="standard"

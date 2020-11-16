@@ -64,14 +64,14 @@ function Admin() {
     <div>
       <div style={{ flexDirection: 'row', padding: '10px', marginTop: '10px' }}>
         <TextField
-          label={t('Filter by Name')}
+          label={t('FilterByName')}
           variant="standard"
           className="admin__form-input"
           onChange={(e) => setFilter(e.target.value)}
           style={{ marginBottom: 20, width: 300 }}
         />
         <FormControl className="admin__filter-role">
-          <InputLabel>{t('Filter by Role')}</InputLabel>
+          <InputLabel>{t('FilterByRole')}</InputLabel>
           <Select
             value={role}
             onChange={(event) => {

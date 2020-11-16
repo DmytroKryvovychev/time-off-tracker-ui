@@ -56,7 +56,7 @@ function NewRequests() {
         ) : users && data.length > 0 ? (
           <ReviewsTable data={data} users={users} />
         ) : (
-          <h3>{t('No data')}</h3>
+          <h3>{t('NoData')}</h3>
         )}
       </div>
     </div>

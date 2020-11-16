@@ -37,9 +37,9 @@ function OtherRequests() {
         position="static"
         color="default">
         <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary">
-          <Tab label={t('New Requests')} />
-          <Tab label={t('Approved by me')} />
-          <Tab label={t('Rejected by me')} />
+          <Tab label={t('NewRequests')} />
+          <Tab label={t('ApprovedByMe')} />
+          <Tab label={t('RejectedByMe')} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

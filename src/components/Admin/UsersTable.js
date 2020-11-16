@@ -130,10 +130,10 @@ const EnhancedTableToolbar = ({ roles, updateUsers, t }) => {
 
   return (
     <Toolbar className={classes.root}>
-      <h2 className="users-table__title">{t('List of users')}</h2>
+      <h2 className="users-table__title">{t('UsersList')}</h2>
 
       <>
-        <Tooltip title={t('Add new user')}>
+        <Tooltip title={t('AddNewUser')}>
           <IconButton
             className="new_user-btn"
             aria-label="add new user"
@@ -356,9 +356,9 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          labelRowsPerPage={t('Rows per page')}
+          labelRowsPerPage={t('LabelRowsPerPage')}
           labelDisplayedRows={({ from, to, count }) =>
-            t('labelDisplayedRows', { from: from, to: to, count: count })
+            t('LabelDisplayedRows', { from: from, to: to, count: count })
           }
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}

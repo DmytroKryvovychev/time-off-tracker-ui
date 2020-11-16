@@ -25,8 +25,8 @@ const headCellsNew = [
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
   { id: 'State', label: 'State' },
-  { id: 'Comments', label: 'Request Comments' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'Comments', label: 'RequestComments' },
+  { id: 'Details', label: 'StateDetails' },
 ];
 
 function EnhancedTableHead({ headCells, actions, t }) {
@@ -139,7 +139,7 @@ function Approved() {
         return `${sum} ${item.reviewer.firstName.concat(' ', item.reviewer.lastName)},`;
       }
     }, '');
-    return approved ? `${t('Already approved by')}: ${approved.slice(0, -1)}` : '';
+    return approved ? `${t('AlreadyApproved')}: ${approved.slice(0, -1)}` : '';
   };
 
   const getData = (data) => {
@@ -224,16 +224,16 @@ function Approved() {
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              labelRowsPerPage={t('Rows per page')}
+              labelRowsPerPage={t('LabelRowsPerPage')}
               labelDisplayedRows={({ from, to, count }) =>
-                t('labelDisplayedRows', { from: from, to: to, count: count })
+                t('LabelDisplayedRows', { from: from, to: to, count: count })
               }
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </TableContainer>
         ) : (
-          <h3>{t('No data')}</h3>
+          <h3>{t('NoData')}</h3>
         )}
       </div>
     </div>

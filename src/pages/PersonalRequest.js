@@ -202,7 +202,7 @@ function PersonalRequest() {
                     handleChangeRequest();
                     setEditable(true);
                   }}>
-                  {t('Save Changes')}
+                  {t('SaveChanges')}
                 </Button>
                 <Button
                   className="personal-request__ce-btn"
@@ -212,7 +212,7 @@ function PersonalRequest() {
                     cancelEditing();
                     setEditable(true);
                   }}>
-                  {t('Cancel Editing')}
+                  {t('CancelEditing')}
                 </Button>
               </>
             )}
@@ -258,7 +258,7 @@ function PersonalRequest() {
           />
         </dispatchEvent>
       ) : (
-        <p>{t('No Request by id', { id: id })}</p>
+        <p>{t('NoRequestById', { id: id })}</p>
       )}
       <ConfirmationDialog isOpen={isDialogOpen} onClose={onDialogClose} onOk={onDialogConfirm} />
     </div>

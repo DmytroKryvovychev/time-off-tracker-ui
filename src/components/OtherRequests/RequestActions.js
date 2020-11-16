@@ -49,7 +49,7 @@ function RequestActions() {
   const renderRejectFields = () => {
     return (
       <>
-        <h3>{t('Enter Reject Reason')}</h3>
+        <h3>{t('RejectReason')}</h3>
         <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
         <Button
           disabled={isSendingRequest}
@@ -72,7 +72,7 @@ function RequestActions() {
         isSendingRequest ? (
           <CircularProgress />
         ) : (
-          <p>{t('The Request is approved!')}</p>
+          <p>{t('ApprovedRequest')}</p>
         )
       ) : (
         <div style={{ width: 500 }}>{renderRejectFields()}</div>

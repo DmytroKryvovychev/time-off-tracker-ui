@@ -95,7 +95,7 @@ function Login() {
             marginBottom: 10,
             color: 'blue',
           }}>
-          {t('Login')}
+          {t('Title')}
         </Typography>
         <TextField
           label={t('Username')}
@@ -138,7 +138,7 @@ function Login() {
           size="large"
           style={{ marginTop: 20, width: 150 }}
           onClick={checkForm}>
-          {t('Log In')}
+          {t('LogIn')}
         </Button>
       </form>
     </div>

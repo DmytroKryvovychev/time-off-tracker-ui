@@ -37,7 +37,7 @@ function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
       />
       <TextField
         value={name}
-        label={t('reviews:Filter by Name')}
+        label={t('reviews:FilterByName')}
         variant="standard"
         onChange={(e) => setName(e.target.value)}
         style={{ width: 200, marginRight: 30 }}

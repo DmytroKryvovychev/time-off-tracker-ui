@@ -103,7 +103,7 @@ function Header() {
             </>
           ) : (
             <Button style={{ backgroundColor: 'white' }} onClick={() => history.push('/login')}>
-              {t('Log in')}
+              {t('Login')}
             </Button>
           )}
         </Toolbar>

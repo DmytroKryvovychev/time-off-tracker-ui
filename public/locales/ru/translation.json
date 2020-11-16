@@ -1,14 +1,14 @@
 {
     "Any": "Любая",
-    "Administrative force majeure leave": "Отпуск по причине форс-мажора",
-    "Administrative leave": "Административный отпуск",
-    "Social leave": "Социальный отпуск",
-    "Sick leave (no documents)": "Больничный без больничного листа",
-    "Sick leave (with documents)": "Больничный с больничным листом",
-    "Study leave": "Учебный отпуск",
-    "Paid leave": "Оплачиваемый отпуск",
+    "AdministrativeForceMajeureLeave": "Отпуск по причине форс-мажора",
+    "AdministrativeLeave": "Административный отпуск",
+    "SocialLeave": "Социальный отпуск",
+    "SickLeaveNoDocuments": "Больничный без больничного листа",
+    "SickLeaveWithDocuments": "Больничный с больничным листом",
+    "StudyLeave": "Учебный отпуск",
+    "PaidLeave": "Оплачиваемый отпуск",
     "New": "Новая",
-    "In progress": "В процессе",
+    "InProgress": "В процессе",
     "Approved": "Утверждена",
     "Rejected": "Отклонена"
 } 

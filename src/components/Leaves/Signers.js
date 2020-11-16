@@ -33,7 +33,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
               array.splice(idx + 1, 0, '');
               onChange(array);
             }}>
-            {t('Add manager')}
+            {t('AddManager')}
           </button>
           <button
             className="approvers__delete-btn"
@@ -44,7 +44,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
               array.splice(idx, 1);
               onChange(array);
             }}>
-            {t('Delete manager')}
+            {t('DeleteManager')}
           </button>
         </>
       )}

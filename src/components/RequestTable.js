@@ -20,8 +20,8 @@ const headCells = [
   { id: 'State', label: 'State' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'MyComment', label: 'My Comment' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'MyComment', label: 'MyComment' },
+  { id: 'Details', label: 'StateDetails' },
   { id: 'View', label: 'View' },
 ];
 
@@ -29,7 +29,7 @@ const headCellsShort = [
   { id: 'State', label: 'State' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'Details', label: 'StateDetails' },
 ];
 
 function EnhancedTableHead({ headCells, t }) {
@@ -121,7 +121,7 @@ export default function RequestTable({ data, short, users }) {
       }
       return sum;
     }, '');
-    return approved ? `${t('requests:Already approved by')}: ${approved.slice(0, -1)}` : '';
+    return approved ? `${t('requests:AlreadyApproved')}: ${approved.slice(0, -1)}` : '';
   };
 
   //   useEffect(() => {
@@ -194,9 +194,9 @@ export default function RequestTable({ data, short, users }) {
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              labelRowsPerPage={t('requests:Rows per page')}
+              labelRowsPerPage={t('requests:LabelRowsPerPage')}
               labelDisplayedRows={({ from, to, count }) =>
-                t('requests:labelDisplayedRows', { from: from, to: to, count: count })
+                t('requests:LabelDisplayedRows', { from: from, to: to, count: count })
               }
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -204,7 +204,7 @@ export default function RequestTable({ data, short, users }) {
           )}
         </TableContainer>
       ) : (
-        <p>{t('requests:No data')}</p>
+        <p>{t('requests:NoData')}</p>
       )}
     </div>
   );

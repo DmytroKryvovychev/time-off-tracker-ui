@@ -24,8 +24,8 @@ const headCellsNew = [
   { id: 'Role', label: 'Role' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
-  { id: 'Reject', label: 'My Reject Comment' },
+  { id: 'Comments', label: 'RequestComments' },
+  { id: 'Reject', label: 'MyRejectComment' },
 ];
 
 function EnhancedTableHead({ headCells, actions, t }) {
@@ -207,16 +207,16 @@ function Rejected() {
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              labelRowsPerPage={t('Rows per page')}
+              labelRowsPerPage={t('LabelRowsPerPage')}
               labelDisplayedRows={({ from, to, count }) =>
-                t('labelDisplayedRows', { from: from, to: to, count: count })
+                t('LabelDisplayedRows', { from: from, to: to, count: count })
               }
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </TableContainer>
         ) : (
-          <h3>{t('No data')}</h3>
+          <h3>{t('NoData')}</h3>
         )}
       </div>
     </div>

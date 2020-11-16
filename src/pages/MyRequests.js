@@ -77,11 +77,11 @@ function MyRequests() {
           onClick={() => {
             setNewRequestState(true);
           }}>
-          {t('New Request')}
+          {t('NewRequest')}
         </Button>
       </div>
 
-      <h2>{t('My Requests')}</h2>
+      <h2>{t('MyRequests')}</h2>
 
       <RequestFilter handleFilter={handleFilter} />
       {!users || !data ? (
@@ -89,7 +89,7 @@ function MyRequests() {
       ) : users && data && data.length > 0 ? (
         <RequestTable data={data} users={users} />
       ) : (
-        <h3>{t('No requests')}</h3>
+        <h3>{t('NoRequests')}</h3>
       )}
       <NewRequest
         isOpen={isNewRequestOpen}

@@ -1,10 +1,10 @@
 {
-    "My Recent Requests": "Мои текущие заявки",
-    "View All": "Посмотреть все",
-    "New request": "Новая заявка",
-    "No requests": "Нет заявок",
-    "New Requests For Approval": "Новые заявки для утверждения",
-    "No reviews": "Нет заявок на рассмотрение",
+    "MyRecentRequests": "Мои текущие заявки",
+    "ViewAll": "Посмотреть все",
+    "NewRequest": "Новая заявка",
+    "NoRequests": "Нет заявок",
+    "NewRequestsForApproval": "Новые заявки для утверждения",
+    "NoReviews": "Нет заявок на рассмотрение",
     "Today": "Сегодня",
     "Back": "Предыдущий",
     "Next": "Следующий"
