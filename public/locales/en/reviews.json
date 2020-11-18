@@ -1,8 +1,8 @@
 {
-    "NewRequests":"NewRequests",
+    "NewRequests":"New Requests",
     "ApprovedByMe":"Approved by me",
     "RejectedByMe":"Rejected by me",
-    "FilterbyName": "Filter by Name",
+    "FilterByName": "Filter by Name",
     "Type": "Type",
     "Filter": "Filter",
     "From":"From", 
