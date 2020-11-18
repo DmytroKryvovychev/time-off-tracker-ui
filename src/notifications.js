@@ -63,3 +63,17 @@ export const notifyAdmin = (msg) => {
       break;
   }
 };
+
+export const notifyHome = (msg) => {
+  switch (msg) {
+    case 'Network Error':
+      return toast.error('No connection with server', defaultOptions);
+      break;
+    case '400':
+      return toast.error('Bad request', defaultOptions);
+      break;
+    default:
+      return toast.warn('Something goes wrong', defaultOptions);
+      break;
+  }
+};

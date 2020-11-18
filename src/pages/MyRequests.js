@@ -62,7 +62,7 @@ function MyRequests() {
           return (
             <div className="statistics__text">
               {arr.map((item) => (
-                <p>
+                <p key={`title-${item.title}`}>
                   {t(`translation:${item.title}`)}: {t('UsedDays', { days: 5 })}
                 </p>
               ))}

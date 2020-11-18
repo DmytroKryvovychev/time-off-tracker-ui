@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Switch, Route, Link, useHistory, Redirect } from 'react-router-dom';
+import { Switch, Route, Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
@@ -43,6 +43,7 @@ function User() {
   const [users, setUsers] = useContext(Users);
   const { t } = useTranslation('user');
   let history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     if (context.role === 'Admin') {
@@ -51,7 +52,7 @@ function User() {
     }
 
     setSelectedRoute(routes.findIndex((item) => history.location.pathname.includes(item.path)));
-  }, [context, history.location.pathname]);
+  }, [context, location]);
 
   useEffect(() => {
     if (!context.token) {
