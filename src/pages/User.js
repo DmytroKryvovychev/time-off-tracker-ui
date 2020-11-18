@@ -50,7 +50,7 @@ function User() {
       return;
     }
 
-    setSelectedRoute(routes.findIndex((item) => item.path === history.location.pathname));
+    setSelectedRoute(routes.findIndex((item) => history.location.pathname.includes(item.path)));
   }, [context, history.location.pathname]);
 
   useEffect(() => {

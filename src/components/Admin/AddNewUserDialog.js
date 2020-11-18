@@ -5,8 +5,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import { newUser } from '../Axios';
+import { notifyAdmin } from '../../notifications';
 
 export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
   const [firstName, setFirstName] = useState('');
@@ -48,7 +50,20 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
       role: roles[role],
     };
 
-    await newUser(user).then(() => onClose());
+    await newUser(user)
+      .then(() => {
+        notifyAdmin('Successful New User Adding');
+        onClose();
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin('New user failure');
+        }
+      });
     updateUsers();
   };
 
@@ -139,6 +154,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }

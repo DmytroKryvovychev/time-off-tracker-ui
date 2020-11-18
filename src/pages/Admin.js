@@ -3,10 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { TextField, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import { getUsers } from '../components/Axios';
 import { Context } from '../Context';
 import UsersTable from '../components/Admin/UsersTable';
+import { notifyAdmin } from '../notifications';
 
 function Admin() {
   const [isLoading, setLoading] = useState(true);
@@ -36,14 +38,17 @@ function Admin() {
         );
         setData(filteredData);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin();
+        }
+      });
     setLoading(false);
   };
-
-  //Roles upload from db
-  // useEffect(() => {
-  //  axios.get(uri+'/role').then(({data}) => setRoles(data))
-  // }, [])
 
   //live search
   // const handleFilterName = () => {
@@ -101,13 +106,13 @@ function Admin() {
       </div>
 
       <div style={{ padding: '0 20px' }}>
-        {/* {data ? <UsersTable data={handleFilterName()} roles={roles} /> : <CircularProgress />} realtime filter data */}
         {!isLoading ? (
           <UsersTable data={data} roles={roles} updateUsers={handleGetUsers} />
         ) : (
           <CircularProgress />
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

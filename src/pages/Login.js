@@ -4,11 +4,11 @@ import { TextField, Typography, Button, InputAdornment, IconButton } from '@mate
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import { axiosApi } from '../config';
 import { Users, Context } from '../Context';
-
-const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
+import { notifyLogin } from '../notifications';
 
 function Login() {
   let history = useHistory();
@@ -18,30 +18,20 @@ function Login() {
   const [context, setContext] = useContext(Context);
   const [users, setUsers] = useContext(Users);
 
-  const [email, setEmail] = useState('mainadmin@mail.ru'); //'mainadmin@mail.ru'
+  const [username, setUsername] = useState('mainadmin@mail.ru'); //'mainadmin@mail.ru'
   const [password, setPassword] = useState('mainadmin89M#'); //'mainadmin89M#'
   const [showPassword, setPasswordVisibility] = useState(false);
   const [errors, setErrors] = useState({
-    email: '',
+    username: '',
     password: '',
   });
 
   const checkForm = () => {
     let error = { ...errors };
 
-    // error.email =
-    //   email !== ''
-    //     ? emailRegex.test(email)
-    //       ? ''
-    //       : 'invalid email address'
-    //     : 'no empty email address';
+    error.username = username !== '' ? '' : `${t('NoEmpty')} ${t('Username')}`;
 
-    // error.password =
-    //   password !== ''
-    //     ? password.length < 6
-    //       ? 'minimum 6 characaters required'
-    //       : ''
-    //     : 'no empty password';
+    error.password = password !== '' ? '' : `${t('NoEmpty')} ${t('Password')}`;
 
     setErrors(error);
 
@@ -55,7 +45,7 @@ function Login() {
 
     const url = 'https://localhost:44381/auth/token';
     axios
-      .post(url, { username: email, password: password })
+      .post(url, { username: username, password: password })
       .then((response) => {
         const { data } = response;
         const user = users ? users.find((user) => user.id === data.userId) : null;
@@ -72,7 +62,18 @@ function Login() {
             : '/home',
         );
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyLogin('Network Error');
+        } else if (
+          err.response &&
+          err.response.data.message === 'Username or password is incorrect'
+        ) {
+          setErrors({ username: t('IncorrectLoginData'), password: t('IncorrectLoginData') });
+        } else if (err.response.status === 400) {
+          notifyLogin('400');
+        }
+      });
   };
 
   const handleClickShowPassword = () => {
@@ -99,13 +100,13 @@ function Login() {
         </Typography>
         <TextField
           label={t('Username')}
-          error={errors.email.length > 0}
-          helperText={errors.email}
+          error={errors.username.length > 0}
+          helperText={errors.username}
           variant="standard"
           fullWidth
           className="form-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           style={{ marginBottom: 20, width: 300 }}
         />
         <TextField
@@ -141,6 +142,7 @@ function Login() {
           {t('LogIn')}
         </Button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

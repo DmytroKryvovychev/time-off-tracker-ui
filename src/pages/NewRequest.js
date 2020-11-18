@@ -174,6 +174,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
               value={leaveType}
               onChange={(e) => {
                 setLeaveType(e.target.value);
+                setPManager(['']);
               }}>
               {renderLeaveBody.map((type, idx) => (
                 <MenuItem key={`${type.title}-${idx}`} value={type.id}>

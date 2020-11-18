@@ -22,10 +22,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import ConfirmationDialog from './ConfirmationDialog';
 import AddNewUserDialog from './AddNewUserDialog';
 import { deleteUser, changeUserRole } from '../Axios';
+import { notifyAdmin } from '../../notifications';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,6 +58,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'firstName', numeric: true, disablePadding: true, label: 'Name' },
   { id: 'userName', numeric: false, disablePadding: false, label: 'Username' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
   { id: 'role', numeric: false, disablePadding: false, label: 'Role' },
   { id: 'button', numeric: false, disablePadding: false, label: '' },
 ];
@@ -63,7 +66,6 @@ const headCells = [
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, onRequestSort, t } = props;
   const createSortHandler = (property) => (event) => {
-    console.log(property);
     onRequestSort(event, property);
   };
 
@@ -218,7 +220,20 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
   const handleDelete = async (id) => {
-    await deleteUser(id).then(() => setOpen(false));
+    await deleteUser(id)
+      .then(() => {
+        notifyAdmin('User delete success');
+        setOpen(false);
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin('User delete failed');
+        }
+      });
     updateUsers();
   };
 
@@ -233,8 +248,22 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
       firstName: item.firstName,
       lastName: item.lastName,
       userName: item.userName,
+      email: item.email,
       role: roles[role],
-    }).then(() => setEditing(false));
+    })
+      .then(() => {
+        notifyAdmin('Role changed success');
+        setEditing(false);
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin('Role changed failed');
+        }
+      });
     updateUsers();
   };
 
@@ -286,7 +315,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                       {item.firstName ? item.firstName.concat(' ', item.lastName) : ''}
                     </TableCell>
                     <TableCell align="center">{item.userName}</TableCell>
-
+                    <TableCell align="center">{item.email}</TableCell>
                     <TableCell align="center">
                       {isEditing === item.id ? (
                         <FormControl>
@@ -370,6 +399,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
         onDelete={handleDelete}
         user={deletableUser}
       />
+      <ToastContainer />
     </div>
   );
 }

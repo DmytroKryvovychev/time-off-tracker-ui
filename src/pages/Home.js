@@ -92,10 +92,10 @@ function Home() {
           };
         });
 
-        ev = events.concat(rew);
+        events = events.concat(rew);
       }
 
-      setEvents(ev);
+      setEvents(events);
     }
   }, [users, requests, reviews]);
 
