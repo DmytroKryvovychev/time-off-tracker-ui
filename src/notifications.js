@@ -77,3 +77,37 @@ export const notifyHome = (msg) => {
       break;
   }
 };
+
+export const notifyMyRequests = (msg) => {
+  switch (msg) {
+    case 'Network Error':
+      return toast.error('No connection with server', defaultOptions);
+      break;
+    case '400':
+      return toast.error('Bad request', defaultOptions);
+      break;
+    default:
+      return toast.warn('Something goes wrong', defaultOptions);
+      break;
+  }
+};
+
+export const notifyNewRequest = (msg) => {
+  switch (msg) {
+    case 'Network Error':
+      return toast.error('No connection with server', defaultOptions);
+      break;
+    case '400':
+      return toast.error('Bad request', defaultOptions);
+      break;
+    case 'New request success':
+      return toast.success('New request created', defaultOptions);
+      break;
+    case 'New request failed':
+      return toast.error('Failed to create new request', defaultOptions);
+      break;
+    default:
+      return toast.warn('Something goes wrong', defaultOptions);
+      break;
+  }
+};

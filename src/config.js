@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import i18n from './i18n';
 
 const BASE_URL = 'https://localhost:44381/';
 
@@ -9,6 +10,7 @@ const axiosApi = axios.create({
 
 axiosApi.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+  config.headers['Accept-Language'] = i18n.language;
   return config;
 });
 

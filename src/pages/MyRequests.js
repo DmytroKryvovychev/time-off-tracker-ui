@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import RequestTable from '../components/RequestTable';
 import RequestFilter from '../components/RequestFilter';
@@ -9,6 +10,7 @@ import NewRequest from './NewRequest';
 import { getMyRequests, getMyRequestsByFilter } from '../components/Axios';
 import { Users, Context } from '../Context';
 import { types } from '../constants';
+import { notifyMyRequests } from '../notifications';
 
 function MyRequests() {
   const [data, setData] = useState(null);
@@ -34,9 +36,15 @@ function MyRequests() {
           setLoading(false);
         })
         .catch((err) => {
-          if (err.response.status === 401) {
+          if (err.message === 'Network Error') {
+            notifyMyRequests('Network Error');
+          } else if (err.response.status === 400) {
+            notifyMyRequests('400');
+          } else if (err.response.status === 401) {
             localStorage.clear();
             setContext({ userId: null, user: null, role: null, token: null });
+          } else {
+            notifyMyRequests('');
           }
         });
     }
@@ -97,6 +105,7 @@ function MyRequests() {
           setNewRequestState(false);
         }}
       />
+      <ToastContainer />
     </div>
   );
 }

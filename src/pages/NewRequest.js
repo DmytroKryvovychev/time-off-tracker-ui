@@ -6,6 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import { Context } from '../Context';
 import { postNewRequest, getAllManagers } from '../components/Axios';
@@ -19,6 +20,7 @@ import {
   Social,
   Study,
 } from '../components/Leaves/index';
+import { notifyNewRequest } from '../notifications';
 
 //ForceMajeureAdministrativeLeave = 1,
 // AdministrativeUnpaidLeave = 2,
@@ -79,10 +81,17 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       duration,
       userId: context.userId,
     })
-      .then(({ data }) => console.log(data))
+      .then(({ data }) => {
+        notifyNewRequest('New request success');
+      })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response.data);
+        if (err.message === 'Network Error') {
+          notifyNewRequest('Network Error');
+        } else if (err.response.status === 400) {
+          notifyNewRequest('400');
+        } else {
+          notifyNewRequest('New request failed');
+        }
       });
 
     setRequestSending(false);
@@ -204,6 +213,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }

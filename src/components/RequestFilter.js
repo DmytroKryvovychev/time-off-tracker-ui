@@ -30,7 +30,13 @@ function ReviewsFilter({ isSendingRequest, handleFilter }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        marginBottom: '15px',
+      }}>
       <VacationPeriod
         fromDate={fromDate}
         changeFromDate={handleFromDate}

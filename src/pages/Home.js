@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment';
@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify';
 
 import { getMyRequests, getMyReviews, getUserById } from '../components/Axios';
 import { Context, Users } from '../Context';
-import { types } from '../constants';
 import NewRequest from './NewRequest';
 import ReviewsTable from '../components/OtherRequests/ReviewsTable';
 import RequestTable from '../components/RequestTable';
@@ -16,7 +15,6 @@ import Calendar from '../components/Calendar';
 import { notifyHome } from '../notifications';
 
 function Home() {
-  const [isLoading, setLoading] = useState(true);
   const [isNewRequestOpen, setNewRequestState] = useState(false);
   const [requests, setRequests] = useState(null);
   const [reviews, setReviews] = useState(null);
@@ -56,9 +54,6 @@ function Home() {
       getMyRequests()
         .then(({ data }) => {
           setRequests(data);
-          if (context.role === 'Employee') {
-            setLoading(false);
-          }
         })
         .catch((err) => {
           if (err.message === 'Network Error') {
@@ -91,7 +86,6 @@ function Home() {
               notifyHome();
             }
           });
-        setLoading(false);
       }
       getReviews();
     }
@@ -140,7 +134,7 @@ function Home() {
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flex: 0.8, margin: 5 }}>
+        <div style={{ flex: 0.7, margin: 5 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('MyRecentRequests')}</h2>
 
