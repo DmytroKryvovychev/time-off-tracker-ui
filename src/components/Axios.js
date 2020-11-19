@@ -71,3 +71,7 @@ export const actionReview = (reviewId, isApproved, comment = '') => {
     : { isApproved: isApproved, comment: comment };
   return axiosApi.put(`user/reviews/${reviewId}`, body);
 };
+
+export const getStatistics = () => {
+  return axiosApi.get('statistics');
+};

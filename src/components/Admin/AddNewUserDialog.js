@@ -85,7 +85,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               helperText={errors.firstName}
               variant="standard"
               fullWidth
-              className="form-input"
+              className="new-user__form-input"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -95,7 +95,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               helperText={errors.lastName}
               variant="standard"
               fullWidth
-              className="form-input"
+              className="new-user__form-input"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -105,7 +105,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               helperText={errors.email}
               variant="standard"
               fullWidth
-              className="form-input"
+              className="new-user__form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -115,12 +115,12 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               helperText={errors.password}
               variant="standard"
               fullWidth
-              className="form-input"
+              className="new-user__form-input"
               type={'text'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FormControl className="form-input">
+            <FormControl className="new-user__form-input">
               <InputLabel>{t('roles:Role')}</InputLabel>
               <Select
                 value={role}

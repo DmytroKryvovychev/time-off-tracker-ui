@@ -92,10 +92,10 @@ function Home() {
   }, [context.userId]);
 
   useEffect(() => {
-    let ev;
+    let events;
 
     if (users && requests) {
-      let events = requests.map((item) => {
+      events = requests.map((item) => {
         const user = users.find((user) => user.id === item.userId);
         const startDay = new Date(item.startDate);
         const endDay = new Date(item.endDate);
@@ -124,10 +124,10 @@ function Home() {
           };
         });
 
-        ev = events.concat(rew);
+        events = events.concat(rew);
       }
 
-      setEvents(ev);
+      setEvents(events);
     }
   }, [users, requests, reviews]);
 

@@ -155,6 +155,7 @@ function PersonalRequest() {
 
     changeRequest(id, {
       id: id,
+      typeId: request.typeId,
       startDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
       endDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
       reviewsIds: [1, ...reviewerIds],
