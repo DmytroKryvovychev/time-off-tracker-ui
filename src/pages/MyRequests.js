@@ -14,17 +14,14 @@ import { notifyMyRequests } from '../notifications';
 
 function MyRequests() {
   const [data, setData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
   const [isNewRequestOpen, setNewRequestState] = useState(false);
   const { t } = useTranslation(['requests', 'translation']);
   const [users, setUsers] = useContext(Users);
   const [context, setContext] = useContext(Context);
 
   const handleFilter = (fromDate, toDate, stateId, typeId) => {
-    setLoading(true);
     getMyRequestsByFilter(fromDate, toDate, stateId, typeId).then(({ data }) => {
       setData(data);
-      setLoading(false);
     });
   };
 
@@ -33,7 +30,6 @@ function MyRequests() {
       await getMyRequests()
         .then(({ data }) => {
           setData(data);
-          setLoading(false);
         })
         .catch((err) => {
           if (err.message === 'Network Error') {
@@ -66,9 +62,9 @@ function MyRequests() {
     <div>
       <h2>{t('Statistics', { year: new Date().getFullYear() })}</h2>
       <div className="statistics">
-        {chunkArray(types, 3).map((arr) => {
+        {chunkArray(types, 3).map((arr, idx) => {
           return (
-            <div className="statistics__text">
+            <div key={`idx-${idx}`} className="statistics__text">
               {arr.map((item) => (
                 <p key={`title-${item.title}`}>
                   {t(`translation:${item.title}`)}: {t('UsedDays', { days: 5 })}

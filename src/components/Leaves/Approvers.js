@@ -70,7 +70,7 @@ function Approvers({
         </>
       );
     },
-    [isSendingRequest],
+    [isSendingRequest, isEditable],
   );
 
   return (

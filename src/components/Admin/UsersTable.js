@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import {
@@ -128,7 +128,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = ({ roles, updateUsers, t }) => {
   const classes = useToolbarStyles();
-  const [openNewUser, setOpenNewUser] = React.useState(false);
+  const [openNewUser, setOpenNewUser] = useState(false);
 
   return (
     <Toolbar className={classes.root}>
@@ -179,14 +179,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable({ data, roles, updateUsers }) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState(null);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [isEditing, setEditing] = React.useState(null);
-  const [role, setRole] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [deletableUser, setDeletableUser] = React.useState(null);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isEditing, setEditing] = useState(null);
+  const [role, setRole] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [deletableUser, setDeletableUser] = useState(null);
   const { t } = useTranslation(['admin', 'roles']);
 
   const handleRequestSort = (event, property) => {

@@ -168,7 +168,7 @@ function PersonalRequest() {
   return (
     <div style={{ padding: 5 }}>
       {request ? (
-        <dispatchEvent>
+        <div>
           <h2 style={{ marginBottom: '10px' }}>
             {t(`translation:${types[request.typeId].title}`)}
             <p style={{ fontSize: '20px' }}>
@@ -256,7 +256,7 @@ function PersonalRequest() {
             }}
             request={request}
           />
-        </dispatchEvent>
+        </div>
       ) : (
         <p>{t('NoRequestById', { id: id })}</p>
       )}

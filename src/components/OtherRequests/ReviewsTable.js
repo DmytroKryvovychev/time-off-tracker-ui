@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import {
@@ -79,8 +79,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewsTable({ data, short, users }) {
   const classes = useStyles();
   let history = useHistory();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const { t, i18n } = useTranslation(['reviews', 'translation', 'roles']);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

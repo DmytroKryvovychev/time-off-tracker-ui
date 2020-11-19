@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import ReviewsFilter from './ReviewsFilter';
 import { loadData } from './LoadReviewsData';
@@ -18,6 +19,7 @@ import { getMyReviewsByFilter } from '../Axios';
 import { convertDate } from '../../config';
 import { Users } from '../../Context';
 import { types, states } from '../../constants';
+import { notifyOtherRequests } from '../../notifications';
 
 const headCellsNew = [
   { id: 'From', label: 'From' },
@@ -78,11 +80,11 @@ function Approved() {
   const [data, setData] = useState(null);
   const [isSendingRequest, setRequestSending] = useState(false);
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isLoading, setLoading] = useState(true);
   const { t, i18n } = useTranslation(['reviews', 'translation', 'roles']);
-  const [users, setUsers] = React.useContext(Users);
+  const [users] = useContext(Users);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -108,10 +110,6 @@ function Approved() {
 
   const emptyRows = data && rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-  const handleSendRequest = async () => {
-    setRequestSending(true);
-  };
-
   const joinData = () => {
     const joinedData = data.map((item) => {
       item.request.reviews.map(
@@ -124,12 +122,24 @@ function Approved() {
   };
 
   const handleFilter = (fromDate, toDate, name, typeId) => {
+    setRequestSending(true);
     setLoading(true);
-    getMyReviewsByFilter(fromDate, toDate, name, typeId).then(({ data }) => {
-      const isNew = data.filter((item) => item.isApproved === true);
-      setData(isNew);
-      setLoading(false);
-    });
+    getMyReviewsByFilter(fromDate, toDate, name, typeId)
+      .then(({ data }) => {
+        const isNew = data.filter((item) => item.isApproved === true);
+        setData(isNew);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyOtherRequests('Network Error');
+        } else if (err.response.status === 400) {
+          notifyOtherRequests('400');
+        } else {
+          notifyOtherRequests('');
+        }
+      });
+    setRequestSending(false);
   };
 
   const isApprovedBy = (obj) => {
@@ -138,6 +148,7 @@ function Approved() {
       if (item.isApproved) {
         return `${sum} ${item.reviewer.firstName.concat(' ', item.reviewer.lastName)},`;
       }
+      return sum;
     }, '');
     return approved ? `${t('AlreadyApproved')}: ${approved.slice(0, -1)}` : '';
   };
@@ -236,6 +247,7 @@ function Approved() {
           <h3>{t('NoData')}</h3>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

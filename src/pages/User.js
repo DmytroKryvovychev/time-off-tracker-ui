@@ -9,7 +9,6 @@ import OtherRequests from './OtherRequests';
 import RequestActions from '../components/OtherRequests/RequestActions';
 
 import { Context, Users } from '../Context';
-import NewRequest from './NewRequest';
 import { getUsers } from '../components/Axios';
 import PersonalRequest from './PersonalRequest';
 
@@ -25,7 +24,7 @@ const routes = [
     name: 'MyRequests',
     path: '/my_requests',
     exact: true,
-    access: ['Accountant', 'Manager', 'Employee'],
+    access: ['Manager', 'Employee'],
     main: () => <MyRequests />,
   },
   {

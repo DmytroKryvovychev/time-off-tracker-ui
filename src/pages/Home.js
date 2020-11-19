@@ -89,7 +89,7 @@ function Home() {
       }
       getReviews();
     }
-  }, []);
+  }, [context.userId]);
 
   useEffect(() => {
     let ev;
@@ -134,36 +134,38 @@ function Home() {
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flex: 0.7, margin: 5 }}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('MyRecentRequests')}</h2>
+        {context.role !== 'Accountant' ? (
+          <div style={{ flex: 0.7, margin: 5 }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('MyRecentRequests')}</h2>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => history.push('/my_requests')}
-              style={{ marginRight: '50px', height: '30px' }}>
-              {t('ViewAll')}
-            </Button>
-            <Button
-              className="home__new-request"
-              variant="contained"
-              style={{ height: '30px', width: '140px', minWidth: '140px' }}
-              onClick={() => {
-                setNewRequestState(true);
-              }}>
-              {t('NewRequest')}
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push('/my_requests')}
+                style={{ marginRight: '50px', height: '30px' }}>
+                {t('ViewAll')}
+              </Button>
+              <Button
+                className="home__new-request"
+                variant="contained"
+                style={{ height: '30px', width: '140px', minWidth: '140px' }}
+                onClick={() => {
+                  setNewRequestState(true);
+                }}>
+                {t('NewRequest')}
+              </Button>
+            </div>
+
+            {!users || !requests ? (
+              <CircularProgress />
+            ) : users && requests && requests.length > 0 ? (
+              <RequestTable data={requests.slice(0, 3)} users={users} short />
+            ) : (
+              <h3>{t('NoRequests')}</h3>
+            )}
           </div>
-
-          {!users || !requests ? (
-            <CircularProgress />
-          ) : users && requests && requests.length > 0 ? (
-            <RequestTable data={requests.slice(0, 3)} users={users} short />
-          ) : (
-            <h3>{t('NoRequests')}</h3>
-          )}
-        </div>
+        ) : null}
 
         {context.role !== 'Employee' ? (
           <div style={{ flex: 1, margin: 5, marginRight: 15 }}>

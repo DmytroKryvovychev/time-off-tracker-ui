@@ -68,7 +68,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
     const reviewerIds =
       pmanager.length > 0 && pmanager[0] !== ''
         ? pmanager.map((item) => {
-            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) == item).id;
+            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
           })
         : null;
 
@@ -115,7 +115,6 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
 
   useEffect(() => {
     if (request) {
-      console.log(request);
       const managers = request.reviews
         .filter((item) => item.reviewerId !== accountantId)
         .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
