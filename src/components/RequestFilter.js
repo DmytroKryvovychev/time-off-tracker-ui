@@ -30,13 +30,7 @@ function ReviewsFilter({ isSendingRequest, handleFilter }) {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        marginBottom: '15px',
-      }}>
+    <div className="myrequest__content">
       <VacationPeriod
         fromDate={fromDate}
         changeFromDate={handleFromDate}
@@ -46,7 +40,7 @@ function ReviewsFilter({ isSendingRequest, handleFilter }) {
         isSendingRequest={isSendingRequest}
         disablePeriod={true}
       />
-      <FormControl style={{ marginRight: 50, width: 150 }}>
+      <FormControl className="myrequest__state">
         <InputLabel>{t('requests:State')}</InputLabel>
         <Select value={state} onChange={(e) => handleStateChange(e)}>
           {states.map((state, idx) => (
@@ -56,7 +50,7 @@ function ReviewsFilter({ isSendingRequest, handleFilter }) {
           ))}
         </Select>
       </FormControl>
-      <FormControl style={{ marginRight: 50, width: 350 }}>
+      <FormControl className="myrequest__type">
         <InputLabel>{t('requests:Type')}</InputLabel>
         <Select value={type} onChange={(e) => handleTypeChange(e)}>
           {types.map((type, idx) => (
@@ -78,7 +72,7 @@ function ReviewsFilter({ isSendingRequest, handleFilter }) {
           const endDate = toDate !== null ? moment(toDate._d).format('YYYY-MM-DD').toString() : '';
           handleFilter(startDate, endDate, stateId, typeId);
         }}
-        style={{ verticalAlign: 'bottom', height: '40px' }}>
+        className="myrequest__filter-btn">
         {t('requests:Filter')}
       </Button>
     </div>

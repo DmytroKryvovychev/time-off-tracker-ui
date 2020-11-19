@@ -339,11 +339,10 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
 
                     <TableCell align="center">
                       {isEditing === item.id ? (
-                        <div style={{ flexDirection: 'row' }}>
+                        <div className="row">
                           <Button
                             className="users-table__ok-btn"
                             variant="contained"
-                            style={{ marginRight: 10 }}
                             onClick={() => {
                               handleChangeRole(item.id, item);
                             }}>

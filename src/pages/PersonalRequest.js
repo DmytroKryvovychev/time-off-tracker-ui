@@ -166,18 +166,18 @@ function PersonalRequest() {
   };
 
   return (
-    <div style={{ padding: 5 }}>
+    <div className="personal__content" style={{ padding: 5 }}>
       {request ? (
         <div>
-          <h2 style={{ marginBottom: '10px' }}>
+          <h2 className="personal__type">
             {t(`translation:${types[request.typeId].title}`)}
-            <p style={{ fontSize: '20px' }}>
+            <p className="personal__state">
               ({t('State')}: {t(`translation:${states[request.stateId]}`)})
             </p>
           </h2>
-          <div style={{ width: '450px' }}>{renderLeaveBody[request.typeId - 1].comp}</div>
+          <div className="personal__request">{renderLeaveBody[request.typeId - 1].comp}</div>
 
-          <div style={{ marginTop: 20 }}>
+          <div className="personal__btn-group">
             {request.stateId !== states.indexOf('Rejected') && isEditable ? (
               <Button
                 className="personal-request__edit-btn"

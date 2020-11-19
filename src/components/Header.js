@@ -49,7 +49,7 @@ function Header() {
 
   useEffect(() => {
     changeLanguage();
-  }, [context]);
+  }, []);
 
   return (
     <header>
@@ -58,7 +58,7 @@ function Header() {
           <h2 className="title" onClick={toHomePage}>
             Vacation
           </h2>
-          <div className="lng__switch" style={{ marginRight: 50 }}>
+          <div className="lng__switch">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>EN</Grid>
               <Grid item>
@@ -76,7 +76,9 @@ function Header() {
           {context.role && context.userId ? (
             <>
               <Avatar onClick={handleClickAvatar}>
-                {JSON.parse(context.user).firstName.substr(0, 2).toUpperCase() || context.userId}
+                {context.user !== null
+                  ? JSON.parse(context.user).firstName.substr(0, 2).toUpperCase()
+                  : context.role.substr(0, 2).toUpperCase()}
               </Avatar>
               <Menu
                 elevation={5}
@@ -94,7 +96,7 @@ function Header() {
               </Menu>
             </>
           ) : (
-            <Button style={{ backgroundColor: 'white' }} onClick={() => history.push('/login')}>
+            <Button className="header__login-btn" onClick={() => history.push('/login')}>
               {t('Login')}
             </Button>
           )}

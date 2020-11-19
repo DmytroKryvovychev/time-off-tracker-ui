@@ -1,3 +1,25 @@
+.myrequest__content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 15px;
+
+  .myrequest__state {
+    margin-right: 50px;
+    width: 150px;
+  }
+
+  .myrequest__type {
+    margin-right: 50px;
+    width: 350px;
+  }
+
+  .myrequest__filter-btn {
+    vertical-align: bottom;
+    height: 40px;
+  }
+}
+
 .MuiButton-contained.personal-request__edit-btn {
   margin-right: 15px;
   &:hover {
@@ -48,6 +70,23 @@
 
 .MuiButton-contained.personal-request__close-btn {
   margin-right: 15px;
-  &:hover {
+}
+
+.personal__content {
+  padding: 5px;
+  .personal__type {
+    margin-bottom: 10px;
+
+    .personal__state {
+      font-size: 20px;
+    }
+  }
+
+  .personal__request {
+    width: 450px;
+  }
+
+  .personal__btn-group {
+    margin-top: 20px;
   }
 }

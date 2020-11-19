@@ -67,7 +67,6 @@ function RequestActions() {
           disabled={isSendingRequest}
           className="reviews-table__cancel-btn"
           variant="contained"
-          style={{ marginRight: 10 }}
           onClick={() => {
             setSending(true);
             handleApprove(query.get('review'), false);
@@ -77,9 +76,7 @@ function RequestActions() {
       </>
     );
   };
-  {
-    /* <p>{t('ApprovedRequest')}</p> */
-  }
+
   return (
     <div>
       {query.get('action') === 'approve' ? (
@@ -89,7 +86,7 @@ function RequestActions() {
           <p>{t(result)}</p>
         )
       ) : isRejected.length === 0 ? (
-        <div style={{ width: 500 }}>{renderRejectFields()}</div>
+        <div className="reject__content">{renderRejectFields()}</div>
       ) : (
         <p>{t(isRejected)}</p>
       )}

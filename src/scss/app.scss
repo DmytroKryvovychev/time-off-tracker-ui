@@ -85,3 +85,101 @@ body {
   font-size: 18px;
   margin-bottom: 10px;
 }
+
+.form-comment {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.nodoc__content {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.period__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  h4 {
+    padding-top: 3px;
+  }
+}
+
+.home__content {
+  display: flex;
+  flex-direction: row;
+
+  .home__requests {
+    flex: 0.7;
+    margin: 5px;
+
+    .requests__content {
+      display: flex;
+      flex-direction: row;
+
+      .requests__title {
+        margin-bottom: 10px;
+        margin-right: 10px;
+      }
+
+      .requests__viewall-btn {
+        margin-right: 50px;
+        height: 30px;
+      }
+
+      .requests__newreq-btn {
+        height: 30px;
+        width: 140px;
+        min-width: 140px;
+      }
+    }
+  }
+
+  .home__reviews {
+    flex: 1;
+    margin: 5px;
+    margin-right: 15px;
+
+    .reviews__title {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.router__btn-group {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 65px);
+}
+
+.router__switch {
+  flex: 1;
+  padding: 10px;
+  height: 100%;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+
+  .login__title {
+    margin-bottom: 10px;
+    color: blue;
+  }
+
+  .form-input {
+    margin-bottom: 20px;
+    width: 300px;
+  }
+
+  .login__btn {
+    margin-top: 20px;
+    width: 150px;
+  }
+}

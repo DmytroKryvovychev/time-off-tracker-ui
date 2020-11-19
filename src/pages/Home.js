@@ -133,21 +133,21 @@ function Home() {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div className="home__content">
         {context.role !== 'Accountant' ? (
-          <div style={{ flex: 0.7, margin: 5 }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('MyRecentRequests')}</h2>
+          <div className="home__requests">
+            <div className="requests__content">
+              <h2 className="requests__title">{t('MyRecentRequests')}</h2>
 
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => history.push('/my_requests')}
-                style={{ marginRight: '50px', height: '30px' }}>
+                className="requests__viewall-btn">
                 {t('ViewAll')}
               </Button>
               <Button
-                className="home__new-request"
+                className="requests__newreq-btn"
                 variant="contained"
                 style={{ height: '30px', width: '140px', minWidth: '140px' }}
                 onClick={() => {
@@ -168,8 +168,8 @@ function Home() {
         ) : null}
 
         {context.role !== 'Employee' ? (
-          <div style={{ flex: 1, margin: 5, marginRight: 15 }}>
-            <h2 style={{ marginBottom: 20 }}>
+          <div className="home__reviews">
+            <h2 className="reviews__title">
               {t('NewRequestsForApproval')} ({reviews && reviews.length})
             </h2>
             {!users || !reviews ? (

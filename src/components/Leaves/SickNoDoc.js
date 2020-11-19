@@ -34,13 +34,7 @@ function SickNoDoc({
 
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginBottom: 20,
-          alignItems: 'center',
-        }}>
+      <div className="nodoc__content">
         <SingleDatePicker
           id="dateFrom"
           disabled={

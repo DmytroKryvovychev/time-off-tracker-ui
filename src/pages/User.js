@@ -72,7 +72,7 @@ function User() {
   }, [context.userId]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', height: 'calc(100vh - 65px)' }}>
+    <div className="router__btn-group">
       <div className="sidebar">
         <ButtonGroup orientation="vertical" style={{ width: '100%' }}>
           {routes.map((route, idx) => {
@@ -96,7 +96,7 @@ function User() {
         </ButtonGroup>
       </div>
 
-      <div style={{ flex: 1, padding: '10px', height: '100%' }}>
+      <div className="router__switch">
         <Switch>
           {routes.map((route, index) => {
             if (route.access.includes(context.role))

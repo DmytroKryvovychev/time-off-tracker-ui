@@ -78,12 +78,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
         aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">{t('RegisterNewUser')}</DialogTitle>
         <DialogContent>
-          <form
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}>
+          <form className="new-user__form">
             <TextField
               label={t('FirstName')}
               error={errors.firstName.length > 0}
@@ -93,7 +88,6 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               className="form-input"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
               label={t('LastName')}
@@ -104,7 +98,6 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               className="form-input"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
               label={t('Email')}
@@ -115,7 +108,6 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               className="form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ marginBottom: 20, width: 300 }}
             />
             <TextField
               label={t('Password')}
@@ -127,9 +119,8 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
               type={'text'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ marginBottom: 20, width: 300 }}
             />
-            <FormControl style={{ marginBottom: 20, width: 300 }}>
+            <FormControl className="form-input">
               <InputLabel>{t('roles:Role')}</InputLabel>
               <Select
                 value={role}

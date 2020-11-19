@@ -67,13 +67,12 @@ function Admin() {
 
   return (
     <div>
-      <div style={{ flexDirection: 'row', padding: '10px', marginTop: '10px' }}>
+      <div className="admin__form">
         <TextField
           label={t('FilterByName')}
           variant="standard"
           className="admin__form-input"
           onChange={(e) => setFilter(e.target.value)}
-          style={{ marginBottom: 20, width: 300 }}
         />
         <FormControl className="admin__filter-role">
           <InputLabel>{t('FilterByRole')}</InputLabel>
@@ -94,18 +93,13 @@ function Admin() {
         <Button
           variant="contained"
           color="secondary"
-          style={{
-            verticalAlign: 'bottom',
-            height: '40px',
-            marginBottom: '20px',
-            marginLeft: '25px',
-          }}
+          className="filter__btn"
           onClick={() => handleGetUsers()}>
           {t('Filter')}
         </Button>
       </div>
 
-      <div style={{ padding: '0 20px' }}>
+      <div className="users__content">
         {!isLoading ? (
           <UsersTable data={data} roles={roles} updateUsers={handleGetUsers} />
         ) : (

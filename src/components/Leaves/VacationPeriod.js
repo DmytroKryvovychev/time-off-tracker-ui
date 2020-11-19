@@ -22,12 +22,7 @@ function VacationPeriod({
   const showPastDays = () => false;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}>
+    <div className="period__content">
       <SingleDatePicker
         id={`dateFrom`}
         disabled={isSendingRequest}
@@ -57,7 +52,7 @@ function VacationPeriod({
       />
 
       {!disablePeriod && fromDate && toDate && getDateDifference >= 0 ? (
-        <h4 style={{ paddingTop: 3 }}>{t('VacationDays', { days: getDateDifference + 1 })}</h4>
+        <h4>{t('VacationDays', { days: getDateDifference + 1 })}</h4>
       ) : null}
     </div>
   );

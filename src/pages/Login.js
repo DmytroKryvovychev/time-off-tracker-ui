@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TextField, Typography, Button, InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
@@ -69,8 +69,10 @@ function Login() {
           err.response.data.message === 'Username or password is incorrect'
         ) {
           setErrors({ username: t('IncorrectLoginData'), password: t('IncorrectLoginData') });
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyLogin('400');
+        } else {
+          notifyLogin('');
         }
       });
   };
@@ -79,22 +81,18 @@ function Login() {
     setPasswordVisibility(!showPassword);
   };
 
+  useEffect(() => {
+    if (context.role === 'Admin') {
+      history.push('/admin');
+    } else if (['Accountant', 'Manager', 'Employee'].includes(context.role)) {
+      history.push('/home');
+    }
+  }, []);
+
   return (
     <div>
-      <form
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          marginTop: '100px',
-        }}>
-        <Typography
-          variant="h4"
-          align="center"
-          style={{
-            marginBottom: 10,
-            color: 'blue',
-          }}>
+      <form className="login__form">
+        <Typography variant="h4" align="center" className="login__title">
           {t('Title')}
         </Typography>
         <TextField
@@ -106,7 +104,6 @@ function Login() {
           className="form-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ marginBottom: 20, width: 300 }}
         />
         <TextField
           label={t('Password')}
@@ -129,14 +126,13 @@ function Login() {
               </InputAdornment>
             ),
           }}
-          style={{ marginBottom: 20, width: 300 }}
         />
         <Button
           variant="contained"
           color="primary"
           fullWidth
           size="large"
-          style={{ marginTop: 20, width: 150 }}
+          className="login__btn"
           onClick={checkForm}>
           {t('LogIn')}
         </Button>

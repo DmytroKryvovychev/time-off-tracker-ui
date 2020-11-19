@@ -174,9 +174,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
         aria-describedby="new-request-description">
         <DialogTitle id="new-request-title">{t('requests:NewRequest')}</DialogTitle>
         <DialogContent className="leave">
-          <FormControl
-            disabled={isSendingRequest}
-            style={{ marginRight: 20, marginBottom: 20, width: '100%' }}>
+          <FormControl disabled={isSendingRequest} className="leave__type">
             <InputLabel>{t('requests:LeaveType')}</InputLabel>
             <Select
               value={leaveType}

@@ -25,7 +25,7 @@ function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
+    <div className="review-filter__content">
       <VacationPeriod
         fromDate={fromDate}
         changeFromDate={handleFromDate}
@@ -40,9 +40,9 @@ function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
         label={t('reviews:FilterByName')}
         variant="standard"
         onChange={(e) => setName(e.target.value)}
-        style={{ width: 200, marginRight: 30 }}
+        className="review-filter__name"
       />
-      <FormControl style={{ marginRight: 50, width: 350 }}>
+      <FormControl className="review-filter__type">
         <InputLabel>{t('reviews:Type')}</InputLabel>
         <Select value={type} onChange={(e) => handleTypeChange(e)}>
           {types.map((type, idx) => (
@@ -63,7 +63,7 @@ function ReviewsFilter({ types, isSendingRequest, handleFilter }) {
           const endDate = toDate !== null ? moment(toDate._d).format('YYYY-MM-DD').toString() : '';
           handleFilter(startDate, endDate, name, typeId);
         }}
-        style={{ verticalAlign: 'bottom', height: '40px' }}>
+        className="review-filter__btn">
         {t('reviews:Filter')}
       </Button>
     </div>

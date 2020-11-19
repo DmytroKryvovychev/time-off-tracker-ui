@@ -5,6 +5,7 @@
 }
 
 .lng__switch {
+  margin-right: 50px;
   span {
     color: #ffffff;
   }
@@ -15,5 +16,12 @@
 
   .MuiSwitch-track {
     background-color: #000;
+  }
+}
+
+.MuiButton-root.header__login-btn {
+  background-color: #fff;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.753);
   }
 }
