@@ -19,9 +19,20 @@ ol:first-of-type {
   counter-reset: appproversChangeSteps;
 }
 
+.leave__type {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
 .approvers__list {
   padding: 20px 20px 0 0;
   font-size: 20px;
+
+  .approvers__content {
+    display: flex;
+    flex-direction: row;
+  }
 
   .approvers__item {
     margin-bottom: 20px;
@@ -126,6 +137,7 @@ ol:first-of-type {
 .MuiSvgIcon-root.done-icon {
   fill: lightgray;
   opacity: 0;
+  margin-top: 5px;
 
   &.accepted {
     fill: #00c903;

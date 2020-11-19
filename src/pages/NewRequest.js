@@ -6,6 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import { Context } from '../Context';
 import { postNewRequest, getAllManagers } from '../components/Axios';
@@ -19,6 +20,7 @@ import {
   Social,
   Study,
 } from '../components/Leaves/index';
+import { notifyNewRequest } from '../notifications';
 
 //ForceMajeureAdministrativeLeave = 1,
 // AdministrativeUnpaidLeave = 2,
@@ -42,7 +44,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
   const [pmanager, setPManager] = useState(['']);
   const [duration, setDuration] = useState(2);
   const [data, setData] = useState(null);
-  const { t } = useTranslation(['translation', 'requests']);
+  const { t } = useTranslation(['translation', 'requests', 'notifications']);
 
   const handleComment = (e) => {
     setComment(e.target.value);
@@ -66,7 +68,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
     const reviewerIds =
       pmanager.length > 0 && pmanager[0] !== ''
         ? pmanager.map((item) => {
-            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) == item).id;
+            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
           })
         : null;
 
@@ -79,10 +81,17 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       duration,
       userId: context.userId,
     })
-      .then(({ data }) => console.log(data))
+      .then(({ data }) => {
+        notifyNewRequest('New request success');
+      })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response.data);
+        if (err.message === 'Network Error') {
+          notifyNewRequest('Network Error');
+        } else if (err.response.status === 400) {
+          notifyNewRequest('400');
+        } else {
+          notifyNewRequest('New request failed');
+        }
       });
 
     setRequestSending(false);
@@ -106,7 +115,6 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
 
   useEffect(() => {
     if (request) {
-      console.log(request);
       const managers = request.reviews
         .filter((item) => item.reviewerId !== accountantId)
         .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
@@ -166,14 +174,13 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
         aria-describedby="new-request-description">
         <DialogTitle id="new-request-title">{t('requests:NewRequest')}</DialogTitle>
         <DialogContent className="leave">
-          <FormControl
-            disabled={isSendingRequest}
-            style={{ marginRight: 20, marginBottom: 20, width: '100%' }}>
+          <FormControl disabled={isSendingRequest} className="leave__type">
             <InputLabel>{t('requests:LeaveType')}</InputLabel>
             <Select
               value={leaveType}
               onChange={(e) => {
                 setLeaveType(e.target.value);
+                setPManager(['']);
               }}>
               {renderLeaveBody.map((type, idx) => (
                 <MenuItem key={`${type.title}-${idx}`} value={type.id}>
@@ -203,6 +210,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }

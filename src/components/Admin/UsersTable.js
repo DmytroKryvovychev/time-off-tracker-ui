@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import {
@@ -22,10 +22,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import ConfirmationDialog from './ConfirmationDialog';
 import AddNewUserDialog from './AddNewUserDialog';
 import { deleteUser, changeUserRole } from '../Axios';
+import { notifyAdmin } from '../../notifications';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,6 +58,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'firstName', numeric: true, disablePadding: true, label: 'Name' },
   { id: 'userName', numeric: false, disablePadding: false, label: 'Username' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
   { id: 'role', numeric: false, disablePadding: false, label: 'Role' },
   { id: 'button', numeric: false, disablePadding: false, label: '' },
 ];
@@ -63,7 +66,6 @@ const headCells = [
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, onRequestSort, t } = props;
   const createSortHandler = (property) => (event) => {
-    console.log(property);
     onRequestSort(event, property);
   };
 
@@ -126,7 +128,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = ({ roles, updateUsers, t }) => {
   const classes = useToolbarStyles();
-  const [openNewUser, setOpenNewUser] = React.useState(false);
+  const [openNewUser, setOpenNewUser] = useState(false);
 
   return (
     <Toolbar className={classes.root}>
@@ -177,15 +179,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable({ data, roles, updateUsers }) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState(null);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [isEditing, setEditing] = React.useState(null);
-  const [role, setRole] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [deletableUser, setDeletableUser] = React.useState(null);
-  const { t } = useTranslation(['admin', 'roles']);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isEditing, setEditing] = useState(null);
+  const [role, setRole] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [deletableUser, setDeletableUser] = useState(null);
+  const { t } = useTranslation(['admin', 'roles', 'notifications']);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -218,7 +220,20 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
   const handleDelete = async (id) => {
-    await deleteUser(id).then(() => setOpen(false));
+    await deleteUser(id)
+      .then(() => {
+        notifyAdmin('User delete success');
+        setOpen(false);
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin('User delete failed');
+        }
+      });
     updateUsers();
   };
 
@@ -233,8 +248,22 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
       firstName: item.firstName,
       lastName: item.lastName,
       userName: item.userName,
+      email: item.email,
       role: roles[role],
-    }).then(() => setEditing(false));
+    })
+      .then(() => {
+        notifyAdmin('Role changed success');
+        setEditing(false);
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin('Role changed failed');
+        }
+      });
     updateUsers();
   };
 
@@ -286,7 +315,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                       {item.firstName ? item.firstName.concat(' ', item.lastName) : ''}
                     </TableCell>
                     <TableCell align="center">{item.userName}</TableCell>
-
+                    <TableCell align="center">{item.email}</TableCell>
                     <TableCell align="center">
                       {isEditing === item.id ? (
                         <FormControl>
@@ -310,11 +339,10 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
 
                     <TableCell align="center">
                       {isEditing === item.id ? (
-                        <div style={{ flexDirection: 'row' }}>
+                        <div className="row">
                           <Button
                             className="users-table__ok-btn"
                             variant="contained"
-                            style={{ marginRight: 10 }}
                             onClick={() => {
                               handleChangeRole(item.id, item);
                             }}>
@@ -370,6 +398,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
         onDelete={handleDelete}
         user={deletableUser}
       />
+      <ToastContainer />
     </div>
   );
 }

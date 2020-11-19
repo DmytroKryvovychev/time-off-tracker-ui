@@ -24,7 +24,7 @@ function TabPanel(props) {
 
 function OtherRequests() {
   const [value, setValue] = React.useState(0);
-  const { t, i18n } = useTranslation('reviews');
+  const { t, i18n } = useTranslation(['reviews', 'notifications']);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

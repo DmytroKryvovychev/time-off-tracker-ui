@@ -1,0 +1,19 @@
+{
+    "NoConnection": "No connection with server",
+    "BadRequest": "Bad request",
+    "LoginSuccess": "Successful login",
+    "SomethingWrong": "Something goes wrong",
+    "NewUserAdded": "New user successfully added",
+    "NewUserFail": "New user adding failed",
+    "ChangeRole": "Role changed successfully",
+    "ChangeRoleFail": "Failed to change role",
+    "DeleteUser": "User deleted successfully",
+    "DeleteUserFail": "Failed to delete user",
+    "NewRequest": "New request created",
+    "NewRequestFail": "Failed to create new request",
+    "ApproveRequest": "Request successfully approved",
+    "ApproveFail": "Failed to approve request",
+    "RejectRequest": "Request successfully rejected",
+    "RejectFail": "Failed to reject request",
+    "NoComment": "Fill comment field"
+}

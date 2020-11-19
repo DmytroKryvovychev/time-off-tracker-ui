@@ -3,10 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { TextField, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import { getUsers } from '../components/Axios';
 import { Context } from '../Context';
 import UsersTable from '../components/Admin/UsersTable';
+import { notifyAdmin } from '../notifications';
 
 function Admin() {
   const [isLoading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ function Admin() {
   const [filter, setFilter] = useState('');
   const [role, setRole] = useState(-1);
   const [context, setContext] = useContext(Context);
-  const { t } = useTranslation(['admin', 'roles']);
+  const { t } = useTranslation(['admin', 'roles', 'notifications']);
   let history = useHistory();
 
   useEffect(() => {
@@ -36,14 +38,17 @@ function Admin() {
         );
         setData(filteredData);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyAdmin('Network Error');
+        } else if (err.response.status === 400) {
+          notifyAdmin('400');
+        } else {
+          notifyAdmin();
+        }
+      });
     setLoading(false);
   };
-
-  //Roles upload from db
-  // useEffect(() => {
-  //  axios.get(uri+'/role').then(({data}) => setRoles(data))
-  // }, [])
 
   //live search
   // const handleFilterName = () => {
@@ -62,13 +67,12 @@ function Admin() {
 
   return (
     <div>
-      <div style={{ flexDirection: 'row', padding: '10px', marginTop: '10px' }}>
+      <div className="admin__form">
         <TextField
           label={t('FilterByName')}
           variant="standard"
           className="admin__form-input"
           onChange={(e) => setFilter(e.target.value)}
-          style={{ marginBottom: 20, width: 300 }}
         />
         <FormControl className="admin__filter-role">
           <InputLabel>{t('FilterByRole')}</InputLabel>
@@ -89,25 +93,20 @@ function Admin() {
         <Button
           variant="contained"
           color="secondary"
-          style={{
-            verticalAlign: 'bottom',
-            height: '40px',
-            marginBottom: '20px',
-            marginLeft: '25px',
-          }}
+          className="filter__btn"
           onClick={() => handleGetUsers()}>
           {t('Filter')}
         </Button>
       </div>
 
-      <div style={{ padding: '0 20px' }}>
-        {/* {data ? <UsersTable data={handleFilterName()} roles={roles} /> : <CircularProgress />} realtime filter data */}
+      <div className="users__content">
         {!isLoading ? (
           <UsersTable data={data} roles={roles} updateUsers={handleGetUsers} />
         ) : (
           <CircularProgress />
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

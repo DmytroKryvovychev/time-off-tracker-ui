@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Switch, Route, Link, useHistory, Redirect } from 'react-router-dom';
+import { Switch, Route, Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +9,6 @@ import OtherRequests from './OtherRequests';
 import RequestActions from '../components/OtherRequests/RequestActions';
 
 import { Context, Users } from '../Context';
-import NewRequest from './NewRequest';
 import { getUsers } from '../components/Axios';
 import PersonalRequest from './PersonalRequest';
 
@@ -25,7 +24,7 @@ const routes = [
     name: 'MyRequests',
     path: '/my_requests',
     exact: true,
-    access: ['Accountant', 'Manager', 'Employee'],
+    access: ['Manager', 'Employee'],
     main: () => <MyRequests />,
   },
   {
@@ -43,6 +42,7 @@ function User() {
   const [users, setUsers] = useContext(Users);
   const { t } = useTranslation('user');
   let history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     if (context.role === 'Admin') {
@@ -50,8 +50,8 @@ function User() {
       return;
     }
 
-    setSelectedRoute(routes.findIndex((item) => item.path === history.location.pathname));
-  }, [context, history.location.pathname]);
+    setSelectedRoute(routes.findIndex((item) => history.location.pathname.includes(item.path)));
+  }, [context, location]);
 
   useEffect(() => {
     if (!context.token) {
@@ -72,7 +72,7 @@ function User() {
   }, [context.userId]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', height: 'calc(100vh - 65px)' }}>
+    <div className="router__btn-group">
       <div className="sidebar">
         <ButtonGroup orientation="vertical" style={{ width: '100%' }}>
           {routes.map((route, idx) => {
@@ -96,7 +96,7 @@ function User() {
         </ButtonGroup>
       </div>
 
-      <div style={{ flex: 1, padding: '10px', height: '100%' }}>
+      <div className="router__switch">
         <Switch>
           {routes.map((route, index) => {
             if (route.access.includes(context.role))

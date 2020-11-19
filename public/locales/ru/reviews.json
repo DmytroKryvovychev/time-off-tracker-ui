@@ -21,6 +21,9 @@
     "NoData": "Нет данных",
     "RejectReason": "Введите причину отклонения",
     "Send": "Отправить",
-    "ApprovedRequest": "Заявка утверждена!"
+    "ApprovedRequest": "Заявка утверждена!",
+    "NotApprovedRequest": "Заявка не утверждена!",
+    "RejectedRequest" : "Заявка отклонена!",
+    "NotRejectedRequest" : "Заявка не отклонена!"
 
 }

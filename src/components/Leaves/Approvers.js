@@ -46,9 +46,6 @@ function Approvers({
                         : ' rejected'
                       : ''
                   }`}
-                  style={{
-                    marginTop: '5px',
-                  }}
                 />
                 <Signers
                   key={`sign-idx-${idx}`}
@@ -70,14 +67,14 @@ function Approvers({
         </>
       );
     },
-    [isSendingRequest],
+    [isSendingRequest, isEditable],
   );
 
   return (
     <div>
       <h3>{t('Approvers')}</h3>
       <ol className="approvers__list">
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div className="approvers__content">
           <DoneIcon
             className={
               'done-icon' +

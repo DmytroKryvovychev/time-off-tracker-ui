@@ -21,5 +21,8 @@
     "NoData": "No data",
     "RejectReason":"Enter Reject Reason",
     "Send": "Send",
-    "ApprovedRequest":"The Request is approved!"
+    "ApprovedRequest":"The Request is approved!",
+    "NotApprovedRequest":"The Request is not approved!",
+    "RejectedRequest" : "The Request is rejected!",
+    "NotRejectedRequest" : "The Request is not rejected!"
 }

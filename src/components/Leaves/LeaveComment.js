@@ -12,10 +12,9 @@ function LeaveComment({ disabled, comment, changeComment }) {
       variant="standard"
       fullWidth
       multiline
-      className="form-input"
+      className="form-comment"
       value={comment}
       onChange={(e) => changeComment(e)}
-      style={{ marginBottom: 20, marginTop: 20, width: '100%' }}
     />
   );
 }

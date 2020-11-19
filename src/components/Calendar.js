@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 

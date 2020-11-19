@@ -8,7 +8,6 @@ import localEn from 'moment/locale/en-gb';
 
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 import { Context } from '../Context';
 
@@ -28,7 +27,6 @@ function Header() {
   };
 
   const handleLogout = () => {
-    //localStorage.removeItem('role');
     localStorage.clear();
     setContext({ userId: null, user: null, role: null, token: null });
     setAnchor(null);
@@ -38,10 +36,6 @@ function Header() {
   const toHomePage = () => {
     history.push('/home');
   };
-
-  useEffect(() => {
-    console.log(localStorage.getItem('role'));
-  }, [context]);
 
   const selectedLanguage = (lng) => {
     return lng === 'ru';
@@ -64,7 +58,7 @@ function Header() {
           <h2 className="title" onClick={toHomePage}>
             Vacation
           </h2>
-          <div className="lng__switch" style={{ marginRight: 50 }}>
+          <div className="lng__switch">
             <Grid component="label" container alignItems="center" spacing={1}>
               <Grid item>EN</Grid>
               <Grid item>
@@ -79,12 +73,12 @@ function Header() {
             </Grid>
           </div>
 
-          {context.role ? (
+          {context.role && context.userId ? (
             <>
-              <Avatar
-                src="https://gagadget.com/media/post_big/The_Elder_Scrolls_V_Skyrim.jpg"
-                onClick={handleClickAvatar}>
-                {context.role.substr(0, 2).toUpperCase()}
+              <Avatar onClick={handleClickAvatar}>
+                {context.user !== null
+                  ? JSON.parse(context.user).firstName.substr(0, 2).toUpperCase()
+                  : context.role.substr(0, 2).toUpperCase()}
               </Avatar>
               <Menu
                 elevation={5}
@@ -97,12 +91,12 @@ function Header() {
                 keepMounted
                 open={Boolean(anchor)}
                 onClose={handleCloseMenu}>
-                <MenuItem onClick={handleCloseMenu}>{t('Profile')}</MenuItem>
+                {/* <MenuItem onClick={handleCloseMenu}>{t('Profile')}</MenuItem> */}
                 <MenuItem onClick={handleLogout}>{t('Logout')}</MenuItem>
               </Menu>
             </>
           ) : (
-            <Button style={{ backgroundColor: 'white' }} onClick={() => history.push('/login')}>
+            <Button className="header__login-btn" onClick={() => history.push('/login')}>
               {t('Login')}
             </Button>
           )}

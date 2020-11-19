@@ -61,12 +61,32 @@
   height: 81px;
 }
 
-.MuiButton-contained.users-table__ok-btn:hover {
-  background-color: #00c903;
+.MuiButton-contained.users-table__ok-btn {
+  margin-right: 10px;
+  &:hover {
+    background-color: #00c903;
+  }
 }
 
 .MuiButton-contained.users-table__cancel-btn:hover {
   background-color: #f50057;
+}
+
+.admin__form {
+  flex-direction: row;
+  padding: 10px;
+  margin-top: 10px;
+
+  .filter__btn {
+    vertical-align: bottom;
+    height: 40px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+  }
+}
+
+.users__content {
+  padding: 0 20px;
 }
 
 .MuiFormControl-root.admin__form-input {
@@ -74,6 +94,8 @@
   max-width: 150px;
   min-width: 100px;
   margin-left: 30px;
+  margin-bottom: 20px;
+  width: 300px;
 
   .MuiInputBase-input.MuiInput-input {
     padding: 6px 5px 7px 5px;
@@ -82,4 +104,19 @@
 .MuiFormControl-root.admin__filter-role {
   margin-left: 30px;
   width: 150px;
+}
+
+.new-user__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-input {
+    margin-bottom: 20px;
+    width: 300 px;
+  }
+}
+
+.row {
+  flex-direction: row;
 }
