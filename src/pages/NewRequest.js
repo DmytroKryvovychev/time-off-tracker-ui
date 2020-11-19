@@ -91,7 +91,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
           notifyNewRequest('Network Error');
         } else if (err.response.status === 400) {
           notifyNewRequest('400');
-        } else if (err.response.data === 'Dates intersection') {
+        } else if (err.response.status === 409) {
           openDialog(true);
         } else {
           notifyNewRequest('New request failed');
