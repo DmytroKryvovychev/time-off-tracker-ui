@@ -57,7 +57,16 @@ export const getMyReviewsByFilter = (startDate, endDate, name, typeId) => {
 };
 
 export const postNewRequest = (newRequest) => {
-  const { leaveType, fromDate, toDate, pmanager, comment, duration, userId } = newRequest;
+  const {
+    leaveType,
+    fromDate,
+    toDate,
+    pmanager,
+    comment,
+    duration,
+    userId,
+    isDateIntersectionAllowed,
+  } = newRequest;
   return axiosApi.post('requests', {
     typeId: leaveType,
     startDate: fromDate,
@@ -66,6 +75,7 @@ export const postNewRequest = (newRequest) => {
     comment: comment,
     durationId: duration,
     userId: userId,
+    isDateIntersectionAllowed: isDateIntersectionAllowed,
   });
 };
 

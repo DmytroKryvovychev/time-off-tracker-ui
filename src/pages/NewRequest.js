@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { Context } from '../Context';
 import { postNewRequest, getAllManagers } from '../components/Axios';
+import DateIntersectionDialog from '../components/Leaves/DateIntersectionDialog';
 
 import {
   Administrative,
@@ -44,6 +45,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
   const [pmanager, setPManager] = useState(['']);
   const [duration, setDuration] = useState(2);
   const [data, setData] = useState(null);
+  const [isDialogOpen, openDialog] = useState(false);
   const { t } = useTranslation(['translation', 'requests', 'notifications']);
 
   const handleComment = (e) => {
@@ -89,6 +91,8 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
           notifyNewRequest('Network Error');
         } else if (err.response.status === 400) {
           notifyNewRequest('400');
+        } else if (err.response.data === 'Dates intersection') {
+          openDialog(true);
         } else {
           notifyNewRequest('New request failed');
         }
@@ -99,6 +103,46 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
 
   const handleDuration = (duration) => {
     setDuration(duration);
+  };
+
+  const onDialogClose = () => {
+    openDialog(false);
+  };
+
+  const onDialogConfirm = () => {
+    setRequestSending(true);
+
+    const reviewerIds =
+      pmanager.length > 0 && pmanager[0] !== ''
+        ? pmanager.map((item) => {
+            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
+          })
+        : null;
+
+    postNewRequest({
+      leaveType,
+      fromDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
+      toDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
+      pmanager: reviewerIds !== null ? [1, ...reviewerIds] : [1],
+      comment,
+      duration,
+      userId: context.userId,
+      isDateIntersectionAllowed: true,
+    })
+      .then(({ data }) => {
+        notifyNewRequest('New request success');
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyNewRequest('Network Error');
+        } else if (err.response.status === 400) {
+          notifyNewRequest('400');
+        } else {
+          notifyNewRequest('New request failed');
+        }
+      });
+    openDialog(false);
+    setRequestSending(false);
   };
 
   useEffect(() => {
@@ -210,6 +254,11 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <DateIntersectionDialog
+        isOpen={isDialogOpen}
+        onClose={onDialogClose}
+        onOk={onDialogConfirm}
+      />
       <ToastContainer />
     </div>
   );

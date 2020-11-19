@@ -181,6 +181,7 @@ function PersonalRequest() {
 
     declineRequest(id)
       .then(() => {
+        setEditable(true);
         history.push('/my_requests');
       })
       .catch((err) => {
@@ -210,44 +211,46 @@ function PersonalRequest() {
           <div className="personal__request">{renderLeaveBody[request.typeId - 1].comp}</div>
 
           <div className="personal__btn-group">
-            {request.stateId !== states.indexOf('Rejected') && isEditable ? (
-              <Button
-                className="personal-request__edit-btn"
-                variant="contained"
-                disabled={isSendingRequest}
-                onClick={() => {
-                  if (request.stateId === states.indexOf('Approved')) {
-                    openDialog(true);
-                  } else {
-                    setEditable(false);
-                  }
-                }}>
-                {t('Edit')}
-              </Button>
-            ) : (
-              <>
+            {request.stateId !== states.indexOf('Rejected') ? (
+              isEditable ? (
                 <Button
-                  className="personal-request__save-btn"
+                  className="personal-request__edit-btn"
                   variant="contained"
                   disabled={isSendingRequest}
                   onClick={() => {
-                    handleChangeRequest();
-                    setEditable(true);
+                    if (request.stateId === states.indexOf('Approved')) {
+                      openDialog(true);
+                    } else {
+                      setEditable(false);
+                    }
                   }}>
-                  {t('SaveChanges')}
+                  {t('Edit')}
                 </Button>
-                <Button
-                  className="personal-request__ce-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {
-                    cancelEditing();
-                    setEditable(true);
-                  }}>
-                  {t('CancelEditing')}
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    className="personal-request__save-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      handleChangeRequest();
+                      setEditable(true);
+                    }}>
+                    {t('SaveChanges')}
+                  </Button>
+                  <Button
+                    className="personal-request__ce-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      cancelEditing();
+                      setEditable(true);
+                    }}>
+                    {t('CancelEditing')}
+                  </Button>
+                </>
+              )
+            ) : null}
             {isEditable && (
               <>
                 <Button
@@ -260,16 +263,18 @@ function PersonalRequest() {
                   autoFocus>
                   {t('Duplicate')}
                 </Button>
-                <Button
-                  className="personal-request__decline-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {
-                    handleDeleteRequest();
-                  }}
-                  autoFocus>
-                  {t('Decline')}
-                </Button>
+                {request.stateId !== states.indexOf('Rejected') ? (
+                  <Button
+                    className="personal-request__decline-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      handleDeleteRequest();
+                    }}
+                    autoFocus>
+                    {t('Decline')}
+                  </Button>
+                ) : null}
                 <Button
                   className="personal-request__close-btn"
                   variant="contained"
