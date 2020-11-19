@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +10,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
 
 import ReviewsFilter from './ReviewsFilter';
 import { loadData } from './LoadReviewsData';
@@ -24,11 +24,11 @@ const headCellsNew = [
   { id: 'Role', label: 'Role' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
-  { id: 'Reject', label: 'My Reject Comment' },
+  { id: 'Comments', label: 'RequestComments' },
+  { id: 'Reject', label: 'MyRejectComment' },
 ];
 
-function EnhancedTableHead({ headCells, actions }) {
+function EnhancedTableHead({ headCells, actions, t }) {
   return (
     <TableHead>
       <TableRow>
@@ -38,12 +38,12 @@ function EnhancedTableHead({ headCells, actions }) {
             className="reviews__table-cell"
             align="center"
             padding="default">
-            {headCell.label}
+            {t(headCell.label)}
           </TableCell>
         ))}
         {actions ? (
           <TableCell className="reviews__table-cell" align="center" padding="default">
-            Actions
+            {t('Actions')}
           </TableCell>
         ) : null}
       </TableRow>
@@ -80,7 +80,7 @@ function Rejected() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isLoading, setLoading] = useState(true);
-
+  const { t, i18n } = useTranslation(['reviews', 'translation', 'roles']);
   const [users, setUsers] = React.useContext(Users);
 
   const handleChangePage = (event, newPage) => {
@@ -160,7 +160,7 @@ function Rejected() {
               aria-labelledby="tableTitle"
               size={'medium'}
               aria-label="enhanced table">
-              <EnhancedTableHead headCells={headCellsNew} />
+              <EnhancedTableHead headCells={headCellsNew} t={t} />
               <TableBody>
                 {joinData()
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -181,11 +181,13 @@ function Rejected() {
                           padding="none">
                           {item.request.user.firstName.concat(' ', item.request.user.lastName)}
                         </TableCell>
-                        <TableCell align="center">{item.request.user.role}</TableCell>
-                        <TableCell align="center">{types[item.request.typeId].title}</TableCell>
+                        <TableCell align="center">{t(`roles:${item.request.user.role}`)}</TableCell>
                         <TableCell align="center">
-                          {convertDate(item.request.startDate)} -{' '}
-                          {convertDate(item.request.endDate)}
+                          {t(`translation:${types[item.request.typeId].title}`)}
+                        </TableCell>
+                        <TableCell align="center">
+                          {convertDate(item.request.startDate, i18n.language)} -{' '}
+                          {convertDate(item.request.endDate, i18n.language)}
                         </TableCell>
                         <TableCell align="center">{item.request.comment}</TableCell>
                         <TableCell align="center">{item.comment}</TableCell>
@@ -205,12 +207,16 @@ function Rejected() {
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
+              labelRowsPerPage={t('LabelRowsPerPage')}
+              labelDisplayedRows={({ from, to, count }) =>
+                t('LabelDisplayedRows', { from: from, to: to, count: count })
+              }
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           </TableContainer>
         ) : (
-          <h3>No data</h3>
+          <h3>{t('NoData')}</h3>
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import { useTranslation } from 'react-i18next';
 
 import { Approved, Rejected, NewRequests } from '../components/OtherRequests/index';
 
@@ -23,6 +24,7 @@ function TabPanel(props) {
 
 function OtherRequests() {
   const [value, setValue] = React.useState(0);
+  const { t, i18n } = useTranslation('reviews');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -30,11 +32,14 @@ function OtherRequests() {
 
   return (
     <div>
-      <AppBar style={{ width: '480px' }} position="static" color="default">
+      <AppBar
+        style={{ width: i18n.language === 'ru' ? '528px' : '480px' }}
+        position="static"
+        color="default">
         <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary">
-          <Tab label="New Requests" />
-          <Tab label="Approved by me" />
-          <Tab label="Rejected by me" />
+          <Tab label={t('NewRequests')} />
+          <Tab label={t('ApprovedByMe')} />
+          <Tab label={t('RejectedByMe')} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

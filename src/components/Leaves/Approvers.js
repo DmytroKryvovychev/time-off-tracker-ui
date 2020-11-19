@@ -1,5 +1,6 @@
 import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
+import { useTranslation } from 'react-i18next';
 
 import Signers from './Signers';
 import { states } from '../../constants';
@@ -12,6 +13,8 @@ function Approvers({
   request,
   isEditable,
 }) {
+  const { t } = useTranslation(['leaves', 'roles']);
+
   const isApproved = (manager) => {
     const sign = request.reviews.find(
       (req) => req.reviewer.firstName.concat(' ', req.reviewer.lastName) === manager,
@@ -72,7 +75,7 @@ function Approvers({
 
   return (
     <div>
-      <h3>Approvers</h3>
+      <h3>{t('Approvers')}</h3>
       <ol className="approvers__list">
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <DoneIcon
@@ -82,7 +85,7 @@ function Approvers({
               (request && request.reviews[0].isApproved === false ? ' rejected' : '')
             }
           />
-          <li>Accounting</li>
+          <li>{t('roles:Accounting')}</li>
         </div>
         {managers && mapping(managers)}
       </ol>

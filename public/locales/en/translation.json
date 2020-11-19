@@ -1,0 +1,15 @@
+{
+    "Any": "Any",
+    "AdministrativeForceMajeureLeave": "Administrative force majeure leave",
+    "AdministrativeLeave": "Administrative leave",
+    "SocialLeave": "Social leave",
+    "SickLeaveNoDocuments": "Sick leave (no documents)",
+    "SickLeaveWithDocuments": "Sick leave (with documents)",
+    "StudyLeave": "Study leave",
+    "PaidLeave": "Paid leave",
+    "New": "New",
+    "InProgress": "In progress",
+    "Approved": "Approved",
+    "Rejected": "Rejected"
+    
+}

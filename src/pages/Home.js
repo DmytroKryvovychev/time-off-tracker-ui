@@ -3,6 +3,7 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 import { getMyRequests, getMyReviews, getUserById } from '../components/Axios';
 import { Context, Users } from '../Context';
@@ -19,6 +20,7 @@ function Home() {
   const [reviews, setReviews] = useState(null);
   const [calendar, setCalendar] = useState(null);
   const [events, setEvents] = useState(null);
+  const { t } = useTranslation('home');
 
   let history = useHistory();
   const [context, setContext] = useContext(Context);
@@ -102,14 +104,14 @@ function Home() {
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ flex: 0.8, margin: 5 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <h2 style={{ marginBottom: 10, marginRight: 10 }}>My Recent Requests</h2>
+            <h2 style={{ marginBottom: 10, marginRight: 10 }}>{t('MyRecentRequests')}</h2>
 
             <Button
               variant="contained"
               color="primary"
               onClick={() => history.push('/my_requests')}
-              style={{ marginRight: '150px', height: '30px', width: '100px', minWidth: '100px' }}>
-              View All
+              style={{ marginRight: '50px', height: '30px' }}>
+              {t('ViewAll')}
             </Button>
             <Button
               className="home__new-request"
@@ -118,7 +120,7 @@ function Home() {
               onClick={() => {
                 setNewRequestState(true);
               }}>
-              New request
+              {t('NewRequest')}
             </Button>
           </div>
 
@@ -127,21 +129,21 @@ function Home() {
           ) : users && requests && requests.length > 0 ? (
             <RequestTable data={requests.slice(0, 3)} users={users} short />
           ) : (
-            <h3>No requests</h3>
+            <h3>{t('NoRequests')}</h3>
           )}
         </div>
 
         {context.role !== 'Employee' ? (
           <div style={{ flex: 1, margin: 5, marginRight: 15 }}>
             <h2 style={{ marginBottom: 20 }}>
-              New Requests For Approval ({reviews && reviews.length})
+              {t('NewRequestsForApproval')} ({reviews && reviews.length})
             </h2>
             {!users || !reviews ? (
               <CircularProgress />
             ) : users && reviews && reviews.length > 0 ? (
               <ReviewsTable data={reviews} users={users} short />
             ) : (
-              <h3>No reviews</h3>
+              <h3>{t('NoReviews')}</h3>
             )}
           </div>
         ) : null}

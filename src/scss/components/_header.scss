@@ -3,3 +3,17 @@
   color: #ffffff;
   cursor: pointer;
 }
+
+.lng__switch {
+  span {
+    color: #ffffff;
+  }
+
+  .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color: #000;
+  }
+
+  .MuiSwitch-track {
+    background-color: #000;
+  }
+}

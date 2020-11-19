@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { TextField, Typography, Button, InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import { axiosApi } from '../config';
 import { Users, Context } from '../Context';
@@ -12,6 +13,7 @@ const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\
 function Login() {
   let history = useHistory();
   let location = useLocation();
+  const { t } = useTranslation('login');
 
   const [context, setContext] = useContext(Context);
   const [users, setUsers] = useContext(Users);
@@ -93,10 +95,10 @@ function Login() {
             marginBottom: 10,
             color: 'blue',
           }}>
-          Login
+          {t('Title')}
         </Typography>
         <TextField
-          label="Email"
+          label={t('Username')}
           error={errors.email.length > 0}
           helperText={errors.email}
           variant="standard"
@@ -107,7 +109,7 @@ function Login() {
           style={{ marginBottom: 20, width: 300 }}
         />
         <TextField
-          label="Password"
+          label={t('Password')}
           error={errors.password.length > 0}
           helperText={errors.password}
           variant="standard"
@@ -136,7 +138,7 @@ function Login() {
           size="large"
           style={{ marginTop: 20, width: 150 }}
           onClick={checkForm}>
-          Log In
+          {t('LogIn')}
         </Button>
       </form>
     </div>

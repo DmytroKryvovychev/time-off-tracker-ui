@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
 
 import ReviewsTable from './ReviewsTable';
 import ReviewsFilter from './ReviewsFilter';
@@ -12,7 +13,7 @@ function NewRequests() {
   const [data, setData] = useState(null);
   const [isSendingRequest, setRequestSending] = useState(false);
   const [isLoading, setLoading] = useState(true);
-
+  const { t } = useTranslation('reviews');
   const [users, setUsers] = React.useContext(Users);
 
   const handleSendRequest = async () => {
@@ -55,7 +56,7 @@ function NewRequests() {
         ) : users && data.length > 0 ? (
           <ReviewsTable data={data} users={users} />
         ) : (
-          <h3>No data</h3>
+          <h3>{t('NoData')}</h3>
         )}
       </div>
     </div>

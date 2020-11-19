@@ -17,6 +17,7 @@ import { types, states } from '../constants';
 import { Users } from '../Context';
 import ConfirmationDialog from '../components/Leaves/ConfirmationDialog';
 import NewRequest from './NewRequest';
+import { useTranslation } from 'react-i18next';
 
 let prManagers = [];
 
@@ -34,6 +35,7 @@ function PersonalRequest() {
   const [isEditable, setEditable] = useState(true);
   const [isDialogOpen, openDialog] = useState(false);
   const [isNewRequestOpened, openNewRequest] = useState(false);
+  const { t } = useTranslation(['requests', 'translation']);
 
   const handleComment = (e) => {
     setComment(e.target.value);
@@ -166,11 +168,15 @@ function PersonalRequest() {
   return (
     <div style={{ padding: 5 }}>
       {request ? (
-        <div style={{ width: '500px' }}>
+        <dispatchEvent>
           <h2 style={{ marginBottom: '10px' }}>
-            {types[request.typeId].title} (state: {states[request.stateId]})
+            {t(`translation:${types[request.typeId].title}`)}
+            <p style={{ fontSize: '20px' }}>
+              ({t('State')}: {t(`translation:${states[request.stateId]}`)})
+            </p>
           </h2>
-          {renderLeaveBody[request.typeId - 1].comp}
+          <div style={{ width: '450px' }}>{renderLeaveBody[request.typeId - 1].comp}</div>
+
           <div style={{ marginTop: 20 }}>
             {request.stateId !== states.indexOf('Rejected') && isEditable ? (
               <Button
@@ -184,7 +190,7 @@ function PersonalRequest() {
                     setEditable(false);
                   }
                 }}>
-                Edit
+                {t('Edit')}
               </Button>
             ) : (
               <>
@@ -196,7 +202,7 @@ function PersonalRequest() {
                     handleChangeRequest();
                     setEditable(true);
                   }}>
-                  Save Changes
+                  {t('SaveChanges')}
                 </Button>
                 <Button
                   className="personal-request__ce-btn"
@@ -206,7 +212,7 @@ function PersonalRequest() {
                     cancelEditing();
                     setEditable(true);
                   }}>
-                  Cancel Editing
+                  {t('CancelEditing')}
                 </Button>
               </>
             )}
@@ -220,7 +226,7 @@ function PersonalRequest() {
                     openNewRequest(true);
                   }}
                   autoFocus>
-                  Duplicate
+                  {t('Duplicate')}
                 </Button>
                 <Button
                   className="personal-request__decline-btn"
@@ -228,20 +234,20 @@ function PersonalRequest() {
                   disabled={isSendingRequest}
                   onClick={() => {}} //Отмена пользователем
                   autoFocus>
-                  Decline
-                </Button>{' '}
+                  {t('Decline')}
+                </Button>
+                <Button
+                  className="personal-request__close-btn"
+                  variant="contained"
+                  disabled={isSendingRequest}
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                  autoFocus>
+                  {t('Close')}
+                </Button>
               </>
             )}
-            <Button
-              className="personal-request__close-btn"
-              variant="contained"
-              disabled={isSendingRequest}
-              onClick={() => {
-                history.goBack();
-              }}
-              autoFocus>
-              Close
-            </Button>
           </div>
           <NewRequest
             isOpen={isNewRequestOpened}
@@ -250,9 +256,9 @@ function PersonalRequest() {
             }}
             request={request}
           />
-        </div>
+        </dispatchEvent>
       ) : (
-        <p>No Request by id: {id}</p>
+        <p>{t('NoRequestById', { id: id })}</p>
       )}
       <ConfirmationDialog isOpen={isDialogOpen} onClose={onDialogClose} onOk={onDialogConfirm} />
     </div>

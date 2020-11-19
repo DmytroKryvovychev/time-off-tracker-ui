@@ -12,8 +12,10 @@ axiosApi.interceptors.request.use((config) => {
   return config;
 });
 
-const convertDate = (date) => {
-  return moment(date).format('MM/DD/YYYY').toString();
+const convertDate = (date, lng) => {
+  return lng === 'en'
+    ? moment(date).format('MM/DD/YYYY').toString()
+    : moment(date).format('DD.MM.YYYY').toString();
 };
 
 export { BASE_URL, axiosApi, convertDate };

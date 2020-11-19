@@ -3,6 +3,7 @@ import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import { SingleDatePicker } from 'react-dates';
+import { useTranslation } from 'react-i18next';
 
 import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
@@ -10,8 +11,8 @@ import LeaveComment from './LeaveComment';
 import { states } from '../../constants';
 
 const useTypes = [
-  { id: 1, text: 'Half day' },
-  { id: 2, text: 'Full day' },
+  { id: 1, text: 'Half day', tag: 'HalfDay' },
+  { id: 2, text: 'Full day', tag: 'FullDay' },
 ];
 
 function SickNoDoc({
@@ -29,6 +30,7 @@ function SickNoDoc({
 }) {
   const [focusedFrom, setFocusFrom] = useState(false);
   const [focusedTo, setFocusTo] = useState(false);
+  const { t } = useTranslation('leaves');
 
   return (
     <div>
@@ -46,7 +48,7 @@ function SickNoDoc({
             isSendingRequest
           }
           showClearDate
-          placeholder="From"
+          placeholder={t('From')}
           numberOfMonths={1}
           date={fromDate}
           onDateChange={(date) => {
@@ -64,7 +66,7 @@ function SickNoDoc({
             isSendingRequest
           }
           showClearDate
-          placeholder="To"
+          placeholder={t('To')}
           numberOfMonths={1}
           date={fromDate}
           onDateChange={(date) => {
@@ -76,11 +78,18 @@ function SickNoDoc({
         />
 
         <FormControl className="sick-no-doc__use">
-          <InputLabel>Use</InputLabel>
-          <Select value={duration} onChange={(e) => changeDuration(e.target.value)}>
+          <InputLabel>{t('Use')}</InputLabel>
+          <Select
+            disabled={
+              (request &&
+                (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+              isSendingRequest
+            }
+            value={duration}
+            onChange={(e) => changeDuration(e.target.value)}>
             {useTypes.map((use, idx) => (
               <MenuItem key={`use-${use.text}-idx-${idx}`} value={use.id}>
-                {use.text}
+                {t(use.tag)}
               </MenuItem>
             ))}
           </Select>

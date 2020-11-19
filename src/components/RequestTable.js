@@ -11,6 +11,7 @@ import {
   TablePagination,
   TableRow,
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { convertDate } from '../config';
 import { types, states } from '../constants';
@@ -19,8 +20,8 @@ const headCells = [
   { id: 'State', label: 'State' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'MyComment', label: 'My Comment' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'MyComment', label: 'MyComment' },
+  { id: 'Details', label: 'StateDetails' },
   { id: 'View', label: 'View' },
 ];
 
@@ -28,10 +29,10 @@ const headCellsShort = [
   { id: 'State', label: 'State' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'Details', label: 'StateDetails' },
 ];
 
-function EnhancedTableHead({ headCells }) {
+function EnhancedTableHead({ headCells, t }) {
   return (
     <TableHead>
       <TableRow>
@@ -41,7 +42,7 @@ function EnhancedTableHead({ headCells }) {
             className="reviews__table-cell"
             align="center"
             padding="default">
-            {headCell.label}
+            {t('requests:' + headCell.label)}
           </TableCell>
         ))}
       </TableRow>
@@ -76,6 +77,7 @@ export default function RequestTable({ data, short, users }) {
   let history = useHistory();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { t, i18n } = useTranslation(['translation', 'requests']);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -119,7 +121,7 @@ export default function RequestTable({ data, short, users }) {
       }
       return sum;
     }, '');
-    return approved ? `Already approved by: ${approved.slice(0, -1)}` : '';
+    return approved ? `${t('requests:AlreadyApproved')}: ${approved.slice(0, -1)}` : '';
   };
 
   //   useEffect(() => {
@@ -135,7 +137,7 @@ export default function RequestTable({ data, short, users }) {
             aria-labelledby="tableTitle"
             size={'medium'}
             aria-label="enhanced table">
-            <EnhancedTableHead headCells={short ? headCellsShort : headCells} />
+            <EnhancedTableHead headCells={short ? headCellsShort : headCells} t={t} />
             <TableBody>
               {joinData()
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -154,11 +156,12 @@ export default function RequestTable({ data, short, users }) {
                         id={labelId}
                         scope="row"
                         padding="none">
-                        {states[item.stateId]}
+                        {t(states[item.stateId])}
                       </TableCell>
-                      <TableCell align="center">{types[item.typeId].title}</TableCell>
+                      <TableCell align="center">{t(types[item.typeId].title)}</TableCell>
                       <TableCell align="center">
-                        {convertDate(item.startDate)} - {convertDate(item.endDate)}
+                        {convertDate(item.startDate, i18n.language)} -{' '}
+                        {convertDate(item.endDate, i18n.language)}
                       </TableCell>
                       {short ? null : <TableCell align="center">{item.comment}</TableCell>}
                       <TableCell align="center">
@@ -175,7 +178,7 @@ export default function RequestTable({ data, short, users }) {
                             onClick={() => {
                               history.push('/my_requests/' + item.id);
                             }}>
-                            View
+                            {t('requests:View')}
                           </Button>
                         </TableCell>
                       )}
@@ -191,13 +194,17 @@ export default function RequestTable({ data, short, users }) {
               count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
+              labelRowsPerPage={t('requests:LabelRowsPerPage')}
+              labelDisplayedRows={({ from, to, count }) =>
+                t('requests:LabelDisplayedRows', { from: from, to: to, count: count })
+              }
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           )}
         </TableContainer>
       ) : (
-        <p>No data</p>
+        <p>{t('requests:NoData')}</p>
       )}
     </div>
   );

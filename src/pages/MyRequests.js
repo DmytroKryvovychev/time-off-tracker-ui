@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useTranslation } from 'react-i18next';
 
 import RequestTable from '../components/RequestTable';
 import RequestFilter from '../components/RequestFilter';
 import NewRequest from './NewRequest';
 import { getMyRequests, getMyRequestsByFilter } from '../components/Axios';
 import { Users, Context } from '../Context';
+import { types } from '../constants';
 
 function MyRequests() {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [isNewRequestOpen, setNewRequestState] = useState(false);
-
+  const { t } = useTranslation(['requests', 'translation']);
   const [users, setUsers] = useContext(Users);
   const [context, setContext] = useContext(Context);
 
@@ -42,19 +44,31 @@ function MyRequests() {
     getRequests();
   }, []);
 
+  function chunkArray(myArray, chunk_size) {
+    let tempArray = [];
+
+    for (let index = 1; index < myArray.length; index += chunk_size) {
+      tempArray.push(myArray.slice(index, index + chunk_size));
+    }
+
+    return tempArray;
+  }
+
   return (
     <div>
-      <h2>Statistics {new Date().getFullYear()}</h2>
+      <h2>{t('Statistics', { year: new Date().getFullYear() })}</h2>
       <div className="statistics">
-        <div className="statistics__text">
-          <p>Paid leave: 11 days used</p>
-          <p>Administrative leave: 11 days used</p>
-        </div>
-
-        <div className="statistics__text">
-          <p>Sick leave (no document): 11 days used</p>
-          <p>Sick leave (with documents): 0 days used</p>
-        </div>
+        {chunkArray(types, 3).map((arr) => {
+          return (
+            <div className="statistics__text">
+              {arr.map((item) => (
+                <p>
+                  {t(`translation:${item.title}`)}: {t('UsedDays', { days: 5 })}
+                </p>
+              ))}
+            </div>
+          );
+        })}
 
         <Button
           variant="contained"
@@ -63,11 +77,11 @@ function MyRequests() {
           onClick={() => {
             setNewRequestState(true);
           }}>
-          New Request
+          {t('NewRequest')}
         </Button>
       </div>
 
-      <h2>My Requests </h2>
+      <h2>{t('MyRequests')}</h2>
 
       <RequestFilter handleFilter={handleFilter} />
       {!users || !data ? (
@@ -75,7 +89,7 @@ function MyRequests() {
       ) : users && data && data.length > 0 ? (
         <RequestTable data={data} users={users} />
       ) : (
-        <h3>No requests</h3>
+        <h3>{t('NoRequests')}</h3>
       )}
       <NewRequest
         isOpen={isNewRequestOpen}
