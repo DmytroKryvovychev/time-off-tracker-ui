@@ -1,0 +1,30 @@
+{
+    "State": "State",
+    "Type": "Type",
+    "Filter": "Filter",
+    "Dates": "Dates",
+    "MyComment": "My Comment",
+    "StateDetails": "State Details",
+    "View":"View",
+    "NoData": "No data",
+    "LabelRowsPerPage": "Rows per page",
+    "LabelDisplayedRows": "{{from}}-{{to}} of {{count}}",
+    "AlreadyApproved" : "Already approved by",
+    "MyRequests": "My Requests",
+    "NewRequest": "New Request",
+    "Statistics": "Statistics {{year}}",
+    "NoRequests": "No requests",
+    "LeaveType": "Leave type",
+    "SendRequest": "Send Request",
+    "Cancel": "Cancel",
+    "UsedDays": "{{days}} days used",
+    "Edit": "Edit",
+    "SaveChanges":"Save Changes",
+    "CancelEditing":"Cancel Editing",
+    "Duplicate":"Duplicate",
+    "Decline": "Decline",
+    "Close":"Close",
+    "NoRequestById":"No Request by id: {{id}}"
+
+
+}

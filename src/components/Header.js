@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Avatar, Menu, MenuItem } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment';
+import localRu from 'moment/locale/ru';
+import localEn from 'moment/locale/en-gb';
+
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import { Context } from '../Context';
 
 function Header() {
   const [anchor, setAnchor] = useState(null);
-
+  const { t, i18n } = useTranslation('header');
   const [context, setContext] = useContext(Context);
 
   let history = useHistory();
@@ -35,7 +43,20 @@ function Header() {
     console.log(localStorage.getItem('role'));
   }, [context]);
 
-  //пофиксить появление меню...?
+  const selectedLanguage = (lng) => {
+    return lng === 'ru';
+  };
+
+  const changeLanguage = () => {
+    const lng = i18n.language === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(lng);
+    moment.updateLocale(lng, lng === 'ru' ? localEn : localRu);
+  };
+
+  useEffect(() => {
+    changeLanguage();
+  }, []);
+
   return (
     <header>
       <AppBar position="static">
@@ -43,6 +64,21 @@ function Header() {
           <h2 className="title" onClick={toHomePage}>
             Vacation
           </h2>
+          <div className="lng__switch" style={{ marginRight: 50 }}>
+            <Grid component="label" container alignItems="center" spacing={1}>
+              <Grid item>EN</Grid>
+              <Grid item>
+                <Switch
+                  checked={selectedLanguage(i18n.language)}
+                  onChange={() => {
+                    changeLanguage();
+                  }}
+                />
+              </Grid>
+              <Grid item>RU</Grid>
+            </Grid>
+          </div>
+
           {context.role ? (
             <>
               <Avatar
@@ -61,13 +97,13 @@ function Header() {
                 keepMounted
                 open={Boolean(anchor)}
                 onClose={handleCloseMenu}>
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleCloseMenu}>{t('Profile')}</MenuItem>
+                <MenuItem onClick={handleLogout}>{t('Logout')}</MenuItem>
               </Menu>
             </>
           ) : (
             <Button style={{ backgroundColor: 'white' }} onClick={() => history.push('/login')}>
-              Log in
+              {t('Login')}
             </Button>
           )}
         </Toolbar>

@@ -3,6 +3,7 @@ import React from 'react';
 import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
 import VacationPeriod from './VacationPeriod';
+import { states } from '../../constants';
 
 function Paid({
   prManagers,
@@ -15,6 +16,8 @@ function Paid({
   changeToDate,
   managers,
   changeManagers,
+  request,
+  isEditable,
 }) {
   return (
     <div>
@@ -23,16 +26,28 @@ function Paid({
         changeFromDate={changeFromDate}
         toDate={toDate}
         changeToDate={changeToDate}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
       />
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers
         managers={managers}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={isEditable || isSendingRequest}
         prManagers={prManagers}
         changeManagers={changeManagers}
+        request={request}
+        isEditable={isEditable}
       />
     </div>
   );

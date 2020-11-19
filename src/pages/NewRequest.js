@@ -5,6 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 import { Context } from '../Context';
 import { postNewRequest, getAllManagers } from '../components/Axios';
@@ -27,21 +28,11 @@ import {
 // StudyLeave = 6,
 // PaidLeave = 7
 
-let prManagers = [
-  'Anney Kirillova',
-  'Bill Ivanov',
-  'Reygar Smith',
-  'Kirill Retushev',
-  'Yevheniy Enderov',
-  'Bill Ivanova',
-  'John Reygar',
-  'John Killian',
-  'John Lothbrok',
-  'John Kirev',
-  'John Kirov',
-];
+let prManagers = [];
 
-function NewRequest({ isOpen, onClose, calendar }) {
+const accountantId = 1;
+
+function NewRequest({ isOpen, onClose, calendar, request }) {
   const [context, setContext] = useContext(Context);
   const [leaveType, setLeaveType] = useState(6);
   const [isSendingRequest, setRequestSending] = useState(false);
@@ -51,6 +42,7 @@ function NewRequest({ isOpen, onClose, calendar }) {
   const [pmanager, setPManager] = useState(['']);
   const [duration, setDuration] = useState(2);
   const [data, setData] = useState(null);
+  const { t } = useTranslation(['translation', 'requests']);
 
   const handleComment = (e) => {
     setComment(e.target.value);
@@ -71,17 +63,18 @@ function NewRequest({ isOpen, onClose, calendar }) {
   const handleSendRequest = async () => {
     setRequestSending(true);
 
-    const reviewerIds = data
-      .filter((item) => pmanager.includes(item.firstName.concat(' ', item.lastName)))
-      .map((item) => {
-        return item.id;
-      });
+    const reviewerIds =
+      pmanager.length > 0 && pmanager[0] !== ''
+        ? pmanager.map((item) => {
+            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) == item).id;
+          })
+        : null;
 
     await postNewRequest({
       leaveType,
       fromDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
       toDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
-      pmanager: [1, ...reviewerIds],
+      pmanager: reviewerIds !== null ? [1, ...reviewerIds] : [1],
       comment,
       duration,
       userId: context.userId,
@@ -112,7 +105,22 @@ function NewRequest({ isOpen, onClose, calendar }) {
   }, []);
 
   useEffect(() => {
-    if (calendar !== null) {
+    if (request) {
+      console.log(request);
+      const managers = request.reviews
+        .filter((item) => item.reviewerId !== accountantId)
+        .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
+      setPManager(managers);
+      setFromDate(moment(request.startDate));
+      setToDate(moment(request.endDate));
+      setDuration(request.durationId);
+      setComment(request.comment);
+      setLeaveType(request.typeId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (calendar) {
       setFromDate(calendar[0]);
       setToDate(calendar[1]);
     }
@@ -136,15 +144,15 @@ function NewRequest({ isOpen, onClose, calendar }) {
   const renderLeaveBody = [
     {
       id: 1,
-      title: 'Administrative force majeure leave',
+      title: 'AdministrativeForceMajeureLeave',
       comp: <AdministrativeFm {...typeProps} />,
     },
-    { id: 2, title: 'Administrative leave', comp: <Administrative {...typeProps} /> },
-    { id: 3, title: 'Social leave', comp: <Social {...typeProps} /> },
-    { id: 4, title: 'Sick leave (no documents)', comp: <SickNoDoc {...typeProps} /> },
-    { id: 5, title: 'Sick leave (with documents)', comp: <SickWithDoc {...typeProps} /> },
-    { id: 6, title: 'Study leave', comp: <Study {...typeProps} /> },
-    { id: 7, title: 'Paid leave', comp: <Paid {...typeProps} /> },
+    { id: 2, title: 'AdministrativeLeave', comp: <Administrative {...typeProps} /> },
+    { id: 3, title: 'SocialLeave', comp: <Social {...typeProps} /> },
+    { id: 4, title: 'SickLeaveNoDocuments', comp: <SickNoDoc {...typeProps} /> },
+    { id: 5, title: 'SickLeaveWithDocuments', comp: <SickWithDoc {...typeProps} /> },
+    { id: 6, title: 'StudyLeave', comp: <Study {...typeProps} /> },
+    { id: 7, title: 'PaidLeave', comp: <Paid {...typeProps} /> },
   ];
 
   return (
@@ -156,12 +164,12 @@ function NewRequest({ isOpen, onClose, calendar }) {
         onClose={onClose}
         aria-labelledby="new-request-title"
         aria-describedby="new-request-description">
-        <DialogTitle id="new-request-title">New Request</DialogTitle>
+        <DialogTitle id="new-request-title">{t('requests:NewRequest')}</DialogTitle>
         <DialogContent className="leave">
           <FormControl
             disabled={isSendingRequest}
             style={{ marginRight: 20, marginBottom: 20, width: '100%' }}>
-            <InputLabel>Leave Type</InputLabel>
+            <InputLabel>{t('requests:LeaveType')}</InputLabel>
             <Select
               value={leaveType}
               onChange={(e) => {
@@ -169,7 +177,7 @@ function NewRequest({ isOpen, onClose, calendar }) {
               }}>
               {renderLeaveBody.map((type, idx) => (
                 <MenuItem key={`${type.title}-${idx}`} value={type.id}>
-                  {type.title}
+                  {t(type.title)}
                 </MenuItem>
               ))}
             </Select>
@@ -183,7 +191,7 @@ function NewRequest({ isOpen, onClose, calendar }) {
             variant="contained"
             disabled={isSendingRequest}
             onClick={handleSendRequest}>
-            Send Request
+            {t('requests:SendRequest')}
           </Button>
           <Button
             className="new-request__cancel-btn"
@@ -191,7 +199,7 @@ function NewRequest({ isOpen, onClose, calendar }) {
             disabled={isSendingRequest}
             onClick={onClose}
             autoFocus>
-            Cancel
+            {t('requests:Cancel')}
           </Button>
         </DialogActions>
       </Dialog>

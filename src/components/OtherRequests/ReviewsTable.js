@@ -11,6 +11,7 @@ import {
   TablePagination,
   TableRow,
 } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { convertDate } from '../../config';
 import { types } from '../../constants';
@@ -20,18 +21,18 @@ const headCells = [
   { id: 'Role', label: 'Role' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
-  { id: 'Details', label: 'State Details' },
+  { id: 'Comments', label: 'RequestComments' },
+  { id: 'Details', label: 'StateDetails' },
 ];
 
 const headCellsShort = [
   { id: 'From', label: 'From' },
   { id: 'Type', label: 'Type' },
   { id: 'Dates', label: 'Dates' },
-  { id: 'Comments', label: 'Request Comments' },
+  { id: 'Comments', label: 'RequestComments' },
 ];
 
-function EnhancedTableHead({ headCells }) {
+function EnhancedTableHead({ headCells, t }) {
   return (
     <TableHead>
       <TableRow>
@@ -41,12 +42,12 @@ function EnhancedTableHead({ headCells }) {
             className="reviews__table-cell"
             align="center"
             padding="default">
-            {headCell.label}
+            {t(headCell.label)}
           </TableCell>
         ))}
 
         <TableCell className="reviews__table-cell" align="center" padding="default">
-          Actions
+          {t('Actions')}
         </TableCell>
       </TableRow>
     </TableHead>
@@ -80,7 +81,7 @@ export default function ReviewsTable({ data, short, users }) {
   let history = useHistory();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const { t, i18n } = useTranslation(['reviews', 'translation', 'roles']);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -123,7 +124,7 @@ export default function ReviewsTable({ data, short, users }) {
       }
       return sum;
     }, '');
-    return approved ? `Already approved by: ${approved.slice(0, -1)}` : '';
+    return approved ? `${t('AlreadyApproved')}: ${approved.slice(0, -1)}` : '';
   };
 
   const emptyRows = data && rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -141,7 +142,7 @@ export default function ReviewsTable({ data, short, users }) {
             aria-labelledby="tableTitle"
             size={'medium'}
             aria-label="enhanced table">
-            <EnhancedTableHead headCells={short ? headCellsShort : headCells} />
+            <EnhancedTableHead headCells={short ? headCellsShort : headCells} t={t} />
             <TableBody>
               {joinData()
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -163,11 +164,14 @@ export default function ReviewsTable({ data, short, users }) {
                         {item.request.user.firstName.concat(' ', item.request.user.lastName)}
                       </TableCell>
                       {short ? null : (
-                        <TableCell align="center">{item.request.user.role}</TableCell>
+                        <TableCell align="center">{t(`roles:${item.request.user.role}`)}</TableCell>
                       )}
-                      <TableCell align="center">{types[item.request.typeId].title}</TableCell>
                       <TableCell align="center">
-                        {convertDate(item.request.startDate)} - {convertDate(item.request.endDate)}
+                        {t('translation:' + types[item.request.typeId].title)}
+                      </TableCell>
+                      <TableCell align="center">
+                        {convertDate(item.request.startDate, i18n.language)} -{' '}
+                        {convertDate(item.request.endDate, i18n.language)}
                       </TableCell>
                       <TableCell align="center">{item.request.comment}</TableCell>
                       {short ? null : <TableCell align="center">{isApprovedBy(item)}</TableCell>}
@@ -181,7 +185,7 @@ export default function ReviewsTable({ data, short, users }) {
                               `/other_requests/actions?review=${item.id}&action=approve`,
                             );
                           }}>
-                          Accept
+                          {t('Accept')}
                         </Button>
                         <Button
                           className="reviews-table__cancel-btn"
@@ -189,7 +193,7 @@ export default function ReviewsTable({ data, short, users }) {
                           onClick={() => {
                             history.push(`/other_requests/actions?review=${item.id}&action=reject`);
                           }}>
-                          Reject
+                          {t('Reject')}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -203,17 +207,21 @@ export default function ReviewsTable({ data, short, users }) {
             </TableBody>
           </Table>
           <TablePagination
-            rowsPerPageOptions={short ? 3 : setRange()}
+            rowsPerPageOptions={short ? [3] : setRange()}
             component="div"
             count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
+            labelRowsPerPage={t('LabelRowsPerPage')}
+            labelDisplayedRows={({ from, to, count }) =>
+              t('LabelDisplayedRows', { from: from, to: to, count: count })
+            }
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </TableContainer>
       ) : (
-        <p>No data</p>
+        <p>{t('NoData')}</p>
       )}
     </div>
   );

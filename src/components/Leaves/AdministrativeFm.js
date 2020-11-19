@@ -3,6 +3,7 @@ import React from 'react';
 import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
 import VacationPeriod from './VacationPeriod';
+import { states } from '../../constants';
 
 function AdministrativeFm({
   isSendingRequest,
@@ -12,6 +13,8 @@ function AdministrativeFm({
   changeFromDate,
   toDate,
   changeToDate,
+  request,
+  isEditable,
 }) {
   return (
     <div>
@@ -20,10 +23,20 @@ function AdministrativeFm({
         changeFromDate={changeFromDate}
         toDate={toDate}
         changeToDate={changeToDate}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
       />
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers />
     </div>

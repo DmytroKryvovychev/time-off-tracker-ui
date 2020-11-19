@@ -1,9 +1,30 @@
 import React from 'react';
 import DoneIcon from '@material-ui/icons/Done';
+import { useTranslation } from 'react-i18next';
 
 import Signers from './Signers';
+import { states } from '../../constants';
 
-function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
+function Approvers({
+  managers,
+  isSendingRequest,
+  prManagers,
+  changeManagers,
+  request,
+  isEditable,
+}) {
+  const { t } = useTranslation(['leaves', 'roles']);
+
+  const isApproved = (manager) => {
+    const sign = request.reviews.find(
+      (req) => req.reviewer.firstName.concat(' ', req.reviewer.lastName) === manager,
+    );
+    if (sign !== undefined) {
+      return sign.isApproved;
+    }
+    return null;
+  };
+
   const mapping = React.useCallback(
     (managers) => {
       return (
@@ -18,7 +39,13 @@ function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
                 }}>
                 <DoneIcon
                   key={`done-icon-${idx}`}
-                  className="done-icon"
+                  className={`done-icon${
+                    request && isApproved(manager) !== null
+                      ? isApproved(manager)
+                        ? ' accepted'
+                        : ' rejected'
+                      : ''
+                  }`}
                   style={{
                     marginTop: '5px',
                   }}
@@ -30,6 +57,12 @@ function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
                   managers={managers}
                   onChange={changeManagers}
                   isDisabled={isSendingRequest}
+                  isApproved={
+                    request &&
+                    request.stateId === states.indexOf('In progress') &&
+                    isApproved(manager)
+                  }
+                  isEditable={isEditable}
                 />
               </div>
             );
@@ -42,11 +75,17 @@ function Approvers({ managers, isSendingRequest, prManagers, changeManagers }) {
 
   return (
     <div>
-      <h3>Approvers</h3>
+      <h3>{t('Approvers')}</h3>
       <ol className="approvers__list">
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <DoneIcon className="done-icon" />
-          <li>Accounting</li>
+          <DoneIcon
+            className={
+              'done-icon' +
+              (request && request.reviews[0].isApproved === true ? ' accepted' : '') +
+              (request && request.reviews[0].isApproved === false ? ' rejected' : '')
+            }
+          />
+          <li>{t('roles:Accounting')}</li>
         </div>
         {managers && mapping(managers)}
       </ol>

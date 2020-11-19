@@ -4,6 +4,8 @@ import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
 import VacationPeriod from './VacationPeriod';
 
+import { states } from '../../constants';
+
 function Study({
   prManagers,
   isSendingRequest,
@@ -15,6 +17,8 @@ function Study({
   changeToDate,
   managers,
   changeManagers,
+  isEditable,
+  request,
 }) {
   return (
     <div>
@@ -23,16 +27,28 @@ function Study({
         changeFromDate={changeFromDate}
         toDate={toDate}
         changeToDate={changeToDate}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
       />
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers
         managers={managers}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={isEditable || isSendingRequest}
         prManagers={prManagers}
         changeManagers={changeManagers}
+        request={request}
+        isEditable={isEditable}
       />
     </div>
   );

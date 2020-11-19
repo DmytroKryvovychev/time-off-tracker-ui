@@ -28,10 +28,18 @@ export const getMyRequests = () => {
   return axiosApi.get('user/requests');
 };
 
+export const getRequestById = (id) => {
+  return axiosApi.get('user/requests/' + id);
+};
+
 export const getMyRequestsByFilter = (startDate, endDate, stateId, typeId) => {
   return axiosApi.get(
     `user/requests?startDate=${startDate}&endDate=${endDate}&stateId=${stateId}&typeId=${typeId}`,
   );
+};
+
+export const changeRequest = (id, payload) => {
+  return axiosApi.put(`requests/${id}`, payload);
 };
 
 export const getMyReviews = () => {

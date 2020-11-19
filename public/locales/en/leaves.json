@@ -1,0 +1,19 @@
+{
+    "Comment": "Comment",
+    "From": "From",
+    "To": "To",
+    "Use": "Use",
+    "HalfDay": "Half day",
+    "FullDay": "Full day",
+    "AddManager": "Add manager",
+    "DeleteManager": "Delete manager",
+    "NewRequest": "New request",
+    "LeaveType": "Leave type",
+    "SendRequest": "Send request",
+    "Cancel": "Cancel",
+    "VacationDays": "Vacation days: {{days}}",
+    "Approvers": "Approvers",
+    "EditApprovedRequest": "Edit approved request",
+    "EditRequestConfirmation":"Do you really want to edit the approved request?",
+    "OK": "OK"
+} 

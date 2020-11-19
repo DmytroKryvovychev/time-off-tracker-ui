@@ -1,0 +1,26 @@
+{
+    "NewRequests": "Новые заявки",
+    "ApprovedByMe":"Утвержденные мной",
+    "RejectedByMe":"Отклоненные мной",
+    "FilterByName": "Фильтр по имени",
+    "Type": "Тип",
+    "Filter": "Фильтровать",
+    "From": "От", 
+    "Role": "Роль",
+    "Dates": "Даты",
+    "State": "Состояние",
+    "RequestComments": "Комментарий заявки",
+    "StateDetails": "Сведения о состоянии",
+    "MyRejectComment": "Причина отклонения",
+    "Actions": "Действия",
+    "Accept": "Принять",
+    "Reject": "Отклонить",
+    "AlreadyApproved" : "Утвердили",
+    "LabelRowsPerPage": "Записей на странице",
+    "LabelDisplayedRows": "{{from}}-{{to}} из {{count}}",
+    "NoData": "Нет данных",
+    "RejectReason": "Введите причину отклонения",
+    "Send": "Отправить",
+    "ApprovedRequest": "Заявка утверждена!"
+
+}

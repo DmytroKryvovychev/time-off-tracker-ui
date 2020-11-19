@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Link, useHistory, Redirect } from 'react-router-dom';
 import { Button, ButtonGroup } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import Home from './Home';
 import MyRequests from './MyRequests';
@@ -10,6 +11,7 @@ import RequestActions from '../components/OtherRequests/RequestActions';
 import { Context, Users } from '../Context';
 import NewRequest from './NewRequest';
 import { getUsers } from '../components/Axios';
+import PersonalRequest from './PersonalRequest';
 
 const routes = [
   {
@@ -20,14 +22,14 @@ const routes = [
     main: () => <Home />,
   },
   {
-    name: `My Requests`,
+    name: 'MyRequests',
     path: '/my_requests',
     exact: true,
     access: ['Accountant', 'Manager', 'Employee'],
     main: () => <MyRequests />,
   },
   {
-    name: 'Other Requests',
+    name: 'OtherRequests',
     path: '/other_requests',
     exact: true,
     access: ['Accountant', 'Manager'],
@@ -39,7 +41,7 @@ function User() {
   const [selectedRoute, setSelectedRoute] = useState(0);
   const [context, setContext] = useContext(Context);
   const [users, setUsers] = useContext(Users);
-
+  const { t } = useTranslation('user');
   let history = useHistory();
 
   useEffect(() => {
@@ -52,9 +54,21 @@ function User() {
   }, [context, history.location.pathname]);
 
   useEffect(() => {
-    getUsers('', '').then(({ data }) => {
-      setUsers(data);
-    });
+    if (!context.token) {
+      history.replace('/login');
+      return;
+    }
+
+    getUsers('', '')
+      .then(({ data }) => {
+        setUsers(data);
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          localStorage.clear();
+          setContext({ userId: null, user: null, role: null, token: null });
+        }
+      });
   }, [context.userId]);
 
   return (
@@ -74,7 +88,7 @@ function User() {
                     onClick={() => {
                       setSelectedRoute(idx);
                     }}>
-                    {route.name}
+                    {t(route.name)}
                   </Button>
                 </Link>
               );
@@ -108,9 +122,10 @@ function User() {
           })}
           <Route
             path="/my_requests/:id"
+            exect
             render={({ location }) =>
               context.token ? (
-                <NewRequest isOpen={true}></NewRequest>
+                <PersonalRequest isOpen={true}></PersonalRequest>
               ) : (
                 <Redirect
                   to={{
@@ -134,7 +149,7 @@ function User() {
                 />
               )
             }></Route>
-          <Route path="*" children={<h2>Wrong way!</h2>}></Route>
+          <Route path="*" exect children={<Redirect to="/home" />}></Route>
         </Switch>
       </div>
     </div>

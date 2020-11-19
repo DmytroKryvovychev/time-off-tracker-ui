@@ -5,14 +5,14 @@ export const types = [
   },
   {
     id: 1,
-    title: 'Administrative force majeure leave',
+    title: 'AdministrativeForceMajeureLeave',
   },
-  { id: 2, title: 'Administrative leave' },
-  { id: 3, title: 'Social leave' },
-  { id: 4, title: 'Sick leave (no documents)' },
-  { id: 5, title: 'Sick leave (with documents)' },
-  { id: 6, title: 'Study leave' },
-  { id: 7, title: 'Paid leave' },
+  { id: 2, title: 'AdministrativeLeave' },
+  { id: 3, title: 'SocialLeave' },
+  { id: 4, title: 'SickLeaveNoDocuments' },
+  { id: 5, title: 'SickLeaveWithDocuments' },
+  { id: 6, title: 'StudyLeave' },
+  { id: 7, title: 'PaidLeave' },
 ];
 
-export const states = ['Any', 'New', 'In progress', 'Approved', 'Rejected'];
+export const states = ['Any', 'New', 'InProgress', 'Approved', 'Rejected'];

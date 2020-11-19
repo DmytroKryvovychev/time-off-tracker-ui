@@ -21,6 +21,8 @@ import {
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { useTranslation } from 'react-i18next';
+
 import ConfirmationDialog from './ConfirmationDialog';
 import AddNewUserDialog from './AddNewUserDialog';
 import { deleteUser, changeUserRole } from '../Axios';
@@ -53,14 +55,15 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'firstName', numeric: true, disablePadding: true, label: 'Name' },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Username' },
+  { id: 'userName', numeric: false, disablePadding: false, label: 'Username' },
   { id: 'role', numeric: false, disablePadding: false, label: 'Role' },
   { id: 'button', numeric: false, disablePadding: false, label: '' },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort, t } = props;
   const createSortHandler = (property) => (event) => {
+    console.log(property);
     onRequestSort(event, property);
   };
 
@@ -78,7 +81,7 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}>
-              {headCell.label}
+              {t([headCell.label, 'roles:' + headCell.label])}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -121,16 +124,16 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTableToolbar = ({ roles, updateUsers }) => {
+const EnhancedTableToolbar = ({ roles, updateUsers, t }) => {
   const classes = useToolbarStyles();
   const [openNewUser, setOpenNewUser] = React.useState(false);
 
   return (
     <Toolbar className={classes.root}>
-      <h2 className="users-table__title">List of users</h2>
+      <h2 className="users-table__title">{t('UsersList')}</h2>
 
       <>
-        <Tooltip title="Add new user">
+        <Tooltip title={t('AddNewUser')}>
           <IconButton
             className="new_user-btn"
             aria-label="add new user"
@@ -182,6 +185,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
   const [role, setRole] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [deletableUser, setDeletableUser] = React.useState(null);
+  const { t } = useTranslation(['admin', 'roles']);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -236,7 +240,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
 
   return (
     <div className={classes.root}>
-      <EnhancedTableToolbar roles={roles} updateUsers={updateUsers} />
+      <EnhancedTableToolbar roles={roles} updateUsers={updateUsers} t={t} />
 
       <TableContainer>
         <Table
@@ -250,6 +254,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
             rowCount={data.length}
+            t={t}
           />
           <TableBody>
             {stableSort(data, getComparator(order, orderBy))
@@ -265,7 +270,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                     tabIndex={-1}
                     key={item.id}>
                     <TableCell padding="checkbox">
-                      <Tooltip title="Delete">
+                      <Tooltip title={t('Delete')}>
                         <IconButton
                           className="delete-icon"
                           aria-label="delete"
@@ -285,7 +290,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                     <TableCell align="center">
                       {isEditing === item.id ? (
                         <FormControl>
-                          <InputLabel>Role</InputLabel>
+                          <InputLabel>{t('roles:Role')}</InputLabel>
                           <Select
                             value={role}
                             onChange={(event) => {
@@ -293,13 +298,13 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                             }}>
                             {roles.map((obj, idx) => (
                               <MenuItem key={`key-${idx}-name${obj}`} value={idx}>
-                                {obj}
+                                {t('roles:' + obj)}
                               </MenuItem>
                             ))}
                           </Select>
                         </FormControl>
                       ) : (
-                        item.role
+                        t('roles:' + item.role)
                       )}
                     </TableCell>
 
@@ -313,7 +318,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                             onClick={() => {
                               handleChangeRole(item.id, item);
                             }}>
-                            Ok
+                            {t('Ok')}
                           </Button>
                           <Button
                             className="users-table__cancel-btn"
@@ -321,7 +326,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                             onClick={() => {
                               setEditing(null);
                             }}>
-                            Cancel
+                            {t('Cancel')}
                           </Button>
                         </div>
                       ) : (
@@ -331,7 +336,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
                             setEditing(item.id);
                             setRole(item.role === 'Employee' ? 0 : 1);
                           }}>
-                          Edit
+                          {t('Edit')}
                         </Button>
                       )}
                     </TableCell>
@@ -351,6 +356,10 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
+          labelRowsPerPage={t('LabelRowsPerPage')}
+          labelDisplayedRows={({ from, to, count }) =>
+            t('LabelDisplayedRows', { from: from, to: to, count: count })
+          }
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />

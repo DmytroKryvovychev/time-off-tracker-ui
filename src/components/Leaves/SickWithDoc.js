@@ -4,6 +4,8 @@ import Approvers from './Approvers';
 import LeaveComment from './LeaveComment';
 import VacationPeriod from './VacationPeriod';
 
+import { states } from '../../constants';
+
 function SickWithDoc({
   isSendingRequest,
   comment,
@@ -12,6 +14,8 @@ function SickWithDoc({
   changeFromDate,
   toDate,
   changeToDate,
+  request,
+  isEditable,
 }) {
   return (
     <div>
@@ -20,10 +24,20 @@ function SickWithDoc({
         changeFromDate={changeFromDate}
         toDate={toDate}
         changeToDate={changeToDate}
-        isSendingRequest={isSendingRequest}
+        isSendingRequest={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
       />
 
-      <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
+      <LeaveComment
+        disabled={
+          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          isSendingRequest
+        }
+        comment={comment}
+        changeComment={changeComment}
+      />
 
       <Approvers />
     </div>
