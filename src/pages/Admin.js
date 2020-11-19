@@ -16,7 +16,7 @@ function Admin() {
   const [filter, setFilter] = useState('');
   const [role, setRole] = useState(-1);
   const [context, setContext] = useContext(Context);
-  const { t } = useTranslation(['admin', 'roles']);
+  const { t } = useTranslation(['admin', 'roles', 'notifications']);
   let history = useHistory();
 
   useEffect(() => {

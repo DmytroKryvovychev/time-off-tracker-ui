@@ -15,7 +15,7 @@ import { notifyMyRequests } from '../notifications';
 function MyRequests() {
   const [data, setData] = useState(null);
   const [isNewRequestOpen, setNewRequestState] = useState(false);
-  const { t } = useTranslation(['requests', 'translation']);
+  const { t } = useTranslation(['requests', 'translation', 'notifications']);
   const [users, setUsers] = useContext(Users);
   const [context, setContext] = useContext(Context);
 

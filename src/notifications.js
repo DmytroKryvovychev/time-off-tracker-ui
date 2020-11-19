@@ -15,128 +15,128 @@ const defaultOptions = {
 export const notifyLogin = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
 
     case 'Successful Login':
-      return toast.success('Successful login', defaultOptions);
+      return toast.success(i18n.t('notifications:LoginSuccess'), defaultOptions);
 
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };
 
 export const notifyAdmin = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
 
     case 'test':
-      return toast.error(i18n.t('No connection with server'), defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case 'Successful New User Adding':
-      return toast.success('New user successfully added', defaultOptions);
+      return toast.success(i18n.t('notifications:NewUserAdded'), defaultOptions);
 
     case 'New user failure':
-      return toast.error('New user adding failed', defaultOptions);
+      return toast.error(i18n.t('notifications:NewUserFail'), defaultOptions);
 
     case 'Role changed success':
-      return toast.success('Role changed successfully', defaultOptions);
+      return toast.success(i18n.t('notifications:ChangeRole'), defaultOptions);
 
     case 'Role changed failed':
-      return toast.error('Failed to change role', defaultOptions);
+      return toast.error(i18n.t('notifications:ChangeRoleFail'), defaultOptions);
 
     case 'User delete success':
-      return toast.success('User deleted successfully', defaultOptions);
+      return toast.success(i18n.t('notifications:DeleteUser'), defaultOptions);
 
     case 'User delete failed':
-      return toast.error('Failed to delete user', defaultOptions);
+      return toast.error(i18n.t('notifications:DeleteUserFail'), defaultOptions);
 
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };
 
 export const notifyHome = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
 
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };
 
 export const notifyMyRequests = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
 
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };
 
 export const notifyNewRequest = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
 
     case 'New request success':
-      return toast.success('New request created', defaultOptions);
+      return toast.success(i18n.t('notifications:NewRequest'), defaultOptions);
 
     case 'New request failed':
-      return toast.error('Failed to create new request', defaultOptions);
+      return toast.error(i18n.t('notifications:NewRequestFail'), defaultOptions);
 
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };
 
 export const notifyOtherRequests = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
 
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
 
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };
 
 export const notifyReviewActions = (msg) => {
   switch (msg) {
     case 'Network Error':
-      return toast.error('No connection with server', defaultOptions);
+      return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
     case '400':
-      return toast.error('Bad request', defaultOptions);
+      return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
     case 'Approve success':
-      return toast.success('Request successfully approved', defaultOptions);
+      return toast.success(i18n.t('notifications:ApproveRequest'), defaultOptions);
     case 'Approve failed':
-      return toast.error('Failed to approve request', defaultOptions);
+      return toast.error(i18n.t('notifications:ApproveFail'), defaultOptions);
     case 'Rejection success':
-      return toast.success('Request successfully rejected', defaultOptions);
+      return toast.success(i18n.t('notifications:RejectRequest'), defaultOptions);
     case 'Rejection failed':
-      return toast.error('Failed to reject request', defaultOptions);
+      return toast.error(i18n.t('notifications:RejectFail'), defaultOptions);
     case 'No comment':
-      return toast.error('Fill comment field', defaultOptions);
+      return toast.error(i18n.t('notifications:NoComment'), defaultOptions);
     default:
-      return toast.warn('Something goes wrong', defaultOptions);
+      return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
 };

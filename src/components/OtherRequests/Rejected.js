@@ -82,7 +82,7 @@ function Rejected() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isLoading, setLoading] = useState(true);
-  const { t, i18n } = useTranslation(['reviews', 'translation', 'roles']);
+  const { t, i18n } = useTranslation(['reviews', 'translation', 'roles', 'notifications']);
   const [users] = useContext(Users);
 
   const handleChangePage = (event, newPage) => {

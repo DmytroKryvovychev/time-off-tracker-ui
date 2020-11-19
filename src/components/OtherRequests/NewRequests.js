@@ -15,7 +15,7 @@ function NewRequests() {
   const [data, setData] = useState(null);
   const [isSendingRequest, setRequestSending] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const { t } = useTranslation('reviews');
+  const { t } = useTranslation(['reviews', 'notifications']);
   const [users] = React.useContext(Users);
 
   const handleFilter = (fromDate, toDate, name, typeId) => {

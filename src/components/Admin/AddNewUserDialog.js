@@ -22,7 +22,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
     email: '',
     password: '',
   });
-  const { t } = useTranslation(['admin', 'roles']);
+  const { t } = useTranslation(['admin', 'roles', 'notifications']);
 
   const handleAddNewUser = async () => {
     let error = { ...errors };

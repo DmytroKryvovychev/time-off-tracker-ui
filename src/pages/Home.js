@@ -20,7 +20,7 @@ function Home() {
   const [reviews, setReviews] = useState(null);
   const [calendar, setCalendar] = useState(null);
   const [events, setEvents] = useState(null);
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'notifications']);
 
   let history = useHistory();
   const [context, setContext] = useContext(Context);

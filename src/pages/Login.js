@@ -12,7 +12,7 @@ import { notifyLogin } from '../notifications';
 function Login() {
   let history = useHistory();
   let location = useLocation();
-  const { t } = useTranslation('login');
+  const { t } = useTranslation(['login', 'notifications']);
 
   const [context, setContext] = useContext(Context);
   const [users, setUsers] = useContext(Users);

@@ -44,7 +44,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
   const [pmanager, setPManager] = useState(['']);
   const [duration, setDuration] = useState(2);
   const [data, setData] = useState(null);
-  const { t } = useTranslation(['translation', 'requests']);
+  const { t } = useTranslation(['translation', 'requests', 'notifications']);
 
   const handleComment = (e) => {
     setComment(e.target.value);

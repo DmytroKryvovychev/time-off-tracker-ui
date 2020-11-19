@@ -77,7 +77,7 @@ export default function RequestTable({ data, short, users }) {
   let history = useHistory();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const { t, i18n } = useTranslation(['translation', 'requests']);
+  const { t, i18n } = useTranslation(['translation', 'requests', 'notifications']);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

@@ -20,7 +20,7 @@ function RequestActions() {
   const [comment, setComment] = useState('');
   const [result, setResult] = useState('');
   const [isRejected, setRejected] = useState('');
-  const { t } = useTranslation('reviews');
+  const { t } = useTranslation(['reviews', 'notifications']);
 
   useEffect(() => {
     if (query.get('action') === 'approve') {
