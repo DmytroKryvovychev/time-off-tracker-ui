@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import moment from 'moment';
+import { ToastContainer } from 'react-toastify';
 
 import {
   Administrative,
@@ -12,8 +13,9 @@ import {
   Social,
   Study,
 } from '../components/Leaves/index';
-import { getRequestById, changeRequest } from '../components/Axios';
+import { getRequestById, changeRequest, declineRequest } from '../components/Axios';
 import { types, states } from '../constants';
+import { notifyMyRequests } from '../notifications';
 import { Users } from '../Context';
 import ConfirmationDialog from '../components/Leaves/ConfirmationDialog';
 import NewRequest from './NewRequest';
@@ -117,7 +119,15 @@ function PersonalRequest() {
           setComment(data.comment);
           setRequest(data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (err.message === 'Network Error') {
+            notifyMyRequests('Network Error');
+          } else if (err.response.status === 400) {
+            notifyMyRequests('400');
+          } else {
+            notifyMyRequests('');
+          }
+        });
     }
 
     if (users) {
@@ -162,6 +172,27 @@ function PersonalRequest() {
       comment: comment,
       durationId: duration,
     }).catch((err) => console.log(err));
+
+    setRequestSending(false);
+  };
+
+  const handleDeleteRequest = () => {
+    setRequestSending(true);
+
+    declineRequest(id)
+      .then(() => {
+        history.push('/my_requests');
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.message === 'Network Error') {
+          notifyMyRequests('Network Error');
+        } else if (err.response.status === 400) {
+          notifyMyRequests('400');
+        } else {
+          notifyMyRequests('');
+        }
+      });
 
     setRequestSending(false);
   };
@@ -233,7 +264,9 @@ function PersonalRequest() {
                   className="personal-request__decline-btn"
                   variant="contained"
                   disabled={isSendingRequest}
-                  onClick={() => {}} //Отмена пользователем
+                  onClick={() => {
+                    handleDeleteRequest();
+                  }}
                   autoFocus>
                   {t('Decline')}
                 </Button>
@@ -262,6 +295,7 @@ function PersonalRequest() {
         <p>{t('NoRequestById', { id: id })}</p>
       )}
       <ConfirmationDialog isOpen={isDialogOpen} onClose={onDialogClose} onOk={onDialogConfirm} />
+      <ToastContainer />
     </div>
   );
 }

@@ -42,6 +42,10 @@ export const changeRequest = (id, payload) => {
   return axiosApi.put(`requests/${id}`, payload);
 };
 
+export const declineRequest = (id) => {
+  return axiosApi.delete(`user/requests/${id}`);
+};
+
 export const getMyReviews = () => {
   return axiosApi.get(`user/reviews`);
 };

@@ -161,7 +161,9 @@ export default function RequestTable({ data, short, users }) {
                       {short ? null : <TableCell align="center">{item.comment}</TableCell>}
                       <TableCell align="center">
                         {item.stateId === 4
-                          ? item.reviews.find((rev) => rev.isApproved === false).comment
+                          ? item.reviews.find((rev) => rev.isApproved === false)
+                            ? item.reviews.find((rev) => rev.isApproved === false).comment
+                            : t('requests:RejectedByOwner')
                           : isApprovedBy(item)}
                       </TableCell>
                       {short ? null : (

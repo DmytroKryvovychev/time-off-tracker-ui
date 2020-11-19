@@ -24,6 +24,7 @@
     "Duplicate":"Duplicate",
     "Decline": "Decline",
     "Close":"Close",
+    "RejectedByOwner": "Rejected by Owner",
     "NoRequestById":"No Request by id: {{id}}"
 
 
