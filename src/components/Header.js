@@ -75,11 +75,7 @@ function Header() {
 
           {context.role && context.userId ? (
             <>
-              <Avatar onClick={handleClickAvatar}>
-                {context.user !== null
-                  ? JSON.parse(context.user).firstName.substr(0, 2).toUpperCase()
-                  : context.role.substr(0, 2).toUpperCase()}
-              </Avatar>
+              <Avatar onClick={handleClickAvatar}>{context.role.substr(0, 2).toUpperCase()}</Avatar>
               <Menu
                 elevation={5}
                 getContentAnchorEl={null}

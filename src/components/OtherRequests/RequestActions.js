@@ -28,7 +28,7 @@ function RequestActions() {
     } else {
       setSending(false);
     }
-  }, [query]);
+  }, []);
 
   const handleApprove = (reviewId, action) => {
     if (!action && comment === '') {

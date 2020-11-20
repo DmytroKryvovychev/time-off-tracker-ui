@@ -24,5 +24,6 @@
     "Duplicate":"Дублировать",
     "Decline":"Отклонить",
     "Close":"Закрыть",
+    "RejectedByOwner": "Отклонена пользователем",
     "NoRequestById":"Заявка {{id}} не найдена"
 }

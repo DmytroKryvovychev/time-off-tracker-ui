@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import RequestTable from '../components/RequestTable';
 import RequestFilter from '../components/RequestFilter';
 import NewRequest from './NewRequest';
-import { getMyRequests, getMyRequestsByFilter } from '../components/Axios';
+import { getMyRequests, getMyRequestsByFilter, getStatistics } from '../components/Axios';
 import { Users, Context } from '../Context';
 import { types } from '../constants';
 import { notifyMyRequests } from '../notifications';
@@ -17,6 +17,7 @@ function MyRequests() {
   const [isNewRequestOpen, setNewRequestState] = useState(false);
   const { t } = useTranslation(['requests', 'translation', 'notifications']);
   const [users, setUsers] = useContext(Users);
+  const [statistics, setStatistics] = useState(null);
   const [context, setContext] = useContext(Context);
 
   const handleFilter = (fromDate, toDate, stateId, typeId) => {
@@ -45,7 +46,27 @@ function MyRequests() {
         });
     }
 
+    async function getStat() {
+      await getStatistics()
+        .then(({ data }) => {
+          setStatistics(data);
+        })
+        .catch((err) => {
+          if (err.message === 'Network Error') {
+            notifyMyRequests('Network Error');
+          } else if (err.response.status === 400) {
+            notifyMyRequests('400');
+          } else if (err.response.status === 401) {
+            localStorage.clear();
+            setContext({ userId: null, user: null, role: null, token: null });
+          } else {
+            notifyMyRequests('');
+          }
+        });
+    }
+
     getRequests();
+    getStat();
   }, []);
 
   function chunkArray(myArray, chunk_size) {
@@ -62,17 +83,22 @@ function MyRequests() {
     <div>
       <h2>{t('Statistics', { year: new Date().getFullYear() })}</h2>
       <div className="statistics">
-        {chunkArray(types, 3).map((arr, idx) => {
-          return (
-            <div key={`idx-${idx}`} className="statistics__text">
-              {arr.map((item) => (
-                <p key={`title-${item.title}`}>
-                  {t(`translation:${item.title}`)}: {t('UsedDays', { days: 5 })}
-                </p>
-              ))}
-            </div>
-          );
-        })}
+        {statistics &&
+          chunkArray(types, 3).map((arr, idx) => {
+            return (
+              <div key={`idx-${idx}`} className="statistics__text">
+                {arr.map((item) => {
+                  const findItem = statistics.find((stat) => stat.typeId === item.id);
+                  return (
+                    <p key={`title-${item.title}`}>
+                      {t(`translation:${item.title}`)}:{' '}
+                      {t('UsedDays', { days: findItem ? findItem.days : 0 })}
+                    </p>
+                  );
+                })}
+              </div>
+            );
+          })}
 
         <Button
           variant="contained"

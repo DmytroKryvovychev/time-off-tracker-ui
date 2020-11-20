@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import moment from 'moment';
+import { ToastContainer } from 'react-toastify';
 
 import {
   Administrative,
@@ -12,8 +13,9 @@ import {
   Social,
   Study,
 } from '../components/Leaves/index';
-import { getRequestById, changeRequest } from '../components/Axios';
+import { getRequestById, changeRequest, declineRequest } from '../components/Axios';
 import { types, states } from '../constants';
+import { notifyMyRequests } from '../notifications';
 import { Users } from '../Context';
 import ConfirmationDialog from '../components/Leaves/ConfirmationDialog';
 import NewRequest from './NewRequest';
@@ -117,7 +119,15 @@ function PersonalRequest() {
           setComment(data.comment);
           setRequest(data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (err.message === 'Network Error') {
+            notifyMyRequests('Network Error');
+          } else if (err.response.status === 400) {
+            notifyMyRequests('400');
+          } else {
+            notifyMyRequests('');
+          }
+        });
     }
 
     if (users) {
@@ -155,12 +165,35 @@ function PersonalRequest() {
 
     changeRequest(id, {
       id: id,
+      typeId: request.typeId,
       startDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
       endDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
       reviewsIds: [1, ...reviewerIds],
       comment: comment,
       durationId: duration,
     }).catch((err) => console.log(err));
+
+    setRequestSending(false);
+  };
+
+  const handleDeleteRequest = () => {
+    setRequestSending(true);
+
+    declineRequest(id)
+      .then(() => {
+        setEditable(true);
+        history.push('/my_requests');
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.message === 'Network Error') {
+          notifyMyRequests('Network Error');
+        } else if (err.response.status === 400) {
+          notifyMyRequests('400');
+        } else {
+          notifyMyRequests('');
+        }
+      });
 
     setRequestSending(false);
   };
@@ -178,44 +211,46 @@ function PersonalRequest() {
           <div className="personal__request">{renderLeaveBody[request.typeId - 1].comp}</div>
 
           <div className="personal__btn-group">
-            {request.stateId !== states.indexOf('Rejected') && isEditable ? (
-              <Button
-                className="personal-request__edit-btn"
-                variant="contained"
-                disabled={isSendingRequest}
-                onClick={() => {
-                  if (request.stateId === states.indexOf('Approved')) {
-                    openDialog(true);
-                  } else {
-                    setEditable(false);
-                  }
-                }}>
-                {t('Edit')}
-              </Button>
-            ) : (
-              <>
+            {request.stateId !== states.indexOf('Rejected') ? (
+              isEditable ? (
                 <Button
-                  className="personal-request__save-btn"
+                  className="personal-request__edit-btn"
                   variant="contained"
                   disabled={isSendingRequest}
                   onClick={() => {
-                    handleChangeRequest();
-                    setEditable(true);
+                    if (request.stateId === states.indexOf('Approved')) {
+                      openDialog(true);
+                    } else {
+                      setEditable(false);
+                    }
                   }}>
-                  {t('SaveChanges')}
+                  {t('Edit')}
                 </Button>
-                <Button
-                  className="personal-request__ce-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {
-                    cancelEditing();
-                    setEditable(true);
-                  }}>
-                  {t('CancelEditing')}
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    className="personal-request__save-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      handleChangeRequest();
+                      setEditable(true);
+                    }}>
+                    {t('SaveChanges')}
+                  </Button>
+                  <Button
+                    className="personal-request__ce-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      cancelEditing();
+                      setEditable(true);
+                    }}>
+                    {t('CancelEditing')}
+                  </Button>
+                </>
+              )
+            ) : null}
             {isEditable && (
               <>
                 <Button
@@ -228,14 +263,18 @@ function PersonalRequest() {
                   autoFocus>
                   {t('Duplicate')}
                 </Button>
-                <Button
-                  className="personal-request__decline-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {}} //Отмена пользователем
-                  autoFocus>
-                  {t('Decline')}
-                </Button>
+                {request.stateId !== states.indexOf('Rejected') ? (
+                  <Button
+                    className="personal-request__decline-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      handleDeleteRequest();
+                    }}
+                    autoFocus>
+                    {t('Decline')}
+                  </Button>
+                ) : null}
                 <Button
                   className="personal-request__close-btn"
                   variant="contained"
@@ -261,6 +300,7 @@ function PersonalRequest() {
         <p>{t('NoRequestById', { id: id })}</p>
       )}
       <ConfirmationDialog isOpen={isDialogOpen} onClose={onDialogClose} onOk={onDialogConfirm} />
+      <ToastContainer />
     </div>
   );
 }

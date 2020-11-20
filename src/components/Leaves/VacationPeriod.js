@@ -17,7 +17,7 @@ function VacationPeriod({
   const [focusedTo, setFocusTo] = useState(false);
   const { t } = useTranslation('leaves');
 
-  const getDateDifference = Math.round(toDate - fromDate) / (1000 * 60 * 60 * 24);
+  const getDateDifference = Math.floor((toDate - fromDate) / (1000 * 60 * 60 * 24));
 
   const showPastDays = () => false;
 

@@ -86,7 +86,7 @@ body {
   margin-bottom: 10px;
 }
 
-.form-comment {
+.MuiFormControl-root.form-comment {
   margin-bottom: 20px;
   margin-top: 20px;
   width: 100%;
@@ -95,7 +95,6 @@ body {
 .nodoc__content {
   display: flex;
   flex-direction: row;
-  margin-bottom: 20px;
   align-items: center;
 }
 
@@ -182,4 +181,8 @@ body {
     margin-top: 20px;
     width: 150px;
   }
+}
+
+.DayPickerKeyboardShortcuts_buttonReset {
+  display: none;
 }
