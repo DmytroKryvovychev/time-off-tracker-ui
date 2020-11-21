@@ -35,9 +35,9 @@ function MyRequests() {
         .catch((err) => {
           if (err.message === 'Network Error') {
             notifyMyRequests('Network Error');
-          } else if (err.response.status === 400) {
+          } else if (err.response && err.response.status === 400) {
             notifyMyRequests('400');
-          } else if (err.response.status === 401) {
+          } else if (err.response && err.response.status === 401) {
             localStorage.clear();
             setContext({ userId: null, user: null, role: null, token: null });
           } else {
@@ -54,9 +54,9 @@ function MyRequests() {
         .catch((err) => {
           if (err.message === 'Network Error') {
             notifyMyRequests('Network Error');
-          } else if (err.response.status === 400) {
+          } else if (err.response && err.response.status === 400) {
             notifyMyRequests('400');
-          } else if (err.response.status === 401) {
+          } else if (err.response && err.response.status === 401) {
             localStorage.clear();
             setContext({ userId: null, user: null, role: null, token: null });
           } else {

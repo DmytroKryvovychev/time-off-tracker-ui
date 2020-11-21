@@ -33,6 +33,7 @@ function RequestActions() {
   const handleApprove = (reviewId, action) => {
     if (!action && comment === '') {
       notifyReviewActions('No comment');
+      setSending(false);
       return;
     }
     actionReview(reviewId, action, comment)
@@ -43,8 +44,35 @@ function RequestActions() {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyReviewActions('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyReviewActions('400');
+        } else if (err.response && err.response.status === 409) {
+          switch (err.response.data) {
+            case 'The request is not actual!':
+              setResult('NotActualRequest');
+              action
+                ? notifyReviewActions('Approve failed')
+                : notifyReviewActions('Rejection failed');
+              break;
+            case 'The request has already been <approved/rejected>!':
+              setResult('AlreadyDone');
+              action
+                ? notifyReviewActions('Approve failed')
+                : notifyReviewActions('Rejection failed');
+              break;
+            case 'No previous review!':
+              setResult('NoPrevReview!');
+              action
+                ? notifyReviewActions('Approve failed')
+                : notifyReviewActions('Rejection failed');
+              break;
+            default:
+              setResult('SomethingWrong');
+              action
+                ? notifyReviewActions('Approve failed')
+                : notifyReviewActions('Rejection failed');
+              break;
+          }
         } else {
           action ? notifyReviewActions('Approve failed') : notifyReviewActions('Rejection failed');
         }

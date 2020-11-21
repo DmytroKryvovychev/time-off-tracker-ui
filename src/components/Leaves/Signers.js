@@ -16,7 +16,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
           getOptionSelected={(option, value) => option.value === value.value}
           value={managers[idx] ? (managers[idx].length === 0 ? null : managers[idx]) : null}
           onChange={(e, newValue) => {
-            managers[idx] = newValue;
+            managers[idx] = newValue !== null ? newValue : '';
             onChange([...managers]);
           }}
           renderInput={(params) => <TextField {...params} />}

@@ -79,10 +79,14 @@ export const notifyMyRequests = (msg) => {
   switch (msg) {
     case 'Network Error':
       return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
-
+    case 'NoApprovedCorrectytion':
+      return toast.warn(i18n.t('notifications:NoApprovedCorrectytion'), defaultOptions);
     case '400':
       return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
-
+    case 'Edited':
+      return toast.success(i18n.t('notifications:Edited'), defaultOptions);
+    case 'NotEdited':
+      return toast.error(i18n.t('notifications:NotEdited'), defaultOptions);
     default:
       return toast.warn(i18n.t('notifications:SomethingWrong'), defaultOptions);
   }
@@ -92,10 +96,14 @@ export const notifyNewRequest = (msg) => {
   switch (msg) {
     case 'Network Error':
       return toast.error(i18n.t('notifications:NoConnection'), defaultOptions);
-
     case '400':
       return toast.error(i18n.t('notifications:BadRequest'), defaultOptions);
-
+    case 'Empty managers':
+      return toast.error(i18n.t('notifications:EmptyManagers'), defaultOptions);
+    case 'Empty dates':
+      return toast.error(i18n.t('notifications:EmptyDates'), defaultOptions);
+    case 'Empty comment':
+      return toast.error(i18n.t('notifications:NoComment'), defaultOptions);
     case 'New request success':
       return toast.success(i18n.t('notifications:NewRequest'), defaultOptions);
 

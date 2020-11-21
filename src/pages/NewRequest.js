@@ -64,53 +64,26 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
     setPManager(array);
   };
 
-  const handleSendRequest = async () => {
+  const handleSendRequest = (flagDateIntersection) => {
     setRequestSending(true);
 
-    const reviewerIds =
-      pmanager.length > 0 && pmanager[0] !== ''
-        ? pmanager.map((item) => {
-            return data.find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
-          })
-        : null;
+    if (!fromDate || !toDate) {
+      notifyNewRequest('Empty dates');
+      setRequestSending(false);
+      return;
+    }
 
-    await postNewRequest({
-      leaveType,
-      fromDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
-      toDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
-      pmanager: reviewerIds !== null ? [1, ...reviewerIds] : [1],
-      comment,
-      duration,
-      userId: context.userId,
-    })
-      .then(({ data }) => {
-        notifyNewRequest('New request success');
-      })
-      .catch((err) => {
-        if (err.message === 'Network Error') {
-          notifyNewRequest('Network Error');
-        } else if (err.response.status === 400) {
-          notifyNewRequest('400');
-        } else if (err.response.status === 409) {
-          openDialog(true);
-        } else {
-          notifyNewRequest('New request failed');
-        }
-      });
+    if ([2, 6, 7].includes(leaveType) && comment.replaceAll(' ', '').length === 0) {
+      notifyNewRequest('Empty comment');
+      setRequestSending(false);
+      return;
+    }
 
-    setRequestSending(false);
-  };
-
-  const handleDuration = (duration) => {
-    setDuration(duration);
-  };
-
-  const onDialogClose = () => {
-    openDialog(false);
-  };
-
-  const onDialogConfirm = () => {
-    setRequestSending(true);
+    if ([2, 6, 7].includes(leaveType) && pmanager.includes('')) {
+      notifyNewRequest('Empty managers');
+      setRequestSending(false);
+      return;
+    }
 
     const reviewerIds =
       pmanager.length > 0 && pmanager[0] !== ''
@@ -127,7 +100,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       comment,
       duration,
       userId: context.userId,
-      isDateIntersectionAllowed: true,
+      isDateIntersectionAllowed: flagDateIntersection,
     })
       .then(({ data }) => {
         notifyNewRequest('New request success');
@@ -135,14 +108,24 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyNewRequest('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyNewRequest('400');
+        } else if (err.response && err.response.status === 409) {
+          openDialog(true);
         } else {
           notifyNewRequest('New request failed');
         }
       });
     openDialog(false);
     setRequestSending(false);
+  };
+
+  const handleDuration = (duration) => {
+    setDuration(duration);
+  };
+
+  const onDialogClose = () => {
+    openDialog(false);
   };
 
   useEffect(() => {
@@ -241,7 +224,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
             className="new-request__ok-btn"
             variant="contained"
             disabled={isSendingRequest}
-            onClick={handleSendRequest}>
+            onClick={() => handleSendRequest(false)}>
             {t('requests:SendRequest')}
           </Button>
           <Button
@@ -257,7 +240,8 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       <DateIntersectionDialog
         isOpen={isDialogOpen}
         onClose={onDialogClose}
-        onOk={onDialogConfirm}
+        onOk={() => handleSendRequest(true)}
+        onCancel={onDialogClose}
       />
       <ToastContainer />
     </div>

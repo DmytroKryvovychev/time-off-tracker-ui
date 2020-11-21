@@ -24,6 +24,10 @@
     "ApprovedRequest": "Заявка утверждена!",
     "NotApprovedRequest": "Заявка не утверждена!",
     "RejectedRequest" : "Заявка отклонена!",
-    "NotRejectedRequest" : "Заявка не отклонена!"
+    "NotRejectedRequest" : "Заявка не отклонена!",
+    "NotActualRequest": "Заявка не актуальна!",
+    "AlreadyDone": "Заявка уже была утверждена/отклонена!",
+    "NoPrevReview": "Нет предыдущего отзыва!",
+    "SomethingWrong": "Что-то пошло не так!"
 
 }

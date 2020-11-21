@@ -27,6 +27,7 @@ function VacationPeriod({
         id={`dateFrom`}
         disabled={isSendingRequest}
         showClearDate
+        readOnly
         placeholder={t('From')}
         isOutsideRange={showAllDays && showPastDays}
         isDayBlocked={(day) => (toDate ? day > toDate : null)}
@@ -41,6 +42,7 @@ function VacationPeriod({
         id={`dateTo`}
         disabled={isSendingRequest}
         showClearDate
+        readOnly
         placeholder={t('To')}
         isOutsideRange={showAllDays && showPastDays}
         isDayBlocked={(day) => (fromDate ? day < fromDate : null)}

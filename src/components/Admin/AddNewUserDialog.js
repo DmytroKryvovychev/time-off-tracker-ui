@@ -58,7 +58,7 @@ export default function AddNewUser({ isOpen, onClose, roles, updateUsers }) {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyAdmin('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyAdmin('400');
         } else {
           notifyAdmin('New user failure');

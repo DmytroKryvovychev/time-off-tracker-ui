@@ -24,6 +24,8 @@
     "Duplicate":"Duplicate",
     "Decline": "Decline",
     "Close":"Close",
+    "NotFound": "The request not found!",
+    "RejectionReason": "Rejection reason",
     "RejectedByOwner": "Rejected by Owner",
     "NoRequestById":"No Request by id: {{id}}"
 

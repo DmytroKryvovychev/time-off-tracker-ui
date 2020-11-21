@@ -92,9 +92,7 @@ function Login() {
   return (
     <div>
       <form className="login__form">
-        <Typography variant="h4" align="center" className="login__title">
-          {t('Title')}
-        </Typography>
+        <h1 className="login__title">{t('Title')}</h1>
         <TextField
           label={t('Username')}
           error={errors.username.length > 0}

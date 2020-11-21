@@ -100,7 +100,7 @@ export default function ReviewsTable({ data, short, users }) {
       for (let index = 1; index < count + 1; index++) {
         array.push(opt * index);
       }
-      array.push(data.length);
+      data.length !== array[array.length - 1] && array.push(data.length);
       return array;
     }
   };

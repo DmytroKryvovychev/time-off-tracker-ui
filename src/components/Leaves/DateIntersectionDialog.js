@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useTranslation } from 'react-i18next';
 
-export default function ConfirmationDialog({ isOpen, onClose, onOk }) {
+export default function ConfirmationDialog({ isOpen, onClose, onOk, onCancel }) {
   const { t } = useTranslation('leaves');
 
   return (
@@ -20,7 +20,7 @@ export default function ConfirmationDialog({ isOpen, onClose, onOk }) {
           <Button onClick={onOk} color="primary">
             {t('OK')}
           </Button>
-          <Button onClick={onClose} color="primary" autoFocus>
+          <Button onClick={onCancel} color="primary" autoFocus>
             {t('Cancel')}
           </Button>
         </DialogActions>

@@ -15,5 +15,10 @@
     "ApproveFail": "Failed to approve request",
     "RejectRequest": "Request successfully rejected",
     "RejectFail": "Failed to reject request",
-    "NoComment": "Fill comment field"
+    "NoComment": "Fill comment field",
+    "EmptyManagers": "The manager field must be filled",
+    "EmptyDates": "Select vacation dates",
+    "NoApprovedCorrectytion": "You cannot correct this request",
+    "Edited": "The request successfully changed",
+    "NotEdited": "Failed to change request"
 }

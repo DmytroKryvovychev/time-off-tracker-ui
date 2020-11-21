@@ -13,6 +13,7 @@ import ReviewsTable from '../components/OtherRequests/ReviewsTable';
 import RequestTable from '../components/RequestTable';
 import Calendar from '../components/Calendar';
 import { notifyHome } from '../notifications';
+import { states } from '../constants';
 
 function Home() {
   const [isNewRequestOpen, setNewRequestState] = useState(false);
@@ -27,11 +28,18 @@ function Home() {
   const [users, setUsers] = useContext(Users);
 
   const funct = (start, end) => {
+    if (context.role === 'Accountant') return;
     const startObj = moment(new Date(start));
     const endObj = moment(new Date(end));
 
     setCalendar([startObj, endObj]);
     setNewRequestState(true);
+  };
+
+  const compareFunc = (a, b) => {
+    if (a.id > b.id) return -1;
+    if (a.id < b.id) return 1;
+    return 0;
   };
 
   useEffect(() => {
@@ -43,7 +51,7 @@ function Home() {
         .catch((err) => {
           if (err.message === 'Network Error') {
             notifyHome('Network Error');
-          } else if (err.response.status === 400) {
+          } else if (err.response && err.response.status === 400) {
             notifyHome('400');
           } else {
             notifyHome();
@@ -53,14 +61,15 @@ function Home() {
     function getRequests() {
       getMyRequests()
         .then(({ data }) => {
-          setRequests(data);
+          const sortedData = data.sort(compareFunc);
+          setRequests(sortedData);
         })
         .catch((err) => {
           if (err.message === 'Network Error') {
             notifyHome('Network Error');
-          } else if (err.response.status === 400) {
+          } else if (err.response && err.response.status === 400) {
             notifyHome('400');
-          } else if (err.response.status === 401) {
+          } else if (err.response && err.response.status === 401) {
             localStorage.clear();
             setContext({ userId: null, user: null, role: null, token: null });
           } else {
@@ -80,7 +89,7 @@ function Home() {
           .catch((err) => {
             if (err.message === 'Network Error') {
               notifyHome('Network Error');
-            } else if (err.response.status === 400) {
+            } else if (err.response && err.response.status === 400) {
               notifyHome('400');
             } else {
               notifyHome();
@@ -95,19 +104,21 @@ function Home() {
     let events;
 
     if (users && requests) {
-      events = requests.map((item) => {
-        const user = users.find((user) => user.id === item.userId);
-        const startDay = new Date(item.startDate);
-        const endDay = new Date(item.endDate);
-        if (item.startDate !== item.endDate) {
-          endDay.setHours(24);
-        }
-        return {
-          title: user.firstName.concat(' ', user.lastName),
-          start: startDay,
-          end: endDay,
-        };
-      });
+      events = requests
+        .filter((req) => req.stateId === states.indexOf('Approved'))
+        .map((item) => {
+          const user = users.find((user) => user.id === item.userId);
+          const startDay = new Date(item.startDate);
+          const endDay = new Date(item.endDate);
+          if (item.startDate !== item.endDate) {
+            endDay.setHours(24);
+          }
+          return {
+            title: user.firstName.concat(' ', user.lastName),
+            start: startDay,
+            end: endDay,
+          };
+        });
 
       if (reviews) {
         const rew = reviews.map((item) => {

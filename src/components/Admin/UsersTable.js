@@ -212,7 +212,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
       for (let index = 1; index < count + 1; index++) {
         array.push(5 * index);
       }
-      array.push(data.length);
+      data.length !== array[array.length - 1] && array.push(data.length);
       return array;
     }
   };
@@ -228,7 +228,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyAdmin('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyAdmin('400');
         } else {
           notifyAdmin('User delete failed');
@@ -258,7 +258,7 @@ export default function EnhancedTable({ data, roles, updateUsers }) {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyAdmin('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyAdmin('400');
         } else {
           notifyAdmin('Role changed failed');
