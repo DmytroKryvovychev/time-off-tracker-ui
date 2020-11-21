@@ -94,10 +94,10 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       isDateIntersectionAllowed: flagDateIntersection,
     })
       .then(({ data }) => {
+        setRequestSending(false);
         notifyNewRequest('New request success');
       })
       .catch((err) => {
-        console.log(err.response.data);
         if (err.message === 'Network Error') {
           notifyNewRequest('Network Error');
         } else if (err.response && err.response.status === 400) {
@@ -111,9 +111,10 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
         } else {
           notifyNewRequest('New request failed');
         }
+
+        setRequestSending(false);
       });
     openDialog(false);
-    setRequestSending(false);
   };
 
   const handleDuration = (duration) => {
@@ -237,7 +238,10 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
         isOpen={isDialogOpen}
         onClose={onDialogClose}
         onOk={() => handleSendRequest(true)}
-        onCancel={onDialogClose}
+        onCancel={() => {
+          setRequestSending(false);
+          onDialogClose();
+        }}
       />
     </div>
   );

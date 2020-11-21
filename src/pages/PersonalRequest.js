@@ -238,7 +238,6 @@ function PersonalRequest() {
         history.push('/my_requests');
       })
       .catch((err) => {
-        console.log(err);
         if (err.message === 'Network Error') {
           notifyMyRequests('Network Error');
         } else if (err.response && err.response.status === 400) {

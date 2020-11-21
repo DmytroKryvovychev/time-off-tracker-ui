@@ -50,19 +50,6 @@ function Admin() {
     setLoading(false);
   };
 
-  //live search
-  // const handleFilterName = () => {
-  //   const filteredData = filter
-  //     ? data.filter(
-  //         (item) =>
-  //           item.firstName.toLowerCase().includes(filter.toLowerCase()) ||
-  //           item.lastName.toLowerCase().includes(filter.toLowerCase()),
-  //       )
-  //     : data;
-
-  //   return role === -1 ? filteredData : filteredData.filter((item) => item.role === roles[role]);
-  // };
-
   const roles = ['Employee', 'Manager'];
 
   return (
