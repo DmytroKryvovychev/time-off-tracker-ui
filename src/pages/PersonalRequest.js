@@ -207,7 +207,9 @@ function PersonalRequest() {
       durationId: duration,
       isDateIntersectionAllowed: flagDateIntersection,
     })
-      .then(() => notifyMyRequests('Edited'))
+      .then(() => {
+        notifyMyRequests('Edited');
+      })
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyMyRequests('Network Error');
@@ -224,6 +226,7 @@ function PersonalRequest() {
       });
     openIntersectDialog(false);
     setRequestSending(false);
+    setEditable(true);
   };
 
   const handleDeleteRequest = () => {
@@ -287,7 +290,6 @@ function PersonalRequest() {
                       disabled={isSendingRequest}
                       onClick={() => {
                         handleChangeRequest(false);
-                        setEditable(true);
                       }}>
                       {t('SaveChanges')}
                     </Button>

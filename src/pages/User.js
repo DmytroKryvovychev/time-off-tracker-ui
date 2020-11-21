@@ -78,7 +78,7 @@ function User() {
                     disableElevation
                     className="button"
                     variant={idx === selectedRoute ? 'contained' : 'text'}
-                    color={idx === selectedRoute ? 'primary' : ''}
+                    color={idx === selectedRoute ? 'primary' : 'default'}
                     fullWidth
                     onClick={() => {
                       setSelectedRoute(idx);

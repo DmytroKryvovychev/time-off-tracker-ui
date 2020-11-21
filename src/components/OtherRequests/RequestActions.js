@@ -19,7 +19,6 @@ function RequestActions() {
   const [isSendingRequest, setSending] = useState(true);
   const [comment, setComment] = useState('');
   const [result, setResult] = useState('');
-  const [isRejected, setRejected] = useState('');
   const { t } = useTranslation(['reviews', 'notifications']);
 
   useEffect(() => {
@@ -31,6 +30,7 @@ function RequestActions() {
   }, []);
 
   const handleApprove = (reviewId, action) => {
+    setSending(true);
     if (!action && comment === '') {
       notifyReviewActions('No comment');
       setSending(false);
@@ -38,14 +38,16 @@ function RequestActions() {
     }
     actionReview(reviewId, action, comment)
       .then(() => {
-        action ? setResult('ApprovedRequest') : setRejected('RejectedRequest');
+        action ? setResult('ApprovedRequest') : setResult('RejectedRequest');
         action ? notifyReviewActions('Approve success') : notifyReviewActions('Rejection success');
       })
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyReviewActions('Network Error');
+          action ? setResult('NotApprovedRequest') : setResult('NotRejectedRequest');
         } else if (err.response && err.response.status === 400) {
           notifyReviewActions('400');
+          action ? setResult('NotApprovedRequest') : setResult('NotRejectedRequest');
         } else if (err.response && err.response.status === 409) {
           switch (err.response.data) {
             case 'The request is not actual!':
@@ -74,9 +76,9 @@ function RequestActions() {
               break;
           }
         } else {
+          action ? setResult('NotApprovedRequest') : setResult('NotRejectedRequest');
           action ? notifyReviewActions('Approve failed') : notifyReviewActions('Rejection failed');
         }
-        action ? setResult('NotApprovedRequest') : setRejected('NotRejectedRequest');
       });
 
     setSending(false);
@@ -84,25 +86,6 @@ function RequestActions() {
 
   const changeComment = (e) => {
     setComment(e.target.value);
-  };
-
-  const renderRejectFields = () => {
-    return (
-      <>
-        <h3>{t('RejectReason')}</h3>
-        <LeaveComment disabled={isSendingRequest} comment={comment} changeComment={changeComment} />
-        <Button
-          disabled={isSendingRequest}
-          className="reviews-table__cancel-btn"
-          variant="contained"
-          onClick={() => {
-            setSending(true);
-            handleApprove(query.get('review'), false);
-          }}>
-          {t('Send')}
-        </Button>
-      </>
-    );
   };
 
   return (
@@ -113,10 +96,26 @@ function RequestActions() {
         ) : (
           <p>{t(result)}</p>
         )
-      ) : isRejected.length === 0 ? (
-        <div className="reject__content">{renderRejectFields()}</div>
+      ) : result.length === 0 ? (
+        <div className="reject__content">
+          <h3>{t('RejectReason')}</h3>
+          <LeaveComment
+            disabled={isSendingRequest}
+            comment={comment}
+            changeComment={changeComment}
+          />
+          <Button
+            disabled={isSendingRequest}
+            className="reviews-table__cancel-btn"
+            variant="contained"
+            onClick={() => {
+              handleApprove(query.get('review'), false);
+            }}>
+            {t('Send')}
+          </Button>
+        </div>
       ) : (
-        <p>{t(isRejected)}</p>
+        <p>{t(result)}</p>
       )}
       <ToastContainer />
     </div>

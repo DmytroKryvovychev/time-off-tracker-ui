@@ -26,7 +26,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
         <>
           <button
             className="approvers__add-btn"
-            disabled={isApproved === null ? true : isApproved || isDisabled}
+            disabled={isApproved === true ? true : isApproved || isDisabled}
             onClick={() => {
               if (options.length < 1 || managers.length === options.length) return;
               let array = [...managers];
@@ -37,7 +37,7 @@ function Signers({ options, managers, onChange, idx, isDisabled, isEditable, isA
           </button>
           <button
             className="approvers__delete-btn"
-            disabled={isApproved === null ? true : isApproved || isDisabled}
+            disabled={isApproved === true ? true : isApproved || isDisabled}
             onClick={() => {
               if (managers.length === 1) return;
               let array = [...managers];

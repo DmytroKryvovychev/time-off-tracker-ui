@@ -28,7 +28,7 @@ function Home() {
   const [users, setUsers] = useContext(Users);
 
   const funct = (start, end) => {
-    if (context.role === 'Accountant') return;
+    if (context.role === 'Accountant' || new Date(start) < new Date()) return;
     const startObj = moment(new Date(start));
     const endObj = moment(new Date(end));
 

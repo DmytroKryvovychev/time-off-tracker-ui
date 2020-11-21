@@ -6,7 +6,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { ToastContainer } from 'react-toastify';
 
 import { Context } from '../Context';
 import { postNewRequest, getAllManagers } from '../components/Axios';
@@ -22,14 +21,6 @@ import {
   Study,
 } from '../components/Leaves/index';
 import { notifyNewRequest } from '../notifications';
-
-//ForceMajeureAdministrativeLeave = 1,
-// AdministrativeUnpaidLeave = 2,
-// SocialLeave = 3,
-// SickLeaveWithoutDocuments = 4,
-// SickLeaveWithDocuments = 5,
-// StudyLeave = 6,
-// PaidLeave = 7
 
 let prManagers = [];
 
@@ -106,12 +97,17 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
         notifyNewRequest('New request success');
       })
       .catch((err) => {
+        console.log(err.response.data);
         if (err.message === 'Network Error') {
           notifyNewRequest('Network Error');
         } else if (err.response && err.response.status === 400) {
           notifyNewRequest('400');
         } else if (err.response && err.response.status === 409) {
-          openDialog(true);
+          if (err.response.data === 'Dates intersection') {
+            openDialog(true);
+          } else {
+            notifyNewRequest('');
+          }
         } else {
           notifyNewRequest('New request failed');
         }
@@ -243,7 +239,6 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
         onOk={() => handleSendRequest(true)}
         onCancel={onDialogClose}
       />
-      <ToastContainer />
     </div>
   );
 }

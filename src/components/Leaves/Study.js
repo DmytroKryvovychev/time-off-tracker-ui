@@ -28,15 +28,19 @@ function Study({
         toDate={toDate}
         changeToDate={changeToDate}
         isSendingRequest={
-          (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
-          isSendingRequest
+          request
+            ? (request.stateId === states.indexOf('InProgress') ? true : isEditable) ||
+              isSendingRequest
+            : isSendingRequest
         }
       />
 
       <LeaveComment
         disabled={
-          (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
-          isSendingRequest
+          request
+            ? (request.stateId === states.indexOf('InProgress') ? true : isEditable) ||
+              isSendingRequest
+            : isSendingRequest
         }
         comment={comment}
         changeComment={changeComment}
