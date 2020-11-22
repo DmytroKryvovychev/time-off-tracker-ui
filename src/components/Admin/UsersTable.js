@@ -78,7 +78,8 @@ function EnhancedTableHead(props) {
             key={headCell.id}
             align={headCell.numeric ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}>
+            sortDirection={orderBy === headCell.id ? order : false}
+            className="reviews__table-cell">
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
