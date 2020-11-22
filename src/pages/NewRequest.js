@@ -64,7 +64,7 @@ function NewRequest({ isOpen, onClose, calendar, request }) {
       return;
     }
 
-    if ([2, 6, 7].includes(leaveType) && comment.replaceAll(' ', '').length === 0) {
+    if ([2, 4, 5, 7].includes(leaveType) && comment.replaceAll(' ', '').length === 0) {
       notifyNewRequest('Empty comment');
       setRequestSending(false);
       return;

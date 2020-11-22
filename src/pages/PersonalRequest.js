@@ -176,7 +176,7 @@ function PersonalRequest() {
       return;
     }
 
-    if ([2, 6, 7].includes(request.typeId) && comment.replaceAll(' ', '').length === 0) {
+    if ([2, 4, 5, 7].includes(request.typeId) && comment.replaceAll(' ', '').length === 0) {
       notifyNewRequest('Empty comment');
       setRequestSending(false);
       return;
