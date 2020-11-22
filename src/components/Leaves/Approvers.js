@@ -56,7 +56,7 @@ function Approvers({
                   isDisabled={isSendingRequest}
                   isApproved={
                     request &&
-                    request.stateId === states.indexOf('In progress') &&
+                    request.stateId === states.indexOf('InProgress') &&
                     isApproved(manager)
                   }
                   isEditable={isEditable}

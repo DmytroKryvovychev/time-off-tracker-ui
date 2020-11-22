@@ -54,17 +54,12 @@ function User() {
   }, [context, location]);
 
   useEffect(() => {
-    if (!context.token) {
-      history.replace('/login');
-      return;
-    }
-
     getUsers('', '')
       .then(({ data }) => {
         setUsers(data);
       })
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err.response && err.response.status === 401) {
           localStorage.clear();
           setContext({ userId: null, user: null, role: null, token: null });
         }
@@ -83,7 +78,7 @@ function User() {
                     disableElevation
                     className="button"
                     variant={idx === selectedRoute ? 'contained' : 'text'}
-                    color={idx === selectedRoute ? 'primary' : ''}
+                    color={idx === selectedRoute ? 'primary' : 'default'}
                     fullWidth
                     onClick={() => {
                       setSelectedRoute(idx);

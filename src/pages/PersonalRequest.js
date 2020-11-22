@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import moment from 'moment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ToastContainer } from 'react-toastify';
 
 import {
@@ -15,11 +16,12 @@ import {
 } from '../components/Leaves/index';
 import { getRequestById, changeRequest, declineRequest } from '../components/Axios';
 import { types, states } from '../constants';
-import { notifyMyRequests } from '../notifications';
+import { notifyNewRequest, notifyMyRequests } from '../notifications';
 import { Users } from '../Context';
 import ConfirmationDialog from '../components/Leaves/ConfirmationDialog';
 import NewRequest from './NewRequest';
 import { useTranslation } from 'react-i18next';
+import DateIntersectionDialog from '../components/Leaves/DateIntersectionDialog';
 
 let prManagers = [];
 
@@ -36,8 +38,10 @@ function PersonalRequest() {
   const [duration, setDuration] = useState(2);
   const [isEditable, setEditable] = useState(true);
   const [isDialogOpen, openDialog] = useState(false);
+  const [isIntersectDialog, openIntersectDialog] = useState(false);
   const [isNewRequestOpened, openNewRequest] = useState(false);
-  const { t } = useTranslation(['requests', 'translation']);
+  const [result, setResult] = useState('');
+  const { t } = useTranslation(['requests', 'translation', 'notifications']);
 
   const handleComment = (e) => {
     setComment(e.target.value);
@@ -101,32 +105,36 @@ function PersonalRequest() {
     setComment(request.comment);
   };
 
+  const dataSet = (data) => {
+    data.reviews.map((item) => (item.reviewer = users.find((user) => user.id === item.reviewerId)));
+    data.user = users.find((user) => user.id === data.userId);
+    const managers = data.reviews
+      .filter((item) => item.reviewerId !== 1)
+      .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
+    setPManager(managers);
+    setFromDate(moment(data.startDate));
+    setToDate(moment(data.endDate));
+    setDuration(data.durationId);
+    setComment(data.comment);
+    setRequest(data);
+  };
+
   useEffect(() => {
     if (users) {
       getRequestById(id)
         .then(({ data }) => {
-          data.reviews.map(
-            (item) => (item.reviewer = users.find((user) => user.id === item.reviewerId)),
-          );
-          data.user = users.find((user) => user.id === data.userId);
-          const managers = data.reviews
-            .filter((item) => item.reviewerId !== 1)
-            .map((rev) => rev.reviewer.firstName.concat(' ', rev.reviewer.lastName));
-          setPManager(managers);
-          setFromDate(moment(data.startDate));
-          setToDate(moment(data.endDate));
-          setDuration(data.durationId);
-          setComment(data.comment);
-          setRequest(data);
+          dataSet(data);
         })
         .catch((err) => {
           if (err.message === 'Network Error') {
             notifyMyRequests('Network Error');
-          } else if (err.response.status === 400) {
+          } else if (err.response && err.response.status === 400) {
             notifyMyRequests('400');
           } else {
             notifyMyRequests('');
           }
+          setResult('NotFound');
+          return;
         });
     }
 
@@ -143,6 +151,10 @@ function PersonalRequest() {
     openDialog(false);
   };
 
+  const onIntersectDialogClose = () => {
+    openIntersectDialog(false);
+  };
+
   const onDialogConfirm = () => {
     setEditable(false);
 
@@ -155,25 +167,66 @@ function PersonalRequest() {
     openDialog(false);
   };
 
-  const handleChangeRequest = () => {
+  const handleChangeRequest = (flagDateIntersection) => {
     setRequestSending(true);
-    const reviewerIds = pmanager.map((item) => {
-      return users
-        .filter((us) => us.role === 'Manager')
-        .find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
-    });
+
+    if (!fromDate || !toDate) {
+      notifyNewRequest('Empty dates');
+      setRequestSending(false);
+      return;
+    }
+
+    if ([2, 4, 5, 7].includes(request.typeId) && comment.replaceAll(' ', '').length === 0) {
+      notifyNewRequest('Empty comment');
+      setRequestSending(false);
+      return;
+    }
+
+    if ([2, 6, 7].includes(request.typeId) && pmanager.includes('')) {
+      notifyNewRequest('Empty managers');
+      setRequestSending(false);
+      return;
+    }
+
+    const reviewerIds =
+      pmanager.length > 0
+        ? pmanager.map((item) => {
+            return users
+              .filter((us) => us.role === 'Manager')
+              .find((dat) => dat.firstName.concat(' ', dat.lastName) === item).id;
+          })
+        : null;
 
     changeRequest(id, {
       id: id,
       typeId: request.typeId,
       startDate: moment(fromDate._d).format('YYYY-MM-DD').toString(),
       endDate: moment(toDate._d).format('YYYY-MM-DD').toString(),
-      reviewsIds: [1, ...reviewerIds],
+      reviewsIds: reviewerIds !== null ? [1, ...reviewerIds] : [1],
       comment: comment,
       durationId: duration,
-    }).catch((err) => console.log(err));
-
+      isDateIntersectionAllowed: flagDateIntersection,
+    })
+      .then(() => {
+        notifyMyRequests('Edited');
+      })
+      .catch((err) => {
+        if (err.message === 'Network Error') {
+          notifyMyRequests('Network Error');
+          dataSet(request);
+        } else if (err.response && err.response.status === 400) {
+          notifyMyRequests('400');
+          dataSet(request);
+        } else if (err.response && err.response.status === 409) {
+          openIntersectDialog(true);
+        } else {
+          notifyMyRequests('NotEdited');
+          dataSet(request);
+        }
+      });
+    openIntersectDialog(false);
     setRequestSending(false);
+    setEditable(true);
   };
 
   const handleDeleteRequest = () => {
@@ -185,10 +238,9 @@ function PersonalRequest() {
         history.push('/my_requests');
       })
       .catch((err) => {
-        console.log(err);
         if (err.message === 'Network Error') {
           notifyMyRequests('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyMyRequests('400');
         } else {
           notifyMyRequests('');
@@ -200,104 +252,122 @@ function PersonalRequest() {
 
   return (
     <div className="personal__content" style={{ padding: 5 }}>
-      {request ? (
-        <div>
-          <h2 className="personal__type">
-            {t(`translation:${types[request.typeId].title}`)}
-            <p className="personal__state">
-              ({t('State')}: {t(`translation:${states[request.stateId]}`)})
-            </p>
-          </h2>
-          <div className="personal__request">{renderLeaveBody[request.typeId - 1].comp}</div>
+      {result.length === 0 ? (
+        request ? (
+          <div>
+            <h2 className="personal__type">
+              {t(`translation:${types[request.typeId].title}`)}
+              <p className="personal__state">
+                ({t('State')}: {t(`translation:${states[request.stateId]}`)})
+              </p>
+            </h2>
+            <div className="personal__request">{renderLeaveBody[request.typeId - 1].comp}</div>
 
-          <div className="personal__btn-group">
-            {request.stateId !== states.indexOf('Rejected') ? (
-              isEditable ? (
-                <Button
-                  className="personal-request__edit-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {
-                    if (request.stateId === states.indexOf('Approved')) {
-                      openDialog(true);
-                    } else {
-                      setEditable(false);
-                    }
-                  }}>
-                  {t('Edit')}
-                </Button>
-              ) : (
+            <div className="personal__btn-group">
+              {[states.indexOf('New'), states.indexOf('InProgress')].includes(request.stateId) ||
+              (request.stateId === states.indexOf('Approved') &&
+                new Date(request.endDate) > new Date()) ? (
+                isEditable ? (
+                  <Button
+                    className="personal-request__edit-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      if (request.stateId === states.indexOf('Approved')) {
+                        openDialog(true);
+                      } else {
+                        setEditable(false);
+                      }
+                    }}>
+                    {t('Edit')}
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      className="personal-request__save-btn"
+                      variant="contained"
+                      disabled={isSendingRequest}
+                      onClick={() => {
+                        handleChangeRequest(false);
+                      }}>
+                      {t('SaveChanges')}
+                    </Button>
+                    <Button
+                      className="personal-request__ce-btn"
+                      variant="contained"
+                      disabled={isSendingRequest}
+                      onClick={() => {
+                        cancelEditing();
+                        setEditable(true);
+                      }}>
+                      {t('CancelEditing')}
+                    </Button>
+                  </>
+                )
+              ) : null}
+              {isEditable && (
                 <>
                   <Button
-                    className="personal-request__save-btn"
+                    className="personal-request__duplicate-btn"
                     variant="contained"
                     disabled={isSendingRequest}
                     onClick={() => {
-                      handleChangeRequest();
-                      setEditable(true);
-                    }}>
-                    {t('SaveChanges')}
-                  </Button>
-                  <Button
-                    className="personal-request__ce-btn"
-                    variant="contained"
-                    disabled={isSendingRequest}
-                    onClick={() => {
-                      cancelEditing();
-                      setEditable(true);
-                    }}>
-                    {t('CancelEditing')}
-                  </Button>
-                </>
-              )
-            ) : null}
-            {isEditable && (
-              <>
-                <Button
-                  className="personal-request__duplicate-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {
-                    openNewRequest(true);
-                  }}
-                  autoFocus>
-                  {t('Duplicate')}
-                </Button>
-                {request.stateId !== states.indexOf('Rejected') ? (
-                  <Button
-                    className="personal-request__decline-btn"
-                    variant="contained"
-                    disabled={isSendingRequest}
-                    onClick={() => {
-                      handleDeleteRequest();
+                      openNewRequest(true);
                     }}
                     autoFocus>
-                    {t('Decline')}
+                    {t('Duplicate')}
                   </Button>
-                ) : null}
-                <Button
-                  className="personal-request__close-btn"
-                  variant="contained"
-                  disabled={isSendingRequest}
-                  onClick={() => {
-                    history.goBack();
-                  }}
-                  autoFocus>
-                  {t('Close')}
-                </Button>
-              </>
-            )}
+                  {[states.indexOf('New'), states.indexOf('InProgress')].includes(
+                    request.stateId,
+                  ) ||
+                  (request.stateId === states.indexOf('Approved') &&
+                    new Date(request.endDate) > new Date()) ? (
+                    <Button
+                      className="personal-request__decline-btn"
+                      variant="contained"
+                      disabled={isSendingRequest}
+                      onClick={() => {
+                        handleDeleteRequest();
+                      }}
+                      autoFocus>
+                      {t('Decline')}
+                    </Button>
+                  ) : null}
+                  <Button
+                    className="personal-request__close-btn"
+                    variant="contained"
+                    disabled={isSendingRequest}
+                    onClick={() => {
+                      history.goBack();
+                    }}
+                    autoFocus>
+                    {t('Close')}
+                  </Button>
+                </>
+              )}
+            </div>
+            <NewRequest
+              isOpen={isNewRequestOpened}
+              onClose={() => {
+                openNewRequest(false);
+              }}
+              request={request}
+            />
+            <DateIntersectionDialog
+              isOpen={isIntersectDialog}
+              onClose={onIntersectDialogClose}
+              onOk={() => handleChangeRequest(true)}
+              onCancel={() => {
+                dataSet(request);
+                openIntersectDialog(false);
+              }}
+            />
           </div>
-          <NewRequest
-            isOpen={isNewRequestOpened}
-            onClose={() => {
-              openNewRequest(false);
-            }}
-            request={request}
-          />
-        </div>
+        ) : (
+          <CircularProgress />
+        )
       ) : (
-        <p>{t('NoRequestById', { id: id })}</p>
+        <h2>{t(result)}</h2>
       )}
       <ConfirmationDialog isOpen={isDialogOpen} onClose={onDialogClose} onOk={onDialogConfirm} />
       <ToastContainer />

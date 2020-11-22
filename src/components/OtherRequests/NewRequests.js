@@ -30,7 +30,7 @@ function NewRequests() {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyOtherRequests('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyOtherRequests('400');
         } else {
           notifyOtherRequests('');
@@ -66,7 +66,7 @@ function NewRequests() {
         ) : users && data.length > 0 ? (
           <ReviewsTable data={data} users={users} />
         ) : (
-          <h3>{t('NoData')}</h3>
+          <h3 className="nodata">{t('NoData')}</h3>
         )}
       </div>
       <ToastContainer />

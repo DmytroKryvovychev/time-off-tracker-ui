@@ -24,6 +24,8 @@
     "Duplicate":"Дублировать",
     "Decline":"Отклонить",
     "Close":"Закрыть",
+    "NotFound": "Заявка не найдена!",
+    "RejectionReason": "Причина отклонения",
     "RejectedByOwner": "Отклонена пользователем",
     "NoRequestById":"Заявка {{id}} не найдена"
 }

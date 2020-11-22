@@ -24,5 +24,9 @@
     "ApprovedRequest":"The Request is approved!",
     "NotApprovedRequest":"The Request is not approved!",
     "RejectedRequest" : "The Request is rejected!",
-    "NotRejectedRequest" : "The Request is not rejected!"
+    "NotRejectedRequest" : "The Request is not rejected!",
+    "NotActualRequest": "The request is not actual!",
+    "AlreadyDone": "The request has already been approved/rejected!",
+    "NoPrevReview": "No previous review!",
+    "SomethingWrong": "Something goes wrong!"
 }

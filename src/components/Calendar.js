@@ -55,7 +55,7 @@ class Selectable extends React.Component {
           events={this.state.events}
           views={['month']}
           defaultDate={new Date()}
-          onSelectEvent={(event) => alert(event.title)}
+          onSelectEvent={(event) => {}}
           onSelectSlot={({ start, end }) => func(start, end)}
           eventPropGetter={this.eventStyleGetter}
           messages={{ today: t('Today'), previous: t('Back'), next: t('Next') }}

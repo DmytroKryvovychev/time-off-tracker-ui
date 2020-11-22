@@ -96,7 +96,7 @@ export default function RequestTable({ data, short, users }) {
       for (let index = 1; index < count + 1; index++) {
         array.push(5 * index);
       }
-      array.push(data.length);
+      data.length !== array[array.length - 1] && array.push(data.length);
       return array;
     }
   };
@@ -161,9 +161,11 @@ export default function RequestTable({ data, short, users }) {
                       {short ? null : <TableCell align="center">{item.comment}</TableCell>}
                       <TableCell align="center">
                         {item.stateId === 4
-                          ? item.reviews.find((rev) => rev.isApproved === false)
-                            ? item.reviews.find((rev) => rev.isApproved === false).comment
-                            : t('requests:RejectedByOwner')
+                          ? `${t('requests:RejectionReason')}: ${
+                              item.reviews.find((rev) => rev.isApproved === false)
+                                ? item.reviews.find((rev) => rev.isApproved === false).comment
+                                : t('requests:RejectedByOwner')
+                            }`
                           : isApprovedBy(item)}
                       </TableCell>
                       {short ? null : (

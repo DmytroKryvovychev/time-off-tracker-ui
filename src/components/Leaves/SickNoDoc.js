@@ -38,10 +38,11 @@ function SickNoDoc({
         <SingleDatePicker
           id="dateFrom"
           disabled={
-            (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+            (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
             isSendingRequest
           }
           showClearDate
+          readOnly
           placeholder={t('From')}
           numberOfMonths={1}
           date={fromDate}
@@ -56,10 +57,11 @@ function SickNoDoc({
         <SingleDatePicker
           id="dateTo"
           disabled={
-            (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+            (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
             isSendingRequest
           }
           showClearDate
+          readOnly
           placeholder={t('To')}
           numberOfMonths={1}
           date={fromDate}
@@ -75,8 +77,7 @@ function SickNoDoc({
           <InputLabel>{t('Use')}</InputLabel>
           <Select
             disabled={
-              (request &&
-                (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+              (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
               isSendingRequest
             }
             value={duration}
@@ -92,7 +93,7 @@ function SickNoDoc({
 
       <LeaveComment
         disabled={
-          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
           isSendingRequest
         }
         comment={comment}

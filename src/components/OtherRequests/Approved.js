@@ -103,7 +103,7 @@ function Approved() {
       for (let index = 1; index < count + 1; index++) {
         array.push(5 * index);
       }
-      array.push(data.length);
+      data.length !== array[array.length - 1] && array.push(data.length);
       return array;
     }
   };
@@ -133,7 +133,7 @@ function Approved() {
       .catch((err) => {
         if (err.message === 'Network Error') {
           notifyOtherRequests('Network Error');
-        } else if (err.response.status === 400) {
+        } else if (err.response && err.response.status === 400) {
           notifyOtherRequests('400');
         } else {
           notifyOtherRequests('');

@@ -28,14 +28,14 @@ function Administrative({
         toDate={toDate}
         changeToDate={changeToDate}
         isSendingRequest={
-          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
           isSendingRequest
         }
       />
 
       <LeaveComment
         disabled={
-          (request && (request.stateId === states.indexOf('In progress') ? true : isEditable)) ||
+          (request && (request.stateId === states.indexOf('InProgress') ? true : isEditable)) ||
           isSendingRequest
         }
         comment={comment}

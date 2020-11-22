@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { TextField, Typography, Button, InputAdornment, IconButton } from '@material-ui/core';
+import { TextField, Button, InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -17,8 +17,8 @@ function Login() {
   const [context, setContext] = useContext(Context);
   const [users, setUsers] = useContext(Users);
 
-  const [username, setUsername] = useState('mainadmin@mail.ru'); //'mainadmin@mail.ru'
-  const [password, setPassword] = useState('mainadmin89M#'); //'mainadmin89M#'
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setPasswordVisibility] = useState(false);
   const [errors, setErrors] = useState({
     username: '',
@@ -92,9 +92,7 @@ function Login() {
   return (
     <div>
       <form className="login__form">
-        <Typography variant="h4" align="center" className="login__title">
-          {t('Title')}
-        </Typography>
+        <h1 className="login__title">{t('Title')}</h1>
         <TextField
           label={t('Username')}
           error={errors.username.length > 0}
