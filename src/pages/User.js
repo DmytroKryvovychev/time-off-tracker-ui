@@ -144,7 +144,7 @@ function User() {
                 />
               )
             }></Route>
-          <Route path="*" exect children={<Redirect to="/home" />}></Route>
+          <Route path="*" exect children={<Redirect to="/login" />}></Route>
         </Switch>
       </div>
     </div>
