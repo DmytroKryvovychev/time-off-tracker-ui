@@ -1,0 +1,144 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "admin@admin.com",
+      "email": "admin@admin.com",
+      "password": "password",
+      "firstName": "admin",
+      "lastName": "admin",
+      "role": "admin",
+      "vacations": []
+    },
+    {
+      "login": "jane@apriorit.com",
+      "email": "jane@apriorit.com",
+      "password": "password",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "role": "Manager",
+      "vacations": [],
+      "id": 2
+    },
+    {
+      "id": 3,
+      "login": "mark.smith@admin.com",
+      "email": "mark.smith@admin.com",
+      "password": "password",
+      "firstName": "Marky",
+      "lastName": "Smith",
+      "role": "Employee",
+      "vacations": []
+    },
+    {
+      "id": 4,
+      "login": "mark.Ivi@admin.com",
+      "email": "mark.Ivi@admin.com",
+      "password": "password",
+      "firstName": "Mark",
+      "lastName": "Ivi",
+      "role": "Manager",
+      "vacations": []
+    },
+    {
+      "id": 5,
+      "login": "kile.smith@admin.com",
+      "email": "kile.smith@admin.com",
+      "password": "password",
+      "firstName": "Kile",
+      "lastName": "Smith",
+      "role": "Employee",
+      "vacations": []
+    },
+    {
+      "id": 6,
+      "login": "kile.smith@admin.com",
+      "email": "kile.smith@admin.com",
+      "password": "password",
+      "firstName": "Kile",
+      "lastName": "Smith",
+      "role": "Employee",
+      "vacations": []
+    },
+    {
+      "id": 7,
+      "login": "kile.smith@admin.com",
+      "email": "kile.smith@admin.com",
+      "password": "password",
+      "firstName": "Kile",
+      "lastName": "Smith",
+      "role": "Manager",
+      "vacations": []
+    },
+    {
+      "id": 8,
+      "login": "kile.smith@admin.com",
+      "email": "kile.smith@admin.com",
+      "password": "password",
+      "firstName": "Kile",
+      "lastName": "Smith",
+      "role": "Employee",
+      "vacations": []
+    },
+    {
+      "id": 9,
+      "login": "kilee.smith@admin.com",
+      "email": "kilee.smith@admin.com",
+      "password": "password",
+      "firstName": "Kilee",
+      "lastName": "Smith",
+      "role": "Manager",
+      "vacations": []
+    },
+    {
+      "id": 10,
+      "login": "milee.smith@admin.com",
+      "email": "milee.smith@admin.com",
+      "password": "password",
+      "firstName": "Milee",
+      "lastName": "Smith",
+      "role": "Employee",
+      "vacations": []
+    },
+    {
+      "id": 11,
+      "login": "fill.smith@admin.com",
+      "email": "fill.smith@admin.com",
+      "password": "password",
+      "firstName": "Fill",
+      "lastName": "Smith",
+      "role": "Manager",
+      "vacations": []
+    },
+    {
+      "id": 12,
+      "login": "bill.smith@admin.com",
+      "email": "bill.smith@admin.com",
+      "password": "password",
+      "firstName": "Bill",
+      "lastName": "Smith",
+      "role": "Employee",
+      "vacations": []
+    },
+    {
+      "id": 13,
+      "login": "nill.smith@admin.com",
+      "email": "bill.smith@admin.com",
+      "password": "password",
+      "firstName": "Nill",
+      "lastName": "Smith",
+      "role": "Manager",
+      "vacations": []
+    },
+    {
+      "login": "nill.smith@admin.com",
+      "email": "dwadwa@mail.r",
+      "password": "11111",
+      "firstName": "John",
+      "lastName": "New",
+      "role": "Employee",
+      "vacations": [],
+      "id": 14
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/time-off-tracker-ui/static/css/main.d7ed5022.chunk.css",
+    "main.js": "/time-off-tracker-ui/static/js/main.53598d46.chunk.js",
+    "main.js.map": "/time-off-tracker-ui/static/js/main.53598d46.chunk.js.map",
+    "runtime-main.js": "/time-off-tracker-ui/static/js/runtime-main.42e713a4.js",
+    "runtime-main.js.map": "/time-off-tracker-ui/static/js/runtime-main.42e713a4.js.map",
+    "static/css/2.a688b289.chunk.css": "/time-off-tracker-ui/static/css/2.a688b289.chunk.css",
+    "static/js/2.d0f981d6.chunk.js": "/time-off-tracker-ui/static/js/2.d0f981d6.chunk.js",
+    "static/js/2.d0f981d6.chunk.js.map": "/time-off-tracker-ui/static/js/2.d0f981d6.chunk.js.map",
+    "index.html": "/time-off-tracker-ui/index.html",
+    "precache-manifest.7cc854a799606313606e87fb002b8102.js": "/time-off-tracker-ui/precache-manifest.7cc854a799606313606e87fb002b8102.js",
+    "service-worker.js": "/time-off-tracker-ui/service-worker.js",
+    "static/css/2.a688b289.chunk.css.map": "/time-off-tracker-ui/static/css/2.a688b289.chunk.css.map",
+    "static/css/main.d7ed5022.chunk.css.map": "/time-off-tracker-ui/static/css/main.d7ed5022.chunk.css.map",
+    "static/js/2.d0f981d6.chunk.js.LICENSE.txt": "/time-off-tracker-ui/static/js/2.d0f981d6.chunk.js.LICENSE.txt",
+    "static/media/app.scss": "/time-off-tracker-ui/static/media/ProximaNova-Regular.b7c51278.eot",
+    "static/media/getFetch.cjs": "/time-off-tracker-ui/static/media/getFetch.013f0b90.cjs"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.42e713a4.js",
+    "static/css/2.a688b289.chunk.css",
+    "static/js/2.d0f981d6.chunk.js",
+    "static/css/main.d7ed5022.chunk.css",
+    "static/js/main.53598d46.chunk.js"
+  ]
+}

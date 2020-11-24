@@ -1,0 +1,8 @@
+{
+    "Title": "Login",
+    "Username": "Username",
+    "Password": "Password",
+    "LogIn": "Log In",
+    "NoEmpty": "No empty",
+    "IncorrectLoginData": "Username or password is incorrect"
+}
