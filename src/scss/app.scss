@@ -1,0 +1,187 @@
+@import 'fonts';
+@import 'variables';
+@import 'libs/normalize';
+@import 'react-big-calendar/lib/sass/styles.scss';
+@import 'components/all';
+
+body {
+  background-color: $background;
+  padding: 0px;
+}
+
+.example {
+  font-size: 14px;
+  padding: 0 40px;
+  height: 300px;
+  width: 45%;
+  margin: auto;
+  margin-top: 20px;
+
+  &,
+  & > * {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rbc-calendar {
+    flex: 1;
+    min-height: 420px;
+  }
+}
+
+.button {
+  border-radius: 0;
+  text-align: center;
+}
+
+.sidebar {
+  padding: 10px 0;
+  width: 170px;
+  min-width: 170px;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+
+.filter {
+  flex-wrap: nowrap;
+}
+
+.statistics {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.statistics__text {
+  flex: 1;
+  font-size: 16px;
+}
+
+.MuiInputBase-root {
+  font-family: 'Proxima Nova';
+  font-weight: normal;
+  font-style: normal;
+}
+
+.MuiFormLabel-root {
+  font-family: 'Proxima Nova';
+  font-weight: normal;
+  font-style: normal;
+}
+
+.MuiInputBase-input.MuiInput-input {
+  font-family: 'Proxima Nova';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+}
+
+.MuiFormLabel-root.MuiInputLabel-root {
+  font-family: 'Proxima Nova';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.MuiFormControl-root.form-comment {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.nodoc__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.period__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  h4 {
+    padding-top: 3px;
+  }
+}
+
+.home__content {
+  display: flex;
+  flex-direction: row;
+
+  .home__requests {
+    flex: 0.7;
+    margin: 5px;
+
+    .requests__content {
+      display: flex;
+      flex-direction: row;
+
+      .requests__title {
+        margin-bottom: 10px;
+        margin-right: 10px;
+      }
+
+      .requests__viewall-btn {
+        margin-right: 50px;
+        height: 30px;
+      }
+
+      .requests__newreq-btn {
+        height: 30px;
+        width: 140px;
+        min-width: 140px;
+      }
+    }
+  }
+
+  .home__reviews {
+    flex: 1;
+    margin: 5px;
+    margin-right: 15px;
+
+    .reviews__title {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.router__btn-group {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 65px);
+}
+
+.router__switch {
+  flex: 1;
+  padding: 10px;
+  height: 100%;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+
+  .login__title {
+    margin-bottom: 20px;
+    color: #056ce3;
+  }
+
+  .form-input {
+    margin-bottom: 20px;
+    width: 300px;
+  }
+
+  .login__btn {
+    margin-top: 20px;
+    width: 150px;
+  }
+}
+
+.DayPickerKeyboardShortcuts_buttonReset {
+  display: none;
+}

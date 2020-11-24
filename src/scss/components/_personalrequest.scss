@@ -1,0 +1,92 @@
+.myrequest__content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 15px;
+
+  .myrequest__state {
+    margin-right: 50px;
+    width: 150px;
+  }
+
+  .myrequest__type {
+    margin-right: 50px;
+    width: 350px;
+  }
+
+  .myrequest__filter-btn {
+    vertical-align: bottom;
+    height: 40px;
+  }
+}
+
+.MuiButton-contained.personal-request__edit-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #1568ed;
+    .MuiButton-label {
+      color: #fff;
+    }
+  }
+}
+
+.MuiButton-contained.personal-request__save-btn {
+  margin-right: 15px;
+  &:hover {
+    &:hover {
+      background-color: #c21000;
+      .MuiButton-label {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.MuiButton-contained.personal-request__ce-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #094cb8;
+    .MuiButton-label {
+      color: #fff;
+    }
+  }
+}
+.MuiButton-contained.personal-request__duplicate-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #00c903;
+  }
+}
+
+.MuiButton-contained.personal-request__decline-btn {
+  margin-right: 15px;
+  &:hover {
+    background-color: #c21000;
+    .MuiButton-label {
+      color: #fff;
+    }
+  }
+}
+
+.MuiButton-contained.personal-request__close-btn {
+  margin-right: 15px;
+}
+
+.personal__content {
+  padding: 5px;
+  .personal__type {
+    margin-bottom: 10px;
+
+    .personal__state {
+      font-size: 20px;
+    }
+  }
+
+  .personal__request {
+    width: 450px;
+  }
+
+  .personal__btn-group {
+    margin-top: 20px;
+  }
+}

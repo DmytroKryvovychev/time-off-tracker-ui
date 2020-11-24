@@ -1,0 +1,21 @@
+{
+    "Comment": "Comment",
+    "From": "From",
+    "To": "To",
+    "Use": "Use",
+    "HalfDay": "Half day",
+    "FullDay": "Full day",
+    "AddManager": "Add manager",
+    "DeleteManager": "Delete manager",
+    "NewRequest": "New request",
+    "LeaveType": "Leave type",
+    "SendRequest": "Send request",
+    "Cancel": "Cancel",
+    "VacationDays": "Vacation days: {{days}}",
+    "Approvers": "Approvers",
+    "EditApprovedRequest": "Edit approved request",
+    "EditRequestConfirmation":"Do you really want to edit the approved request?",
+    "DatesIntersection": "Intersection of request dates",
+    "DatesIntersectionConfirmation": "The dates of this request overlap with the dates of the request you have already created. Are you sure you want to create this request?",
+    "OK": "OK"
+} 

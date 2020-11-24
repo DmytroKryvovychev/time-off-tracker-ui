@@ -1,0 +1,27 @@
+.title {
+  flex-grow: 1;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.lng__switch {
+  margin-right: 50px;
+  span {
+    color: #ffffff;
+  }
+
+  .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color: #000;
+  }
+
+  .MuiSwitch-track {
+    background-color: #000;
+  }
+}
+
+.MuiButton-root.header__login-btn {
+  background-color: #fff;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.753);
+  }
+}

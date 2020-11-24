@@ -1,0 +1,57 @@
+.MuiTableCell-root.MuiTableCell-head.reviews__table-cell {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.reviews__users-table-row {
+  height: 81px;
+
+  .MuiTableCell-root.MuiTableCell-body {
+    font-size: 14px;
+  }
+}
+
+.MuiButton-contained.reviews-table__ok-btn:hover {
+  background-color: #00c903;
+}
+
+.MuiButton-contained.reviews-table__cancel-btn {
+  margin-right: 10px;
+
+  &:hover {
+    background-color: #f50057;
+    .MuiButton-label {
+      color: white;
+    }
+  }
+}
+
+.nodata {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.reject__content {
+  width: 500px;
+}
+
+.review-filter__content {
+  display: flex;
+  font-display: row;
+  align-items: flex-end;
+
+  .review-filter__name {
+    width: 200px;
+    margin-right: 30px;
+  }
+
+  .review-filter__type {
+    margin-right: 50px;
+    width: 350px;
+  }
+
+  .review-filter__btn {
+    vertical-align: bottom;
+    height: 40px;
+  }
+}

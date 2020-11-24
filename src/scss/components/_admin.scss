@@ -1,0 +1,122 @@
+.MuiButton-containedPrimary span {
+  color: #fff;
+}
+
+.MuiIconButton-root.new_user-btn {
+  width: 40px;
+  height: 40px;
+  margin-right: 30px;
+
+  span {
+    svg {
+      width: 30px;
+      height: 30px;
+      color: green;
+    }
+  }
+}
+
+.users-table__title {
+  flex: 1 1 100%;
+  font-size: 28px;
+  line-height: 28px;
+}
+
+.delete-icon {
+  opacity: 0;
+  span {
+    color: #f50057;
+  }
+}
+
+.MuiTableRow-root.MuiTableRow-hover:hover {
+  .delete-icon {
+    opacity: 0.3;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.MuiIconButton-root.delete-icon {
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.MuiTypography-root.MuiTypography-h6 {
+  font-family: 'Proxima Nova';
+  font-weight: normal;
+  font-style: normal;
+}
+
+.MuiDialog-container {
+  opacity: 0.5;
+}
+
+.alert-dialog-description {
+  font-size: 20px;
+}
+
+.admin__users-table-row {
+  height: 81px;
+}
+
+.MuiButton-contained.users-table__ok-btn {
+  margin-right: 10px;
+  &:hover {
+    background-color: #00c903;
+  }
+}
+
+.MuiButton-contained.users-table__cancel-btn:hover {
+  background-color: #f50057;
+}
+
+.admin__form {
+  flex-direction: row;
+  padding: 10px;
+  margin-top: 10px;
+
+  .filter__btn {
+    vertical-align: bottom;
+    height: 40px;
+    margin-bottom: 20px;
+    margin-left: 25px;
+  }
+}
+
+.users__content {
+  padding: 0 20px;
+}
+
+.MuiFormControl-root.admin__form-input {
+  width: auto;
+  max-width: 150px;
+  min-width: 100px;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  width: 300px;
+
+  .MuiInputBase-input.MuiInput-input {
+    padding: 6px 5px 7px 5px;
+  }
+}
+.MuiFormControl-root.admin__filter-role {
+  margin-left: 30px;
+  width: 150px;
+}
+
+.new-user__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .new-user__form-input {
+    margin-bottom: 20px;
+    width: 300px;
+  }
+}
+
+.row {
+  flex-direction: row;
+}
