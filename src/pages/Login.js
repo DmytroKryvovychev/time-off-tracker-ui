@@ -42,7 +42,7 @@ function Login() {
       return;
     }
 
-    const url = 'https://localhost:44381/auth/token';
+    const url = 'https://timeofftrackerwebapi2020.azurewebsites.net//auth/token';
     axios
       .post(url, { username: username, password: password })
       .then((response) => {

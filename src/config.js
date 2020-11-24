@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 import i18n from './i18n';
 
-const BASE_URL = 'https://localhost:44381/';
+const BASE_URL = 'https://timeofftrackerwebapi2020.azurewebsites.net/';
 
 const axiosApi = axios.create({
   baseURL: BASE_URL,
